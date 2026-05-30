@@ -1,0 +1,207 @@
+/* =============================================================================
+   slides.js — Genera el DOM de cada diapositiva a partir de PRES_DATA.
+   Todo el contenido proviene de nuestros propios datos (confiable) → se usa
+   innerHTML con templates. Cada bloque de nivel superior recibe [data-animate].
+   ============================================================================= */
+(function () {
+  'use strict';
+
+  function esc(s) { return String(s == null ? '' : s); }
+  // marca de animación escalonada
+  function anim(i) { return ' data-animate style="--i:' + i + '"'; }
+
+  // ---- Render de un bloque de contenido -> string HTML ----------------------
+  function block(b, i) {
+    var a = anim(i);
+    switch (b.type) {
+      case 'lead':
+        return '<p class="lead"' + a + '>' + esc(b.text) + '</p>';
+      case 'paragraph':
+        return '<p class="paragraph' + (b.small ? ' small' : '') + '"' + a + '>' + esc(b.text) + '</p>';
+      case 'subhead':
+        return '<div class="subhead"' + a + '>' + esc(b.text) + '</div>';
+      case 'tag':
+        return '<span class="tag"' + a + '>' + esc(b.text) + '</span>';
+      case 'source':
+        return '<div class="source"' + a + '>' + esc(b.text) + '</div>';
+
+      case 'hero':
+        return '<div class="hero-num' + (b.accent ? ' accent-' + b.accent : '') + '"' + a + '>' +
+          '<div class="hero-value">' + esc(b.value) + '</div>' +
+          (b.label ? '<div class="hero-label">' + esc(b.label) + '</div>' : '') +
+          (b.sub ? '<div class="hero-sub">' + esc(b.sub) + '</div>' : '') +
+          '</div>';
+
+      case 'stats': {
+        var cols = b.cols || b.items.length;
+        var cards = b.items.map(function (it) {
+          return '<div class="stat-card' + (it.accent ? ' accent-' + it.accent : '') + '">' +
+            '<div class="stat-value">' + esc(it.value) + '</div>' +
+            '<div class="stat-label">' + esc(it.label) + '</div>' +
+            (it.desc ? '<div class="stat-desc">' + esc(it.desc) + '</div>' : '') +
+            '</div>';
+        }).join('');
+        return '<div class="stats" style="--cols:' + cols + '"' + a + '>' + cards + '</div>';
+      }
+
+      case 'cards': {
+        var cc = b.cols || 3;
+        var items = b.items.map(function (it) {
+          return '<div class="card">' +
+            '<div class="card-title">' + esc(it.title) + '</div>' +
+            (it.sub ? '<div class="card-sub">' + esc(it.sub) + '</div>' : '') +
+            '<div class="card-text">' + esc(it.text) + '</div>' +
+            '</div>';
+        }).join('');
+        return '<div class="cards" style="--cols:' + cc + '"' + a + '>' + items + '</div>';
+      }
+
+      case 'columns': {
+        var ncol = b.cols.length;
+        var cols2 = b.cols.map(function (c) {
+          var lis = c.items.map(function (it) {
+            return '<div class="li">' + (it.label ? '<b>' + esc(it.label) + ':</b> ' : '') + esc(it.text) + '</div>';
+          }).join('');
+          return '<div class="column' + (c.tone ? ' tone-' + c.tone : '') + '">' +
+            (c.eyebrow ? '<div class="col-eyebrow">' + esc(c.eyebrow) + '</div>' : '') +
+            (c.title ? '<div class="col-title">' + esc(c.title) + '</div>' : '') +
+            '<div class="col-list">' + lis + '</div>' +
+            '</div>';
+        }).join('');
+        return '<div class="columns' + (b.dense ? ' dense' : '') + '" style="--cols:' + ncol + '"' + a + '>' + cols2 + '</div>';
+      }
+
+      case 'bullets': {
+        var bl = b.items.map(function (it) {
+          return '<div class="bullet">' +
+            (it.label ? '<div class="b-label">' + esc(it.label) + '</div>' : '') +
+            '<div class="b-text">' + esc(it.text) + '</div>' +
+            '</div>';
+        }).join('');
+        return '<div class="bullets' + (b.ranked ? ' ranked' : '') + '"' + a + '>' + bl + '</div>';
+      }
+
+      case 'note':
+        return '<div class="note' + (b.accent ? ' accent-' + b.accent : '') + '"' + a + '>' +
+          (b.title ? '<div class="note-title">' + esc(b.title) + '</div>' : '') +
+          '<div class="note-text">' + esc(b.text) + '</div>' +
+          '</div>';
+
+      case 'formula':
+        return '<div class="formula"' + a + '>' + b.html + '</div>';
+
+      case 'verdict':
+        return '<div class="verdict"' + a + '>' +
+          '<div class="verdict-big">' + esc(b.big) + '</div>' +
+          '<div class="verdict-text">' + esc(b.text) + '</div>' +
+          '</div>';
+
+      case 'table': {
+        var head = '<tr>' + b.head.map(function (h, idx) {
+          return '<th' + (idx > 0 ? ' class="num"' : '') + '>' + esc(h) + '</th>';
+        }).join('') + '</tr>';
+        var hi = b.highlight || [];
+        var body = b.rows.map(function (row, ri) {
+          var cells = row.map(function (cell, ci) {
+            var numlike = ci > 0 && /^[−\-+]?[\d$]|%$|x$|^USD/.test(String(cell).trim());
+            return '<td' + (numlike ? ' class="num"' : '') + '>' + esc(cell) + '</td>';
+          }).join('');
+          return '<tr' + (hi.indexOf(ri) >= 0 ? ' class="is-highlight"' : '') + '>' + cells + '</tr>';
+        }).join('');
+        return '<table class="data-table"' + a + '><thead>' + head + '</thead><tbody>' + body + '</tbody></table>';
+      }
+
+      case 'chart':
+        return '<div class="chart-wrap" data-chart="' + b.chartId + '"' + a + '>' +
+          '<div class="chart-canvas-box"><canvas></canvas></div>' +
+          (b.caption ? '<div class="chart-caption">' + esc(b.caption) + '</div>' : '') +
+          '</div>';
+
+      case 'heatmap':
+        return '<div class="heatmap-wrap" data-heatmap="' + b.chartId + '"' + a + '>' +
+          '<div class="heatmap"></div>' +
+          (b.caption ? '<div class="chart-caption">' + esc(b.caption) + '</div>' : '') +
+          '</div>';
+
+      default:
+        return '';
+    }
+  }
+
+  function blocks(arr, start) {
+    start = start || 0;
+    return arr.map(function (b, i) { return block(b, start + i); }).join('');
+  }
+
+  // ---- Render de una diapositiva completa -----------------------------------
+  function renderSlide(s) {
+    var L = s.layout;
+    var inner = '';
+
+    if (L === 'cover') {
+      inner =
+        '<div class="slide-body">' +
+        '<div class="cover-eyebrow"' + anim(0) + '>' + esc(s.eyebrow) + '</div>' +
+        '<div class="cover-title"' + anim(1) + '>' + esc(s.title) + '</div>' +
+        '<div class="cover-sub"' + anim(2) + '>' + esc(s.subtitle) + '</div>' +
+        '<div class="cover-lead"' + anim(3) + '>' + esc(s.lead) + '</div>' +
+        '<div class="cover-meta"' + anim(4) + '>' + s.meta.map(function (m) { return '<span>' + esc(m) + '</span>'; }).join('') + '</div>' +
+        '</div>';
+    } else if (L === 'section') {
+      inner =
+        '<div class="slide-body">' +
+        '<div class="section-rule"' + anim(0) + '></div>' +
+        '<div class="section-kicker"' + anim(1) + '>' + esc(s.kicker) + '</div>' +
+        '<div class="section-title"' + anim(2) + '>' + esc(s.title) + '</div>' +
+        '<div class="section-lead"' + anim(3) + '>' + esc(s.lead) + '</div>' +
+        '</div>';
+    } else if (L === 'closing') {
+      var src = s.sources;
+      inner =
+        '<div class="slide-body">' +
+        '<div class="eyebrow"' + anim(0) + '>' + esc(s.title) + '</div>' +
+        '<div class="closing-quote"' + anim(1) + '><span class="mark">“</span>' + esc(s.quote) + '<span class="mark">”</span></div>' +
+        '<div class="closing-sources"' + anim(2) + '>' +
+        '<h4>' + esc(src.title) + '</h4>' +
+        '<ul>' + src.items.map(function (it) { return '<li>' + esc(it) + '</li>'; }).join('') + '</ul>' +
+        '</div>' +
+        (src.thanks ? '<div class="closing-thanks"' + anim(3) + '>' + esc(src.thanks) + '</div>' : '') +
+        '</div>';
+    } else {
+      // Cabecera estándar
+      var head =
+        '<div class="slide-head">' +
+        '<div class="slide-title"' + anim(0) + '>' + esc(s.title) + '</div>' +
+        (s.subtitle ? '<div class="slide-sub"' + anim(0) + '>' + esc(s.subtitle) + '</div>' : '') +
+        '</div>';
+
+      var body;
+      if (L === 'split') {
+        body = '<div class="slide-body">' +
+          '<div class="col-left">' + blocks(s.left || [], 1) + '</div>' +
+          '<div class="col-right">' + blocks(s.right || [], 1 + (s.left ? s.left.length : 0)) + '</div>' +
+          '</div>';
+      } else {
+        body = '<div class="slide-body">' + blocks(s.blocks || [], 1) + '</div>';
+      }
+
+      var foot = '<div class="slide-foot">' +
+        '<span>' + esc(window.PRES_DATA.footerLabel) + '</span>' +
+        (s.footer ? '<span class="foot-num">' + esc(s.footer) + '</span>' : '<span></span>') +
+        '</div>';
+
+      inner = head + body + foot;
+    }
+
+    var section = document.createElement('section');
+    section.className = 'slide layout-' + L;
+    section.id = s.id;
+    section.setAttribute('aria-label', 'Diapositiva ' + s.num + (s.title ? ': ' + s.title : ''));
+    section.setAttribute('role', 'group');
+    section.innerHTML = inner;
+    return section;
+  }
+
+  window.PRES = window.PRES || {};
+  window.PRES.slides = { renderSlide: renderSlide };
+})();

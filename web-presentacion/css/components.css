@@ -1,0 +1,191 @@
+/* components.css — bloques reutilizables de contenido */
+
+/* ---- Texto ---------------------------------------------------------------- */
+.lead { font-size: 23px; line-height: 1.45; color: var(--fg); font-weight: 500; letter-spacing: -0.01em; }
+.paragraph { font-size: 18px; line-height: 1.5; color: var(--fg-2); }
+.paragraph.small { font-size: 15px; color: var(--fg-3); }
+.subhead { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--fg-3); }
+.tag {
+  display: inline-block; align-self: flex-start;
+  font-size: 14px; font-weight: 500; color: var(--fg-2);
+  padding: 7px 16px; border: 1px solid var(--stroke-2); border-radius: 999px;
+  background: var(--card);
+}
+.source { font-size: 13px; color: var(--fg-faint); letter-spacing: 0.03em; }
+
+/* ---- Número protagonista (hero) ------------------------------------------- */
+.hero-num { display: flex; flex-direction: column; gap: 10px; align-items: inherit; }
+.hero-value {
+  font-size: 104px; font-weight: 800; letter-spacing: -0.04em; line-height: 0.95;
+  white-space: nowrap;
+  background: linear-gradient(180deg, #ffffff, #c4c4d0);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+/* En columnas (split/stack) el ancho es menor: reducir para que no corte */
+.layout-split .hero-value,
+.layout-stack .hero-value { font-size: 74px; }
+.hero-num.accent-blue  .hero-value { background: linear-gradient(180deg, #6fb8ff, var(--blue)); -webkit-background-clip: text; background-clip: text; }
+.hero-num.accent-green .hero-value { background: linear-gradient(180deg, #74e69a, var(--green)); -webkit-background-clip: text; background-clip: text; }
+.hero-num.accent-amber .hero-value { background: linear-gradient(180deg, #ffce7a, var(--amber)); -webkit-background-clip: text; background-clip: text; }
+.hero-num.accent-red   .hero-value { background: linear-gradient(180deg, #ff8b83, var(--red)); -webkit-background-clip: text; background-clip: text; }
+.hero-label { font-size: 18px; color: var(--fg-2); font-weight: 500; }
+.hero-sub { font-size: 15px; color: var(--fg-3); }
+
+/* ---- Grilla de stats ------------------------------------------------------ */
+.stats { display: grid; grid-template-columns: repeat(var(--cols, 4), 1fr); gap: 16px; }
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  padding: 22px 22px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.stat-value { font-size: 38px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; color: var(--fg); }
+.stat-card.accent-green .stat-value { color: var(--green); }
+.stat-card.accent-red   .stat-value { color: var(--red); }
+.stat-card.accent-blue  .stat-value { color: var(--blue-2); }
+.stat-card.accent-amber .stat-value { color: var(--amber); }
+.stat-label { font-size: 14.5px; line-height: 1.35; color: var(--fg-3); }
+.stat-desc { font-size: 13px; color: var(--fg-faint); }
+
+/* ---- Cards (marco conceptual / objetivos) --------------------------------- */
+.cards { display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr); gap: 16px; width: 100%; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  display: flex; flex-direction: column; gap: 9px;
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: linear-gradient(180deg, var(--blue), var(--blue-2));
+  opacity: 0.85;
+}
+.card-title { font-size: 21px; font-weight: 700; color: var(--fg); letter-spacing: -0.01em; }
+.card-sub { font-size: 13.5px; color: var(--blue-2); font-weight: 500; }
+.card-text { font-size: 15px; line-height: 1.45; color: var(--fg-2); }
+
+/* ---- Columnas (eyebrow + items) ------------------------------------------- */
+.columns { display: grid; grid-template-columns: repeat(var(--cols, 2), 1fr); gap: 26px; width: 100%; }
+.column { display: flex; flex-direction: column; gap: 12px; }
+.col-eyebrow {
+  font-size: 13.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--blue-2); padding-bottom: 8px; border-bottom: 1px solid var(--stroke);
+}
+.column.tone-green .col-eyebrow { color: var(--green); }
+.column.tone-amber .col-eyebrow { color: var(--amber); }
+.column.tone-blue  .col-eyebrow { color: var(--blue-2); }
+.col-title { font-size: 24px; font-weight: 700; color: var(--fg); letter-spacing: -0.01em; }
+.col-list { display: flex; flex-direction: column; gap: 9px; }
+.col-list .li { font-size: 15px; line-height: 1.42; color: var(--fg-2); padding-left: 16px; position: relative; }
+.col-list .li::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--fg-faint); }
+.columns.dense .col-list .li { font-size: 14px; }
+
+/* ---- Bullets con etiqueta ------------------------------------------------- */
+.bullets { display: flex; flex-direction: column; gap: 16px; }
+.bullet { display: flex; flex-direction: column; gap: 3px; }
+.bullet .b-label { font-size: 15px; font-weight: 700; color: var(--fg); }
+.bullet .b-text { font-size: 15.5px; line-height: 1.45; color: var(--fg-2); }
+.bullets.ranked { counter-reset: rank; }
+.bullets.ranked .bullet { padding-left: 42px; position: relative; }
+.bullets.ranked .bullet::before {
+  counter-increment: rank; content: counter(rank);
+  position: absolute; left: 0; top: 0;
+  width: 30px; height: 30px; border-radius: 8px;
+  display: grid; place-items: center;
+  background: var(--blue-soft); color: var(--blue-2);
+  font-weight: 700; font-size: 15px; border: 1px solid rgba(10,132,255,.3);
+}
+
+/* ---- Callout / note ------------------------------------------------------- */
+.note {
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-left: 3px solid var(--fg-faint);
+  border-radius: var(--radius-sm);
+  padding: 18px 22px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.note.accent-blue  { border-left-color: var(--blue);  background: var(--blue-soft); }
+.note.accent-green { border-left-color: var(--green); background: var(--green-soft); }
+.note.accent-amber { border-left-color: var(--amber); background: var(--amber-soft); }
+.note.accent-red   { border-left-color: var(--red);   background: var(--red-soft); }
+.note-title { font-size: 16px; font-weight: 700; color: var(--fg); }
+.note-text { font-size: 15px; line-height: 1.45; color: var(--fg-2); }
+.layout-center .note { text-align: left; }
+
+/* ---- Fórmula -------------------------------------------------------------- */
+.formula {
+  font-size: 26px; font-weight: 500; color: var(--fg);
+  background: var(--card); border: 1px solid var(--stroke);
+  border-radius: var(--radius-sm); padding: 18px 26px;
+  letter-spacing: 0.01em; text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.formula sub, .formula sup { font-size: 0.62em; }
+
+/* ---- Tabla ---------------------------------------------------------------- */
+.data-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.data-table th, .data-table td { text-align: left; padding: 11px 14px; }
+.data-table thead th {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--fg-3); font-weight: 600; border-bottom: 1px solid var(--stroke-2);
+}
+.data-table tbody td { color: var(--fg-2); border-bottom: 1px solid var(--stroke); }
+.data-table tbody td:first-child { color: var(--fg); font-weight: 500; }
+.data-table tbody tr.is-highlight td {
+  background: var(--blue-soft);
+  color: var(--fg);
+}
+.data-table tbody tr.is-highlight td:first-child { font-weight: 700; }
+.data-table td.num, .data-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---- Veredicto ------------------------------------------------------------ */
+.verdict { display: flex; align-items: center; gap: 24px; }
+.verdict-big {
+  font-size: 56px; font-weight: 800; letter-spacing: 0.02em;
+  color: var(--red);
+  padding: 12px 30px; border-radius: 16px;
+  background: var(--red-soft); border: 1px solid rgba(255,69,58,.35);
+  text-shadow: 0 0 30px rgba(255,69,58,.3);
+}
+.verdict-text { font-size: 21px; font-weight: 500; color: var(--fg-2); }
+
+/* ---- Gráfico / canvas ----------------------------------------------------- */
+.chart-wrap {
+  background: var(--card); border: 1px solid var(--stroke);
+  border-radius: var(--radius); padding: 18px 20px 14px;
+  display: flex; flex-direction: column; gap: 10px;
+  height: 100%; min-height: 0;
+}
+.chart-canvas-box { position: relative; flex: 1 1 auto; min-height: 0; width: 100%; }
+.chart-caption { font-size: 12.5px; color: var(--fg-faint); text-align: center; letter-spacing: 0.02em; }
+
+/* ---- Heatmap (CSS grid) --------------------------------------------------- */
+.heatmap-wrap {
+  background: var(--card); border: 1px solid var(--stroke);
+  border-radius: var(--radius); padding: 18px 20px 14px;
+  display: flex; flex-direction: column; gap: 12px; height: 100%;
+}
+.heatmap {
+  display: grid; gap: 4px; flex: 1 1 auto;
+  font-variant-numeric: tabular-nums;
+}
+.hm-cell {
+  display: grid; place-items: center;
+  border-radius: 7px; font-size: 14px; font-weight: 600;
+  color: #0b0b0f;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.is-active .hm-cell { opacity: 1; transform: none; }
+.hm-corner { background: transparent; color: var(--fg-3); font-weight: 600; font-size: 12px; opacity: 1; transform: none; }
+.hm-head, .hm-rowhead {
+  background: transparent; color: var(--fg-2); font-weight: 600; font-size: 12.5px;
+  opacity: 1; transform: none;
+}
+.hm-cell.is-base { box-shadow: 0 0 0 3px var(--fg), 0 0 0 4px rgba(0,0,0,.4); z-index: 2; }
+.heatmap-axis { font-size: 12px; color: var(--fg-3); text-align: center; letter-spacing: 0.04em; }

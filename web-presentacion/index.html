@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valuación de Apple Inc. · Flujos de Fondos Descontados</title>
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layouts.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/transitions.css">
+</head>
+<body>
+  <!-- Barra de progreso -->
+  <div id="progress"></div>
+
+  <!-- Escenario 16:9 escalado a pantalla -->
+  <div id="viewport">
+    <div id="stage"></div>
+  </div>
+
+  <!-- Chrome de navegación -->
+  <button id="prev" class="nav-btn" aria-label="Diapositiva anterior">‹</button>
+  <button id="next" class="nav-btn" aria-label="Diapositiva siguiente">›</button>
+  <div id="counter" aria-live="polite"></div>
+
+  <!-- Dependencia vendorizada (offline) -->
+  <script src="vendor/chart.umd.min.js"></script>
+
+  <!-- Lógica (scripts clásicos, sin módulos, para funcionar en file://) -->
+  <script src="js/data.js"></script>
+  <script src="js/finance.js"></script>
+  <script src="js/slides.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
