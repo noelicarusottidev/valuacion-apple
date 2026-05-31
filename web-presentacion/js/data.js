@@ -639,20 +639,6 @@
     ]
   });
 
-  // 43 — Anexo · chequeos de beta
-  slides.push({
-    layout: 'stack', footer: '34',
-    title: 'Anexo · chequeos de Beta', subtitle: 'Triangulación del Beta y desapalancamiento (Hamada)',
-    blocks: [
-      { type: 'stats', cols: 3, items: [
-        { value: '1,084', label: 'Regresión OLS propia (5Y mensual, S&P 500)' },
-        { value: '1,065', label: 'yfinance .info (ventana puede diferir)' },
-        { value: '1,065', label: 'β desapalancado (Hamada) solo chequeo' }
-      ]},
-      { type: 'note', accent: 'green', title: 'Los tres betas convergen ≈ 1,06–1,08', text: 'Con D/E ≈ 2,2%, el leverage casi no afecta el beta (β_L ≈ β_U). La estimación es robusta y consistente entre fuentes.' }
-    ]
-  });
-
   // Asigna num secuencial e id
   slides.forEach(function (s, i) {
     s.num = i + 1;
