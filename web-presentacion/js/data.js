@@ -448,16 +448,6 @@
     lead: 'No defendemos un número: defendemos un rango y mostramos dónde tiene que tener razón el mercado.'
   });
 
-  // Anexo · sensibilidad (heatmap upside%) — movido aquí, tras el separador del Bloque 06
-  slides.push({
-    layout: 'split', footer: '33',
-    title: 'Anexo · sensibilidad', subtitle: 'Upside / downside (%) ante WACC × g',
-    right: [ { type: 'heatmap', chartId: 'upsideG', caption: 'Upside / (downside) vs. mercado (%) · verde = positivo' } ],
-    left: [
-      { type: 'note', accent: 'red', title: 'Casi todo en rojo', text: 'La misma grilla del precio, ahora como % vs. el mercado. El dominio del rojo refuerza el veredicto: bajo casi cualquier combinación razonable, Apple aparece cara.' }
-    ]
-  });
-
   // 31 — Sensibilidad WACC × g (heatmap precio)
   slides.push({
     layout: 'split', footer: '24',
@@ -468,6 +458,16 @@
         { label: 'Qué muestra', text: 'Cruzando WACC (filas) y g (columnas) el precio objetivo va de ~USD 150 a ~USD 340. Verde = más alto, rojo = más bajo.' },
         { label: 'El punto incómodo', text: 'Casi toda la grilla queda por debajo de los USD 312 del mercado. Solo combinaciones agresivas (WACC bajo + g alto) lo alcanzan.' }
       ]}
+    ]
+  });
+
+  // Anexo · sensibilidad (heatmap upside%)
+  slides.push({
+    layout: 'split', footer: '33',
+    title: 'Anexo · sensibilidad', subtitle: 'Upside / downside (%) ante WACC × g',
+    right: [ { type: 'heatmap', chartId: 'upsideG', caption: 'Upside / (downside) vs. mercado (%) · verde = positivo' } ],
+    left: [
+      { type: 'note', accent: 'red', title: 'Casi todo en rojo', text: 'La misma grilla del precio, ahora como % vs. el mercado. El dominio del rojo refuerza el veredicto: bajo casi cualquier combinación razonable, Apple aparece cara.' }
     ]
   });
 
