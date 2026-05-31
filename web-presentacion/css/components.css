@@ -213,3 +213,11 @@
 }
 .hm-cell.is-base { box-shadow: 0 0 0 3px var(--fg), 0 0 0 4px rgba(0,0,0,.4); z-index: 2; }
 .heatmap-axis { font-size: 12px; color: var(--fg-3); text-align: center; letter-spacing: 0.04em; }
+
+/* ---- Énfasis puntual: columna izq. del Valor terminal (g=3%) -------------- */
+.tv-emphasis .col-left .subhead { font-size: 17px; }
+.tv-emphasis .col-left .data-table { font-size: 19px; }
+.tv-emphasis .col-left .data-table th,
+.tv-emphasis .col-left .data-table td { padding: 10px 14px; }
+.tv-emphasis .col-left .data-table thead th { font-size: 14px; }
+.tv-emphasis .col-left .paragraph.small { font-size: 18px; }

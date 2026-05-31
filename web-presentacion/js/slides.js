@@ -194,7 +194,7 @@
     }
 
     var section = document.createElement('section');
-    section.className = 'slide layout-' + L;
+    section.className = 'slide layout-' + L + (s.cls ? ' ' + s.cls : '');
     section.id = s.id;
     section.setAttribute('aria-label', 'Diapositiva ' + s.num + (s.title ? ': ' + s.title : ''));
     section.setAttribute('role', 'group');

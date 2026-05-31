@@ -387,14 +387,14 @@
     layout: 'center', footer: '20',
     title: 'Período explícito 2026-2030', subtitle: 'El valor presente de los cinco años',
     blocks: [
-      { type: 'hero', value: 'USD 701,5 B', label: 'Valor presente del período explícito', accent: 'blue' },
+      { type: 'hero', value: 'USD 701 497 M', label: 'Valor presente del período explícito', accent: 'blue' },
       { type: 'note', title: 'Solo el 23% del valor', text: 'Descontar cada FCF al 9,24% reconoce el valor del dinero en el tiempo: un dólar dentro de 5 años vale menos hoy. Pero estos cinco años explican apenas ~un cuarto del Enterprise Value. El resto viene del valor terminal.' }
     ]
   });
 
   // 27 — Valor terminal · Gordon-Shapiro
   slides.push({
-    layout: 'split', footer: '21',
+    layout: 'split', footer: '21', cls: 'tv-emphasis',
     title: 'Valor terminal · Gordon-Shapiro', subtitle: 'g = 3,0% — nuestra decisión más sensible',
     left: [
       { type: 'subhead', text: 'Por qué 3,0% y no más' },
@@ -409,7 +409,7 @@
     right: [
       { type: 'hero', value: 'USD 3,60 B', label: 'Valor terminal al cierre de 2030', accent: 'amber' },
       { type: 'note', title: 'Cross-check múltiplo de salida', text: 'Implica 16,5x FCFF — razonable para un negocio maduro (Apple cotiza hoy a EV/EBITDA 28,8x).' },
-      { type: 'note', title: 'vs. valor terminal de la cátedra', text: 'Nuestro TV queda −6,6% bajo el del Excel; su g implícito sería 3,39%. Consistente.' }
+      { type: 'hero', value: 'USD 2,32 B', label: 'VP del valor terminal (descontado 5 años)', accent: 'amber' }
     ]
   });
 
