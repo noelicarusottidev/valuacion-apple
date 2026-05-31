@@ -372,10 +372,11 @@
   slides.push({
     layout: 'split', footer: '18',
     title: 'Los flujos a descontar', subtitle: 'FCF proyectados — provistos por la cátedra',
-    right: [ { type: 'chart', chartId: 'fcfProjected', caption: 'FCFF proyectado por la cátedra (USD billones)' } ],
+    right: [ { type: 'chart', chartId: 'fcfDiscounted', caption: 'FCFF nominal vs. valor presente (USD billones)' } ],
     left: [
       { type: 'note', accent: 'amber', title: 'DATO CÁTEDRA — no es supuesto nuestro', text: 'De 153 a 218 mil M USD. Los cinco flujos libres a la firma (FCFF) crecen año a año hasta 2030. Son el insumo central de la Parte 2.' },
-      { type: 'note', title: 'Nuestro rol', text: 'No los proyectamos: los tomamos y los sometemos a análisis crítico y a descuento. El juicio está en la tasa y los supuestos.' }
+      { type: 'note', accent: 'amber', title: 'Supuesto optimista', text: 'Las proyecciones asumen un repunte del FCF (más Servicios de alto margen + ciclo de Apple Intelligence). Es un supuesto optimista pero no absurdo para Apple.' },
+      { type: 'note', accent: 'blue', title: 'Valor del dinero en el tiempo', text: 'La barra gris es el flujo nominal; la azul, su valor presente. La brecha crece con el horizonte: cuanto más lejos el flujo, más lo penaliza el descuento.' }
     ]
   });
 
@@ -619,17 +620,7 @@
     lead: 'Gráficos y chequeos adicionales para preguntas de la defensa.'
   });
 
-  // 41 — Anexo · período explícito (FCF nominal vs descontado)
-  slides.push({
-    layout: 'split', footer: '32',
-    title: 'Anexo · período explícito', subtitle: 'FCF proyectado vs. FCF descontado al 9,24%',
-    right: [ { type: 'chart', chartId: 'fcfDiscounted', caption: 'FCFF nominal vs. valor presente (USD billones)' } ],
-    left: [
-      { type: 'note', accent: 'blue', title: 'Valor del dinero en el tiempo', text: 'La barra gris es el flujo nominal; la azul, su valor presente. La brecha crece con el horizonte: cuanto más lejos el flujo, más lo penaliza el descuento.' }
-    ]
-  });
-
-  // 42 — Anexo · sensibilidad (heatmap upside%)
+  // 41 — Anexo · sensibilidad (heatmap upside%)
   slides.push({
     layout: 'split', footer: '33',
     title: 'Anexo · sensibilidad', subtitle: 'Upside / downside (%) ante WACC × g',
