@@ -448,6 +448,16 @@
     lead: 'No defendemos un número: defendemos un rango y mostramos dónde tiene que tener razón el mercado.'
   });
 
+  // Anexo · sensibilidad (heatmap upside%) — movido aquí, tras el separador del Bloque 06
+  slides.push({
+    layout: 'split', footer: '33',
+    title: 'Anexo · sensibilidad', subtitle: 'Upside / downside (%) ante WACC × g',
+    right: [ { type: 'heatmap', chartId: 'upsideG', caption: 'Upside / (downside) vs. mercado (%) · verde = positivo' } ],
+    left: [
+      { type: 'note', accent: 'red', title: 'Casi todo en rojo', text: 'La misma grilla del precio, ahora como % vs. el mercado. El dominio del rojo refuerza el veredicto: bajo casi cualquier combinación razonable, Apple aparece cara.' }
+    ]
+  });
+
   // 31 — Sensibilidad WACC × g (heatmap precio)
   slides.push({
     layout: 'split', footer: '24',
@@ -599,23 +609,6 @@
       ],
       thanks: 'Gracias.'
     }
-  });
-
-  // 40 — Sección Anexo
-  slides.push({
-    layout: 'section',
-    kicker: 'BLOQUE A · MATERIAL DE RESPALDO', title: 'Anexo',
-    lead: 'Gráficos y chequeos adicionales para preguntas de la defensa.'
-  });
-
-  // 41 — Anexo · sensibilidad (heatmap upside%)
-  slides.push({
-    layout: 'split', footer: '33',
-    title: 'Anexo · sensibilidad', subtitle: 'Upside / downside (%) ante WACC × g',
-    right: [ { type: 'heatmap', chartId: 'upsideG', caption: 'Upside / (downside) vs. mercado (%) · verde = positivo' } ],
-    left: [
-      { type: 'note', accent: 'red', title: 'Casi todo en rojo', text: 'La misma grilla del precio, ahora como % vs. el mercado. El dominio del rojo refuerza el veredicto: bajo casi cualquier combinación razonable, Apple aparece cara.' }
-    ]
   });
 
   // Asigna num secuencial e id
