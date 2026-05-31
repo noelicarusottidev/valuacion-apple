@@ -23,10 +23,22 @@
   --amber:  #ff9f0a;
   --violet: #bf5af2;
 
-  --blue-soft:  rgba(10, 132, 255, 0.14);
-  --green-soft: rgba(48, 209, 88, 0.14);
-  --red-soft:   rgba(255, 69, 58, 0.14);
-  --amber-soft: rgba(255, 159, 10, 0.14);
+  --teal:   #64d2ff;
+
+  --blue-soft:   rgba(10, 132, 255, 0.16);
+  --green-soft:  rgba(48, 209, 88, 0.16);
+  --red-soft:    rgba(255, 69, 58, 0.16);
+  --amber-soft:  rgba(255, 159, 10, 0.16);
+  --violet-soft: rgba(191, 90, 242, 0.16);
+
+  /* Degradados de marca (títulos clave, acentos, barras) */
+  --grad-title:  linear-gradient(100deg, #ffffff 0%, #d6e7ff 38%, #9cc4ff 70%, #c8a8ff 100%);
+  --grad-accent: linear-gradient(135deg, var(--blue), var(--violet) 60%, var(--blue-2));
+  --grad-blue:   linear-gradient(135deg, var(--blue-2), var(--blue));
+  --grad-green:  linear-gradient(135deg, #74e69a, var(--green));
+  --grad-amber:  linear-gradient(135deg, #ffce7a, var(--amber));
+  --grad-red:    linear-gradient(135deg, #ff8b83, var(--red));
+  --grad-violet: linear-gradient(135deg, #d99bff, var(--violet));
 
   /* Superficies */
   --card:        rgba(255, 255, 255, 0.045);
@@ -38,8 +50,8 @@
   --font: 'Inter', -apple-system, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
 
   /* Espaciado */
-  --pad-x: 84px;
-  --pad-y: 60px;
+  --pad-x: 56px;
+  --pad-y: 38px;
   --radius: 18px;
   --radius-sm: 12px;
 

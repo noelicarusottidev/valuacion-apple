@@ -21,7 +21,12 @@
 }
 
 /* Cabecera de slide */
-.slide-head { flex: 0 0 auto; margin-bottom: 22px; }
+.slide-head { flex: 0 0 auto; margin-bottom: 14px; position: relative; padding-left: 22px; }
+.slide-head::before {
+  content: ''; position: absolute; left: 0; top: 3px; bottom: 3px; width: 6px;
+  border-radius: 6px; background: var(--grad-accent);
+  box-shadow: 0 0 16px rgba(10, 132, 255, 0.45);
+}
 .eyebrow {
   font-size: 14px;
   font-weight: 600;
@@ -39,34 +44,34 @@
 }
 .slide-sub {
   margin-top: 10px;
-  font-size: 21px;
+  font-size: 23px;
   font-weight: 400;
   color: var(--fg-2);
   letter-spacing: -0.01em;
 }
 
 /* Cuerpo */
-.slide-body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: 22px; }
+.slide-body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
 
 /* Layout split: dos columnas (texto / gráfico) */
 .layout-split .slide-body {
   display: grid;
   grid-template-columns: 1fr 1.08fr;
-  gap: 48px;
+  gap: 30px;
   align-items: stretch;
 }
 .layout-split .col-left,
 .layout-split .col-right {
-  display: flex; flex-direction: column; gap: 18px;
+  display: flex; flex-direction: column; gap: 12px;
   min-width: 0; min-height: 0; justify-content: center;
 }
 
 /* Layout center: contenido centrado verticalmente y horizontalmente */
-.layout-center .slide-body { align-items: center; text-align: center; gap: 26px; }
+.layout-center .slide-body { align-items: center; text-align: center; gap: 15px; }
 .layout-center .note, .layout-center .formula { max-width: 760px; }
 
 /* Layout stack: bloques apilados */
-.layout-stack .slide-body { gap: 22px; }
+.layout-stack .slide-body { gap: 14px; }
 
 /* Layout grid: para grillas de tarjetas/objetivos */
 .layout-grid .slide-body { justify-content: flex-start; }
@@ -77,7 +82,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 18px;
+  margin-top: 14px;
   font-size: 12.5px;
   letter-spacing: 0.05em;
   color: var(--fg-faint);
@@ -93,7 +98,7 @@
 }
 .cover-title {
   font-size: 84px; font-weight: 800; letter-spacing: -0.035em; line-height: 0.98;
-  background: linear-gradient(180deg, #ffffff, #c9c9d4);
+  background: var(--grad-title);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .cover-sub { margin-top: 18px; font-size: 27px; font-weight: 500; color: var(--fg-2); }
@@ -104,19 +109,30 @@
 
 /* ---- Sección divisoria ---------------------------------------------------- */
 .layout-section { justify-content: center; }
-.layout-section .slide-body { justify-content: center; }
-.section-kicker {
-  font-size: 17px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--blue-2); margin-bottom: 20px;
+.layout-section .slide-body { justify-content: center; position: relative; }
+/* Halo gigante de color detrás del separador de bloque */
+.layout-section .slide-body::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  right: -40px; top: 50%; width: 460px; height: 460px; transform: translateY(-50%);
+  background: radial-gradient(circle at 50% 50%, rgba(10,132,255,0.22), rgba(191,90,242,0.12) 45%, transparent 70%);
+  filter: blur(6px);
 }
+.section-kicker {
+  display: inline-flex; align-items: center; gap: 0.55em; align-self: flex-start;
+  font-size: 18px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--blue-2); margin-bottom: 22px;
+  padding: 9px 18px; border-radius: 999px;
+  background: var(--blue-soft); border: 1px solid rgba(10, 132, 255, 0.32);
+}
+.section-kicker::before { content: '◆'; font-size: 0.9em; letter-spacing: 0; color: var(--blue); }
 .section-title {
   font-size: 72px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.0;
-  background: linear-gradient(180deg, #ffffff, #b9b9c6);
+  background: var(--grad-title);
   -webkit-background-clip: text; background-clip: text; color: transparent;
   max-width: 1000px;
 }
-.section-lead { margin-top: 26px; max-width: 820px; font-size: 22px; line-height: 1.5; color: var(--fg-2); }
-.section-rule { width: 64px; height: 4px; border-radius: 4px; background: var(--blue); margin-bottom: 34px; box-shadow: 0 0 18px rgba(10,132,255,.5); }
+.section-lead { margin-top: 24px; max-width: 820px; font-size: 24px; line-height: 1.5; color: var(--fg-2); }
+.section-rule { width: 84px; height: 5px; border-radius: 5px; background: var(--grad-accent); margin-bottom: 30px; box-shadow: 0 0 22px rgba(10,132,255,.55); }
 
 /* ---- Cierre --------------------------------------------------------------- */
 .layout-closing { justify-content: center; }

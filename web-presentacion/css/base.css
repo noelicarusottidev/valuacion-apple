@@ -20,16 +20,33 @@ html, body {
   overflow: hidden;
 }
 
-/* Fondo ambiental con halos sutiles */
+/* Fondo ambiental con halos de color (más vida, sin perder legibilidad) */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(1100px 700px at 78% -8%, rgba(10, 132, 255, 0.16), transparent 60%),
-    radial-gradient(900px 700px at 8% 108%, rgba(191, 90, 242, 0.10), transparent 60%),
-    linear-gradient(160deg, var(--bg-1), var(--bg-0) 70%);
+    radial-gradient(1200px 760px at 80% -10%, rgba(10, 132, 255, 0.24), transparent 60%),
+    radial-gradient(1000px 720px at 4% 110%, rgba(191, 90, 242, 0.18), transparent 60%),
+    radial-gradient(760px 560px at 102% 104%, rgba(48, 209, 88, 0.12), transparent 60%),
+    radial-gradient(680px 520px at -6% 2%, rgba(255, 159, 10, 0.10), transparent 60%),
+    linear-gradient(160deg, var(--bg-1), var(--bg-0) 72%);
   z-index: 0;
+}
+
+/* Trama tenue tipo blueprint, desvanecida hacia los bordes */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 32%, transparent 80%);
+          mask-image: radial-gradient(circle at 50% 42%, #000 32%, transparent 80%);
 }
 
 /* Viewport que centra el escenario y aplica letterboxing */
