@@ -334,6 +334,78 @@
     upsideG: function () { return F().gridUpsideG(); }
   };
 
+  // ---- Simulador interactivo: DCF inverso -----------------------------------
+  // Reutiliza F().precioObjetivo (la misma función validada por selfTest).
+  function initReverseDcf(el) {
+    var fin = F();
+    var WACC = fin.WACC, G = fin.G_BASE;
+    var rf = parseFloat(el.getAttribute('data-rf')) || 0.0432;
+    var pbi = parseFloat(el.getAttribute('data-pbi')) || 0.0425;
+
+    function px(w, g) { return fin.precioObjetivo(w, g, 1); }
+
+    // WACC implícito: g fija = 3%, decreciente en WACC → bisección
+    function impliedWacc(price) {
+      var lo = G + 0.0001, hi = 0.50;
+      for (var i = 0; i < 60; i++) { var m = (lo + hi) / 2; if (px(m, G) > price) lo = m; else hi = m; }
+      return (lo + hi) / 2;
+    }
+    // g implícita: WACC fijo = base, creciente en g → bisección
+    function impliedG(price) {
+      var lo = -0.05, hi = WACC - 0.0001;
+      for (var i = 0; i < 60; i++) { var m = (lo + hi) / 2; if (px(WACC, m) < price) lo = m; else hi = m; }
+      return (lo + hi) / 2;
+    }
+
+    var q = function (sel) { return el.querySelector('[data-sim-' + sel + ']'); };
+    var slider = q('slider');
+    // rangos visuales de cada barra (deben contener todas las marcas)
+    var WMIN = 0.04, WMAX = 0.11;   // eje WACC
+    var GMIN = 0.0, GMAX = 0.07;    // eje g
+    var pct = function (v, mn, mx) { return Math.max(0, Math.min(100, (v - mn) / (mx - mn) * 100)); };
+
+    function update(price) {
+      var w = impliedWacc(price), g = impliedG(price);
+      q('price').textContent = 'USD ' + fin.fmt(price, 0);
+
+      // WACC card
+      q('wacc-mine').textContent = fin.fmt(WACC * 100, 2) + '%';
+      q('wacc-impl').textContent = fin.fmt(w * 100, 1) + '%';
+      var wGap = (w - WACC) * 100; // negativo: implícito menor
+      q('wacc-gap').textContent = (wGap >= 0 ? '+' : '−') + fin.fmt(Math.abs(wGap), 2) + ' pp vs. tu WACC';
+      q('wacc-gap').className = 'rsim-gap ' + (w < WACC ? 'is-bad' : 'is-good');
+      q('wacc-fill').style.width = pct(w, WMIN, WMAX) + '%';
+      q('wacc-mark').style.left = pct(w, WMIN, WMAX) + '%';
+      q('wacc-rf').style.left = pct(rf, WMIN, WMAX) + '%';
+      q('wacc-base').style.left = pct(WACC, WMIN, WMAX) + '%';
+
+      // g card
+      q('g-mine').textContent = fin.fmt(G * 100, 1) + '%';
+      q('g-impl').textContent = fin.fmt(g * 100, 1) + '%';
+      var gGap = (g - G) * 100;
+      q('g-gap').textContent = (gGap >= 0 ? '+' : '−') + fin.fmt(Math.abs(gGap), 1) + ' pp vs. tu g';
+      q('g-gap').className = 'rsim-gap ' + (g > pbi ? 'is-bad' : (g > G ? 'is-warn' : 'is-good'));
+      q('g-fill').style.width = pct(g, GMIN, GMAX) + '%';
+      q('g-mark').style.left = pct(g, GMIN, GMAX) + '%';
+      q('g-pbi').style.left = pct(pbi, GMIN, GMAX) + '%';
+
+      // Texto interpretativo
+      var sostenible = g > pbi;
+      q('read').innerHTML =
+        '<p>Para pagar <b>USD ' + fin.fmt(price, 0) + '</b>, el mercado descuenta a un <b class="t-blue">WACC implícito de ' + fin.fmt(w * 100, 1) + '%</b> — frente a tu 9,24%.</p>' +
+        '<p>…o asume una <b class="t-amber">g terminal de ' + fin.fmt(g * 100, 1) + '%</b>' +
+        (sostenible
+          ? ', por encima del crecimiento nominal de la economía (~' + fin.fmt(pbi * 100, 2) + '%): no es sostenible a perpetuidad, así que en realidad refleja la apuesta de crecimiento cercano (IA + Services).'
+          : ', dentro del crecimiento nominal de largo plazo de la economía (~' + fin.fmt(pbi * 100, 2) + '%).') +
+        '</p>';
+    }
+
+    slider.addEventListener('input', function () { update(parseFloat(slider.value)); });
+    update(parseFloat(slider.value)); // estado inicial = caso base (precio 312)
+  }
+
+  var SIMS = { reverseDcf: initReverseDcf };
+
   // ---- API: render perezoso por diapositiva ---------------------------------
   function renderForSlide(slideEl) {
     if (!slideEl) return;
@@ -357,6 +429,15 @@
       var fn = HEATMAPS[id]; if (!fn) return;
       try { renderHeatmap(w.querySelector('.heatmap'), fn()); w.dataset.rendered = '1'; }
       catch (e) { console.error('Error al renderizar heatmap ' + id, e); }
+    });
+    // Simuladores interactivos
+    var sims = slideEl.querySelectorAll('[data-sim]');
+    Array.prototype.forEach.call(sims, function (w) {
+      if (w.dataset.rendered) return;
+      var id = w.getAttribute('data-sim');
+      var fn = SIMS[id]; if (!fn) return;
+      try { fn(w); w.dataset.rendered = '1'; }
+      catch (e) { console.error('Error al inicializar simulador ' + id, e); }
     });
   }
 

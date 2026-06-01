@@ -486,16 +486,12 @@
     ]
   });
 
-  // 33 — Reverse-DCF
+  // 33 — DCF inverso (simulador interactivo)
   slides.push({
-    layout: 'center', footer: '26',
-    title: 'Reverse-DCF', subtitle: '¿Qué crecimiento descuenta hoy el mercado?',
+    layout: 'stack', footer: '26',
+    title: '¿Qué está descontando hoy el mercado?', subtitle: 'DCF inverso: del precio de mercado al supuesto que lo justifica',
     blocks: [
-      { type: 'stats', cols: 2, items: [
-        { value: '5,40%', label: 'g implícito al precio de mercado', accent: 'red' },
-        { value: '3,00%', label: 'nuestro g del caso base', accent: 'green' }
-      ]},
-      { type: 'note', title: 'Lectura', text: 'El mercado descuenta un crecimiento 2,4 p.p. más agresivo que el nuestro.' }
+      { type: 'reverseSim', rfMark: 0.0432, pbiMark: 0.0425 }
     ]
   });
 
