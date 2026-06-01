@@ -454,6 +454,9 @@
       if (idx >= 0 && idx < NB) counts[idx]++;
     });
     var maxCount = Math.max.apply(null, counts) || 1;
+    var modeIdx = counts.indexOf(maxCount);   // barra más alta (la moda) → glow
+    var P50 = sim.p50;                         // pivote del gradiente narrativo
+    var abovePct = Math.max(0, 100 - sim.pctBelow); // % que supera el mercado (~6)
 
     var canvas = el.querySelector('[data-mc-canvas]');
     var ctx = canvas.getContext('2d');
@@ -493,72 +496,104 @@
       ctx.beginPath(); ctx.moveTo(x, yT); ctx.lineTo(x, yB); ctx.stroke();
       ctx.restore();
     }
-    function tag(x, text, color, align) {
+    function tag(x, y, text, color, align, alpha) {
       ctx.save();
+      ctx.globalAlpha = (alpha == null ? 1 : alpha);
       ctx.font = '600 12px Inter, system-ui, sans-serif';
       ctx.fillStyle = color;
       ctx.textBaseline = 'top';
-      ctx.textAlign = align === 'right' ? 'right' : 'left';
-      ctx.fillText(text, x + (align === 'right' ? -6 : 6), 6);
+      ctx.textAlign = align === 'right' ? 'right' : (align === 'center' ? 'center' : 'left');
+      ctx.fillText(text, x + (align === 'right' ? -7 : (align === 'center' ? 0 : 7)), y);
       ctx.restore();
     }
 
+    // --- Gradiente narrativo a lo largo del eje X ------------------------------
+    // Frío/sobrio en valores bajos → se intensifica hacia la mediana (donde está
+    // el grueso) → ámbar cálido en la cola que supera el mercado (> 312).
+    var CY = [90, 200, 250], BL = [10, 132, 255], VI = [150, 110, 245], AM = [255, 159, 10];
+    function lerp(a, b, t) {
+      t = Math.max(0, Math.min(1, t));
+      return [Math.round(a[0] + (b[0] - a[0]) * t), Math.round(a[1] + (b[1] - a[1]) * t), Math.round(a[2] + (b[2] - a[2]) * t)];
+    }
+    function rgba(c, al) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + al + ')'; }
+    function barColor(center) {
+      if (center >= MKT) return AM;                                          // cálido: supera el mercado
+      if (center <= P50) return lerp(CY, BL, (center - XMIN) / (P50 - XMIN)); // cian → azul (hacia la moda)
+      return lerp(BL, VI, (center - P50) / (MKT - P50));                     // azul → violeta (se calienta cerca de la línea roja)
+    }
+
     // progress = altura de barras [0..1]; pulse = glow de la línea de mercado [0..1]
-    function draw(progress, pulse) {
+    // labelAlpha = opacidad de las etiquetas de las líneas (se atenúan al correr)
+    function draw(progress, pulse, labelAlpha) {
+      if (labelAlpha == null) labelAlpha = 1;
       ctx.clearRect(0, 0, W, H);
       var pL = PAD.l, pR = W - PAD.r, pT = PAD.t, pB = H - PAD.b, plotH = pB - pT;
+      var xMkt = xPix(MKT);
 
       // Grilla horizontal tenue
-      ctx.strokeStyle = C.grid; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(255,255,255,0.055)'; ctx.lineWidth = 1;
       for (var gy = 0; gy <= 4; gy++) {
-        var y = pT + plotH * gy / 4;
+        var y = Math.round(pT + plotH * gy / 4) + 0.5;
         ctx.beginPath(); ctx.moveTo(pL, y); ctx.lineTo(pR, y); ctx.stroke();
       }
-
-      // Relleno semitransparente bajo la zona "debajo de 312"
-      var xMkt = xPix(MKT);
-      ctx.fillStyle = 'rgba(10,132,255,0.05)';
-      ctx.fillRect(pL, pT, Math.min(xMkt, pR) - pL, plotH);
+      // Eje base
+      ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+      ctx.beginPath(); ctx.moveTo(pL, pB + 0.5); ctx.lineTo(pR, pB + 0.5); ctx.stroke();
 
       // Ticks de precio en el eje X
       var ticks = [120, 160, 200, 240, 280, 320];
+      ctx.font = '11px Inter, system-ui, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
       ticks.forEach(function (t) {
         var x = xPix(t);
-        ctx.strokeStyle = C.grid; ctx.beginPath(); ctx.moveTo(x, pB); ctx.lineTo(x, pB + 4); ctx.stroke();
-        ctx.fillStyle = C.faint; ctx.font = '12px Inter, system-ui, sans-serif';
-        ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-        ctx.fillText('$' + t, x, pB + 8);
+        ctx.strokeStyle = 'rgba(255,255,255,0.14)'; ctx.beginPath(); ctx.moveTo(x, pB); ctx.lineTo(x, pB + 4); ctx.stroke();
+        ctx.fillStyle = C.faint; ctx.fillText('$' + t, x, pB + 8);
       });
 
-      // Barras
-      var bw = (pR - pL) / NB;
+      // Barras — gradiente vertical (saturado en la base, desvanece arriba),
+      // esquinas redondeadas, espaciado sutil, borde superior brillante y glow en la moda.
+      var bw = (pR - pL) / NB, gap = 3, r = 3.5;
       for (var i = 0; i < NB; i++) {
         if (counts[i] === 0) continue;
         var h = counts[i] / maxCount * plotH * progress;
-        var x0 = pL + i * bw;
+        if (h < 0.5) continue;
+        var x0 = pL + i * bw + gap / 2, w = bw - gap;
         var center = XMIN + (i + 0.5) / NB * (XMAX - XMIN);
-        var warm = center >= MKT;
+        var col = barColor(center);
         var top = pB - h;
         var grad = ctx.createLinearGradient(0, top, 0, pB);
-        if (warm) { grad.addColorStop(0, 'rgba(255,159,10,0.45)'); grad.addColorStop(1, 'rgba(255,159,10,0.95)'); }
-        else { grad.addColorStop(0, 'rgba(10,132,255,0.38)'); grad.addColorStop(1, 'rgba(10,132,255,0.92)'); }
+        grad.addColorStop(0, rgba(col, 0.30));
+        grad.addColorStop(0.55, rgba(col, 0.72));
+        grad.addColorStop(1, rgba(col, 0.96));
+        ctx.save();
+        if (i === modeIdx) { ctx.shadowColor = rgba(col, 0.9); ctx.shadowBlur = 14 * progress; }
         ctx.fillStyle = grad;
-        roundedTopRect(x0 + 0.75, top, bw - 1.5, h, 2.5);
-      }
-
-      // Línea "Mi valuación" (fina, discreta)
-      vLine(xPix(OURS), pT, pB, 'rgba(48,209,88,0.55)', 1.5, [4, 4]);
-      tag(xPix(OURS), 'Mi valuación · USD 208', 'rgba(48,209,88,0.9)', 'left');
-
-      // Línea "Mercado · USD 312" (gruesa, protagonista, con glow opcional)
-      if (pulse > 0) {
-        ctx.save(); ctx.shadowColor = C.red; ctx.shadowBlur = 20 * pulse;
-        vLine(xMkt, pT, pB, C.red, 3, null);
+        roundedTopRect(x0, top, w, h, Math.min(r, w / 2));
         ctx.restore();
-      } else {
-        vLine(xMkt, pT, pB, C.red, 3, null);
+        // Borde superior apenas más brillante
+        if (h > r + 1) {
+          ctx.strokeStyle = rgba(lerp(col, [255, 255, 255], 0.45), 0.9);
+          ctx.lineWidth = 1.3;
+          ctx.beginPath(); ctx.moveTo(x0 + r, top + 0.6); ctx.lineTo(x0 + w - r, top + 0.6); ctx.stroke();
+        }
       }
-      tag(xMkt, 'Mercado · USD 312', C.red, 'right');
+
+      // Rótulo sobre la zona ámbar (solo al terminar)
+      if (pulse > 0 && abovePct > 0 && xMkt < pR - 24) {
+        tag((xMkt + pR) / 2, pT + plotH * 0.30, '~' + Math.round(abovePct) + '% supera el mercado',
+          rgba(AM, 0.95), 'center', 1);
+      }
+
+      // Línea "Mi valuación" (fina y discreta)
+      vLine(xPix(OURS), pT, pB, 'rgba(48,209,88,0.42)', 1, [3, 4]);
+      tag(xPix(OURS), 6, 'Mi valuación · USD 208', 'rgba(118,224,154,0.95)', 'left', labelAlpha);
+
+      // Línea "Mercado · USD 312" (gruesa, protagonista, con glow persistente + pulso)
+      ctx.save();
+      ctx.shadowColor = C.red; ctx.shadowBlur = 6 + 22 * pulse;
+      vLine(xMkt, pT - 2, pB, C.red, 3, null);
+      ctx.restore();
+      tag(xMkt, 6, 'Mercado · USD 312', '#ff6b62', 'right', Math.max(labelAlpha, 0.85));
     }
 
     // --- Estados y animación ---
@@ -574,7 +609,7 @@
     var DUR = 2500, raf = null, state = 'idle';
     var pctDec = (sim.pctBelow >= 100 ? 0 : 1);
 
-    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    function easeOut(t) { return 1 - Math.pow(1 - t, 4); } // quart: arranca rápido, frena suave al final
 
     function showIdle() {
       state = 'idle';
@@ -615,7 +650,7 @@
       (function frame(now) {
         var raw = Math.min(1, (now - start) / DUR);
         var t = easeOut(raw);
-        draw(t, 0);
+        draw(t, 0, 0.28); // etiquetas atenuadas mientras corre, para que el contador respire
         counterEl.textContent = fin.fmt(Math.floor(10000 * t), 0);
         if (raw < 1) { raf = requestAnimationFrame(frame); }
         else { raf = null; counterEl.textContent = fin.fmt(10000, 0); reveal(); }

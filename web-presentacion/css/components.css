@@ -347,11 +347,16 @@
   box-shadow: 0 8px 30px rgba(10,132,255,.40); transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
 .mcsim-run:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 12px 42px rgba(10,132,255,.58); }
 
-.mcsim-counter { position: absolute; left: 50%; top: 4px; transform: translateX(-50%);
-  font-size: 30px; font-weight: 800; letter-spacing: -.02em; color: var(--fg);
-  font-variant-numeric: tabular-nums; opacity: 0; transition: opacity .3s ease; pointer-events: none; }
-.mcsim-counter::after { content: ' escenarios'; font-size: 16px; font-weight: 600; color: var(--fg-3); }
-.mcsim-counter.is-on { opacity: 1; }
+/* Contador: píldora centrada arriba, legible sobre el gráfico y separada de las etiquetas */
+.mcsim-counter { position: absolute; left: 50%; top: 8px; transform: translateX(-50%) translateY(-4px) scale(.96);
+  font-size: 27px; font-weight: 800; letter-spacing: -.02em; color: var(--fg); white-space: nowrap;
+  font-variant-numeric: tabular-nums; padding: 7px 20px; border-radius: 999px;
+  background: rgba(8,10,16,.58); border: 1px solid var(--stroke);
+  box-shadow: 0 10px 30px rgba(0,0,0,.45); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  text-shadow: 0 1px 10px rgba(0,0,0,.5);
+  opacity: 0; transition: opacity .3s ease, transform .3s var(--ease); pointer-events: none; }
+.mcsim-counter::after { content: ' escenarios'; font-size: 15px; font-weight: 600; color: var(--fg-3); }
+.mcsim-counter.is-on { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 
 .mcsim-skip { position: absolute; right: 2px; bottom: 0; font: inherit; font-size: 13px; color: var(--fg-3);
   background: none; border: none; cursor: pointer; text-decoration: underline; opacity: 0;
@@ -361,7 +366,7 @@
 
 /* Resultado (reveal al terminar la animación) */
 .mcsim-result { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px;
-  opacity: 0; transform: translateY(8px); transition: opacity .5s var(--ease), transform .5s var(--ease);
+  opacity: 0; transform: translateY(10px) scale(.985); transition: opacity .6s var(--ease), transform .6s var(--ease);
   pointer-events: none; }
 .mcsim-result.is-on { opacity: 1; transform: none; pointer-events: auto; }
 .mcsim-pct { font-size: 66px; font-weight: 800; line-height: 1; letter-spacing: -.03em;
