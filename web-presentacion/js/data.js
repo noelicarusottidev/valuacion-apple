@@ -471,7 +471,16 @@
     ]
   });
 
-  // 32 — Escenarios
+  // 32 — DCF inverso (simulador interactivo)
+  slides.push({
+    layout: 'stack', footer: '26', cls: 'rsim-slide',
+    title: 'DCF inverso: ¿Qué está descontando hoy el mercado?',
+    blocks: [
+      { type: 'reverseSim', rfMark: 0.0432, pbiMark: 0.0425 }
+    ]
+  });
+
+  // 33 — Escenarios
   slides.push({
     layout: 'stack', footer: '25', cls: 'scn-slide',
     title: 'Escenarios',
@@ -488,15 +497,6 @@
           { name: 'Optimista', tone: 'green', price: 326.28, priceLabel: 'USD 326,28', ret: '+4,6%',
             params: [['WACC', '−1 pp'], ['g', '4,0%'], ['FCF', '+10%']] }
         ] }
-    ]
-  });
-
-  // 33 — DCF inverso (simulador interactivo)
-  slides.push({
-    layout: 'stack', footer: '26', cls: 'rsim-slide',
-    title: 'DCF inverso: ¿Qué está descontando hoy el mercado?',
-    blocks: [
-      { type: 'reverseSim', rfMark: 0.0432, pbiMark: 0.0425 }
     ]
   });
 
