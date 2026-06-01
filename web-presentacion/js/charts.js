@@ -447,7 +447,7 @@
     var OURS = fin.precioObjetivo(fin.WACC, fin.G_BASE); // ≈ 207,82
 
     // Binning fijo (cubre el soporte triangular y ambas líneas de referencia)
-    var XMIN = 120, XMAX = 340, NB = 28;
+    var XMIN = 120, XMAX = 340, NB = 45;
     var counts = new Array(NB).fill(0);
     sim.prices.forEach(function (p) {
       var idx = Math.floor((p - XMIN) / (XMAX - XMIN) * NB);
@@ -510,16 +510,17 @@
     // --- Gradiente narrativo a lo largo del eje X ------------------------------
     // Frío/sobrio en valores bajos → se intensifica hacia la mediana (donde está
     // el grueso) → ámbar cálido en la cola que supera el mercado (> 312).
-    var CY = [90, 200, 250], BL = [10, 132, 255], VI = [150, 110, 245], AM = [255, 159, 10];
+    var CY = [90, 200, 250], BL = [10, 132, 255], VI = [108, 116, 214], AM = [255, 159, 10];
     function lerp(a, b, t) {
       t = Math.max(0, Math.min(1, t));
       return [Math.round(a[0] + (b[0] - a[0]) * t), Math.round(a[1] + (b[1] - a[1]) * t), Math.round(a[2] + (b[2] - a[2]) * t)];
     }
     function rgba(c, al) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + al + ')'; }
     function barColor(center) {
-      if (center >= MKT) return AM;                                          // cálido: supera el mercado
+      if (center >= MKT) return AM;                                          // cálido: el único acento que resalta (supera el mercado)
       if (center <= P50) return lerp(CY, BL, (center - XMIN) / (P50 - XMIN)); // cian → azul (hacia la moda)
-      return lerp(BL, VI, (center - P50) / (MKT - P50));                     // azul → violeta (se calienta cerca de la línea roja)
+      // azul → indigo apenas insinuado al acercarse a la línea roja (sobrio, no compite con el ámbar)
+      return lerp(BL, VI, (center - P50) / (MKT - P50) * 0.65);
     }
 
     // progress = altura de barras [0..1]; pulse = glow de la línea de mercado [0..1]
@@ -552,7 +553,7 @@
 
       // Barras — gradiente vertical (saturado en la base, desvanece arriba),
       // esquinas redondeadas, espaciado sutil, borde superior brillante y glow en la moda.
-      var bw = (pR - pL) / NB, gap = 3, r = 3.5;
+      var bw = (pR - pL) / NB, gap = 1, r = 2.5; // más barras y casi sin espacio → silueta de campana continua
       for (var i = 0; i < NB; i++) {
         if (counts[i] === 0) continue;
         var h = counts[i] / maxCount * plotH * progress;
