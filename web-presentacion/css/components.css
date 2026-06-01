@@ -223,13 +223,21 @@
 .tv-emphasis .col-left .paragraph.small { font-size: 18px; }
 
 /* ---- Simulador DCF inverso (reverseSim) ----------------------------------- */
-.rsim { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+.rsim { display: flex; flex-direction: column; gap: 14px; width: 100%; }
+
+/* Selector de modo (un solo experimento a la vez) */
+.rsim-modes { display: inline-flex; align-self: center; gap: 4px; padding: 4px;
+  background: rgba(255,255,255,0.05); border: 1px solid var(--stroke); border-radius: 999px; }
+.rsim-mode { font: inherit; font-size: 15px; font-weight: 600; color: var(--fg-3); cursor: pointer;
+  border: none; background: transparent; padding: 9px 22px; border-radius: 999px; transition: all .15s ease; }
+.rsim-mode:hover { color: var(--fg-2); }
+.rsim-mode.is-active { color: #fff; background: var(--grad-accent); box-shadow: 0 2px 12px rgba(10,132,255,.35); }
 
 /* Control: slider de precio */
 .rsim-control {
   background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
   border: 1px solid var(--stroke); border-radius: var(--radius);
-  padding: 14px 22px 12px;
+  padding: 14px 22px 10px;
 }
 .rsim-control-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
 .rsim-control-label { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-3); }
@@ -247,44 +255,64 @@
   width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 3px solid var(--blue);
   box-shadow: 0 2px 10px rgba(10,132,255,.5); cursor: pointer;
 }
-.rsim-scale { display: flex; justify-content: space-between; font-size: 12px; color: var(--fg-faint); }
+/* Marcas fijas del precio (Nuestra valuación 208 / Mercado hoy 312) */
+.rsim-pmarks { position: relative; height: 42px; margin-top: 2px; }
+.rsim-pmark { position: absolute; top: 0; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+.rsim-pmark-dot { width: 9px; height: 9px; border-radius: 50%; }
+.rsim-pmark-ours .rsim-pmark-dot { background: var(--green); box-shadow: 0 0 0 3px var(--green-soft); }
+.rsim-pmark-mkt .rsim-pmark-dot { background: var(--fg-3); box-shadow: 0 0 0 3px rgba(255,255,255,.08); }
+.rsim-pmark-lbl { margin-top: 5px; font-size: 10.5px; line-height: 1.25; text-align: center; color: var(--fg-faint);
+  text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; }
+.rsim-pmark-lbl b { display: block; font-size: 12px; letter-spacing: 0; text-transform: none; }
+.rsim-pmark-ours .rsim-pmark-lbl, .rsim-pmark-ours .rsim-pmark-lbl b { color: var(--green); }
+.rsim-pmark-mkt .rsim-pmark-lbl b { color: var(--fg-2); }
 
-/* Cards de resultado */
-.rsim-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.rsim-card { position: relative; overflow: hidden; border-radius: var(--radius);
-  border: 1px solid var(--stroke); padding: 16px 20px 20px;
+/* Cards de resultado: se muestra solo la del modo activo */
+.rsim-card { display: none; position: relative; overflow: hidden; border-radius: var(--radius);
+  border: 1px solid var(--stroke); padding: 16px 22px 20px;
   background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)); }
+.rsim-card.is-active { display: block; }
 .rsim-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
 .rsim-card-wacc::before { background: var(--grad-blue); }
 .rsim-card-g::before { background: var(--grad-amber); }
-.rsim-card-title { font-size: 16px; font-weight: 700; color: var(--fg); margin-bottom: 12px; letter-spacing: -0.01em; }
+.rsim-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.rsim-card-title { font-size: 17px; font-weight: 700; color: var(--fg); letter-spacing: -0.01em; }
 .rsim-card-wacc .rsim-card-title::before { content: '◆ '; color: var(--blue-2); font-size: 0.7em; }
 .rsim-card-g .rsim-card-title::before { content: '◆ '; color: var(--amber); font-size: 0.7em; }
+/* Chip de variable fija (en gris, con candado) */
+.rsim-fixed { font-size: 13px; font-weight: 600; color: var(--fg-faint); padding: 5px 12px; border-radius: 999px;
+  background: rgba(255,255,255,0.05); border: 1px dashed var(--stroke-2); white-space: nowrap; }
+.rsim-lock { opacity: .8; }
 
-.rsim-compare { display: flex; align-items: flex-end; gap: 12px; }
-.rsim-mine, .rsim-impl { display: flex; flex-direction: column; gap: 3px; }
-.rsim-mtag, .rsim-itag { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--fg-3); font-weight: 600; }
-.rsim-mval { font-size: 30px; font-weight: 700; color: var(--fg-2); line-height: 1; letter-spacing: -0.02em; }
-.rsim-ival { font-size: 42px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; }
+/* Ancla (nuestro supuesto, fijo) → implícito (grande, se mueve en vivo) */
+.rsim-compare { display: flex; align-items: flex-end; gap: 16px; }
+.rsim-mine, .rsim-impl { display: flex; flex-direction: column; gap: 4px; }
+.rsim-mtag, .rsim-itag { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; }
+.rsim-mtag { color: var(--fg-faint); }
+.rsim-itag { color: var(--fg-3); }
+.rsim-mval { font-size: 26px; font-weight: 600; color: var(--fg-3); line-height: 1; letter-spacing: -0.02em; }
+.rsim-ival { font-size: 52px; font-weight: 800; line-height: .92; letter-spacing: -0.03em; transition: color .15s ease; }
 .rsim-card-wacc .rsim-ival { color: var(--blue-2); }
 .rsim-card-g .rsim-ival { color: var(--amber); }
-.rsim-arrow { font-size: 24px; color: var(--fg-faint); padding-bottom: 6px; }
+.rsim-ival.is-danger { color: var(--red); }
+.rsim-arrow { font-size: 26px; color: var(--fg-faint); padding-bottom: 8px; }
 
-.rsim-gap { display: inline-block; align-self: flex-start; margin-top: 10px; font-size: 13px; font-weight: 700;
+.rsim-gap { display: inline-block; align-self: flex-start; margin-top: 12px; font-size: 13px; font-weight: 700;
   padding: 4px 12px; border-radius: 999px; }
 .rsim-gap.is-bad { color: var(--red); background: var(--red-soft); border: 1px solid rgba(255,69,58,.3); }
 .rsim-gap.is-warn { color: var(--amber); background: var(--amber-soft); border: 1px solid rgba(255,159,10,.3); }
 .rsim-gap.is-good { color: var(--green); background: var(--green-soft); border: 1px solid rgba(48,209,88,.3); }
 
 /* Barra de referencia con marcas */
-.rsim-bar { position: relative; height: 8px; border-radius: 999px; background: rgba(255,255,255,0.08); margin-top: 26px; }
-.rsim-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; }
+.rsim-bar { position: relative; height: 8px; border-radius: 999px; background: rgba(255,255,255,0.08); margin-top: 30px; }
+.rsim-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; transition: width .15s ease; }
 .rsim-bar-fill-wacc { background: linear-gradient(90deg, rgba(10,132,255,.25), var(--blue)); }
 .rsim-bar-fill-g { background: linear-gradient(90deg, rgba(255,159,10,.25), var(--amber)); }
-.rsim-mark { position: absolute; top: 50%; transform: translate(-50%, -50%); }
-.rsim-mark-impl .rsim-mark-dot { display: block; width: 16px; height: 16px; border-radius: 50%;
-  background: #fff; border: 3px solid var(--blue); box-shadow: 0 0 0 3px rgba(0,0,0,.3); }
+.rsim-mark { position: absolute; top: 50%; transform: translate(-50%, -50%); transition: left .15s ease; }
+.rsim-mark-impl .rsim-mark-dot { display: block; width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; border: 4px solid var(--blue); box-shadow: 0 0 0 3px rgba(0,0,0,.3); transition: border-color .15s ease; }
 .rsim-card-g .rsim-mark-impl .rsim-mark-dot { border-color: var(--amber); }
+.rsim-mark-impl.is-danger .rsim-mark-dot { border-color: var(--red); box-shadow: 0 0 0 3px rgba(255,69,58,.25); }
 .rsim-mark-line { display: block; width: 2px; height: 18px; background: var(--fg-3); margin: 0 auto; }
 .rsim-mark-lbl { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); white-space: nowrap;
   font-size: 11px; font-weight: 600; color: var(--fg-3); }
@@ -299,5 +327,6 @@
 .rsim-read b { color: var(--fg); }
 .rsim-read .t-blue { color: var(--blue-2); }
 .rsim-read .t-amber { color: var(--amber); }
+.rsim-read .is-danger-txt { color: var(--red); font-weight: 600; }
 .rsim-method { font-size: 12.5px; line-height: 1.4; color: var(--fg-faint);
   border-left: 3px solid var(--stroke-2); padding-left: 12px; }

@@ -127,53 +127,64 @@
         var rf = (b.rfMark != null ? b.rfMark : 0.0432);
         var pbi = (b.pbiMark != null ? b.pbiMark : 0.0425);
         return '<div class="rsim" data-sim="reverseDcf" data-rf="' + rf + '" data-pbi="' + pbi + '"' + a + '>' +
-          // Control: slider de precio de mercado
+          // Selector de modo (un solo experimento a la vez)
+          '<div class="rsim-modes" role="tablist">' +
+            '<button class="rsim-mode is-active" data-sim-mode="wacc" type="button">Ajuste vía WACC</button>' +
+            '<button class="rsim-mode" data-sim-mode="g" type="button">Ajuste vía g terminal</button>' +
+          '</div>' +
+          // Control: slider de precio de mercado (con marcas fijas 208 / 312)
           '<div class="rsim-control">' +
             '<div class="rsim-control-head">' +
               '<span class="rsim-control-label">Precio de mercado</span>' +
-              '<span class="rsim-price" data-sim-price>USD 312</span>' +
+              '<span class="rsim-price" data-sim-price>USD 208</span>' +
             '</div>' +
-            '<input class="rsim-slider" type="range" min="150" max="450" step="1" value="312" data-sim-slider aria-label="Precio de mercado">' +
-            '<div class="rsim-scale"><span>USD 150</span><span>USD 450</span></div>' +
-          '</div>' +
-          // Dos result cards
-          '<div class="rsim-cards">' +
-            // WACC implícito
-            '<div class="rsim-card rsim-card-wacc">' +
-              '<div class="rsim-card-title">WACC implícito</div>' +
-              '<div class="rsim-compare">' +
-                '<div class="rsim-mine"><span class="rsim-mtag">Mi supuesto</span><span class="rsim-mval" data-sim-wacc-mine>9,24%</span></div>' +
-                '<span class="rsim-arrow">→</span>' +
-                '<div class="rsim-impl rsim-impl-wacc"><span class="rsim-itag">Implícito del mercado</span><span class="rsim-ival" data-sim-wacc-impl>7,2%</span></div>' +
-              '</div>' +
-              '<div class="rsim-gap" data-sim-wacc-gap></div>' +
-              '<div class="rsim-bar">' +
-                '<div class="rsim-bar-fill rsim-bar-fill-wacc" data-sim-wacc-fill></div>' +
-                '<div class="rsim-mark rsim-mark-impl" data-sim-wacc-mark><span class="rsim-mark-dot"></span></div>' +
-                '<div class="rsim-mark rsim-mark-ref" data-sim-wacc-rf><span class="rsim-mark-line"></span><span class="rsim-mark-lbl">Rf</span></div>' +
-                '<div class="rsim-mark rsim-mark-ref2" data-sim-wacc-base><span class="rsim-mark-line"></span><span class="rsim-mark-lbl">Tu WACC</span></div>' +
-              '</div>' +
-            '</div>' +
-            // g terminal implícita
-            '<div class="rsim-card rsim-card-g">' +
-              '<div class="rsim-card-title">g terminal implícita</div>' +
-              '<div class="rsim-compare">' +
-                '<div class="rsim-mine"><span class="rsim-mtag">Mi supuesto</span><span class="rsim-mval" data-sim-g-mine>3,0%</span></div>' +
-                '<span class="rsim-arrow">→</span>' +
-                '<div class="rsim-impl rsim-impl-g"><span class="rsim-itag">Implícito del mercado</span><span class="rsim-ival" data-sim-g-impl>5,4%</span></div>' +
-              '</div>' +
-              '<div class="rsim-gap" data-sim-g-gap></div>' +
-              '<div class="rsim-bar">' +
-                '<div class="rsim-bar-fill rsim-bar-fill-g" data-sim-g-fill></div>' +
-                '<div class="rsim-mark rsim-mark-impl" data-sim-g-mark><span class="rsim-mark-dot"></span></div>' +
-                '<div class="rsim-mark rsim-mark-danger" data-sim-g-pbi><span class="rsim-mark-line"></span><span class="rsim-mark-lbl">PBI nominal LP</span></div>' +
-              '</div>' +
+            '<input class="rsim-slider" type="range" min="150" max="450" step="1" value="208" data-sim-slider aria-label="Precio de mercado">' +
+            '<div class="rsim-pmarks">' +
+              '<div class="rsim-pmark rsim-pmark-ours" data-sim-pmark-ours><span class="rsim-pmark-dot"></span><span class="rsim-pmark-lbl">Nuestra valuación<b>USD 208</b></span></div>' +
+              '<div class="rsim-pmark rsim-pmark-mkt" data-sim-pmark-mkt><span class="rsim-pmark-dot"></span><span class="rsim-pmark-lbl">Mercado hoy<b>USD 312</b></span></div>' +
             '</div>' +
           '</div>' +
-          // Texto interpretativo (se actualiza solo)
+          // Card WACC (visible solo en modo wacc)
+          '<div class="rsim-card rsim-card-wacc is-active" data-sim-card="wacc">' +
+            '<div class="rsim-card-head">' +
+              '<div class="rsim-card-title">WACC implícito del mercado</div>' +
+              '<div class="rsim-fixed"><span class="rsim-lock">🔒</span> g terminal: fija en 3,0%</div>' +
+            '</div>' +
+            '<div class="rsim-compare">' +
+              '<div class="rsim-mine"><span class="rsim-mtag">Nuestro supuesto</span><span class="rsim-mval" data-sim-wacc-mine>9,24%</span></div>' +
+              '<span class="rsim-arrow">→</span>' +
+              '<div class="rsim-impl rsim-impl-wacc"><span class="rsim-itag">Implícito del mercado</span><span class="rsim-ival" data-sim-wacc-impl>9,24%</span></div>' +
+            '</div>' +
+            '<div class="rsim-gap" data-sim-wacc-gap></div>' +
+            '<div class="rsim-bar">' +
+              '<div class="rsim-bar-fill rsim-bar-fill-wacc" data-sim-wacc-fill></div>' +
+              '<div class="rsim-mark rsim-mark-impl" data-sim-wacc-mark><span class="rsim-mark-dot"></span></div>' +
+              '<div class="rsim-mark rsim-mark-ref" data-sim-wacc-rf><span class="rsim-mark-line"></span><span class="rsim-mark-lbl">Rf 4,32%</span></div>' +
+              '<div class="rsim-mark rsim-mark-ref2" data-sim-wacc-base><span class="rsim-mark-line"></span><span class="rsim-mark-lbl">WACC utilizado</span></div>' +
+            '</div>' +
+          '</div>' +
+          // Card g (visible solo en modo g)
+          '<div class="rsim-card rsim-card-g" data-sim-card="g">' +
+            '<div class="rsim-card-head">' +
+              '<div class="rsim-card-title">g terminal implícita del mercado</div>' +
+              '<div class="rsim-fixed"><span class="rsim-lock">🔒</span> WACC: fijo en 9,24%</div>' +
+            '</div>' +
+            '<div class="rsim-compare">' +
+              '<div class="rsim-mine"><span class="rsim-mtag">Nuestro supuesto</span><span class="rsim-mval" data-sim-g-mine>3,0%</span></div>' +
+              '<span class="rsim-arrow">→</span>' +
+              '<div class="rsim-impl rsim-impl-g"><span class="rsim-itag">Implícito del mercado</span><span class="rsim-ival" data-sim-g-impl>3,0%</span></div>' +
+            '</div>' +
+            '<div class="rsim-gap" data-sim-g-gap></div>' +
+            '<div class="rsim-bar">' +
+              '<div class="rsim-bar-fill rsim-bar-fill-g" data-sim-g-fill></div>' +
+              '<div class="rsim-mark rsim-mark-impl" data-sim-g-mark><span class="rsim-mark-dot"></span></div>' +
+              '<div class="rsim-mark rsim-mark-danger" data-sim-g-pbi><span class="rsim-mark-line"></span><span class="rsim-mark-lbl">PBI nominal LP 4,25%</span></div>' +
+            '</div>' +
+          '</div>' +
+          // Texto interpretativo (se actualiza solo, según el modo activo)
           '<div class="rsim-read" data-sim-read></div>' +
           // Nota metodológica
-          '<div class="rsim-method">Cada valor implícito asume que la otra variable se mantiene en el supuesto del trabajo (el WACC implícito supone g = 3%; la g implícita supone WACC = 9,24%). Son los dos casos extremos: el precio es consistente con un abanico de combinaciones intermedias.</div>' +
+          '<div class="rsim-method">Es un experimento por vez: el modo activo despeja una sola variable y la otra queda fija en nuestro supuesto. El precio es consistente con un abanico de combinaciones intermedias entre ambas.</div>' +
         '</div>';
       }
 

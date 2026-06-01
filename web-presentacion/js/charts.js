@@ -359,49 +359,81 @@
 
     var q = function (sel) { return el.querySelector('[data-sim-' + sel + ']'); };
     var slider = q('slider');
+    var SMIN = parseFloat(slider.min), SMAX = parseFloat(slider.max);
+    var BASE_EXACT = px(WACC, G);     // precio exacto de nuestra valuación (≈207,82)
+    var BASE_PRICE = Math.round(BASE_EXACT);  // 208 — posición del slider y de la marca
     // rangos visuales de cada barra (deben contener todas las marcas)
     var WMIN = 0.04, WMAX = 0.11;   // eje WACC
     var GMIN = 0.0, GMAX = 0.07;    // eje g
     var pct = function (v, mn, mx) { return Math.max(0, Math.min(100, (v - mn) / (mx - mn) * 100)); };
 
+    var mode = 'wacc'; // 'wacc' | 'g' — un solo experimento a la vez
+
+    // Marcas fijas del slider de precio (posición según el rango del slider)
+    q('pmark-ours').style.left = pct(BASE_PRICE, SMIN, SMAX) + '%';
+    q('pmark-mkt').style.left = pct(312, SMIN, SMAX) + '%';
+
     function update(price) {
-      var w = impliedWacc(price), g = impliedG(price);
-      q('price').textContent = 'USD ' + fin.fmt(price, 0);
+      q('price').textContent = 'USD ' + fin.fmt(Math.round(price), 0);
+      // En USD 208 (= nuestra valuación) usamos el precio exacto para reproducir
+      // el caso base sin error de redondeo (WACC 9,24% / g 3,0% exactos).
+      var eff = (Math.round(price) === BASE_PRICE) ? BASE_EXACT : price;
 
-      // WACC card
-      q('wacc-mine').textContent = fin.fmt(WACC * 100, 2) + '%';
-      q('wacc-impl').textContent = fin.fmt(w * 100, 1) + '%';
-      var wGap = (w - WACC) * 100; // negativo: implícito menor
-      q('wacc-gap').textContent = (wGap >= 0 ? '+' : '−') + fin.fmt(Math.abs(wGap), 2) + ' pp vs. tu WACC';
-      q('wacc-gap').className = 'rsim-gap ' + (w < WACC ? 'is-bad' : 'is-good');
-      q('wacc-fill').style.width = pct(w, WMIN, WMAX) + '%';
-      q('wacc-mark').style.left = pct(w, WMIN, WMAX) + '%';
-      q('wacc-rf').style.left = pct(rf, WMIN, WMAX) + '%';
-      q('wacc-base').style.left = pct(WACC, WMIN, WMAX) + '%';
-
-      // g card
-      q('g-mine').textContent = fin.fmt(G * 100, 1) + '%';
-      q('g-impl').textContent = fin.fmt(g * 100, 1) + '%';
-      var gGap = (g - G) * 100;
-      q('g-gap').textContent = (gGap >= 0 ? '+' : '−') + fin.fmt(Math.abs(gGap), 1) + ' pp vs. tu g';
-      q('g-gap').className = 'rsim-gap ' + (g > pbi ? 'is-bad' : (g > G ? 'is-warn' : 'is-good'));
-      q('g-fill').style.width = pct(g, GMIN, GMAX) + '%';
-      q('g-mark').style.left = pct(g, GMIN, GMAX) + '%';
-      q('g-pbi').style.left = pct(pbi, GMIN, GMAX) + '%';
-
-      // Texto interpretativo
-      var sostenible = g > pbi;
-      q('read').innerHTML =
-        '<p>Para pagar <b>USD ' + fin.fmt(price, 0) + '</b>, el mercado descuenta a un <b class="t-blue">WACC implícito de ' + fin.fmt(w * 100, 1) + '%</b> — frente a tu 9,24%.</p>' +
-        '<p>…o asume una <b class="t-amber">g terminal de ' + fin.fmt(g * 100, 1) + '%</b>' +
-        (sostenible
-          ? ', por encima del crecimiento nominal de la economía (~' + fin.fmt(pbi * 100, 2) + '%): no es sostenible a perpetuidad, así que en realidad refleja la apuesta de crecimiento cercano (IA + Services).'
-          : ', dentro del crecimiento nominal de largo plazo de la economía (~' + fin.fmt(pbi * 100, 2) + '%).') +
-        '</p>';
+      if (mode === 'wacc') {
+        var w = impliedWacc(eff);
+        var danger = w < rf;           // cruzó por debajo de la tasa libre de riesgo
+        q('wacc-mine').textContent = fin.fmt(WACC * 100, 2) + '%';
+        q('wacc-impl').textContent = fin.fmt(w * 100, 2) + '%';
+        q('wacc-impl').classList.toggle('is-danger', danger);
+        var wGap = (w - WACC) * 100;
+        q('wacc-gap').textContent = (wGap >= 0 ? '+' : '−') + fin.fmt(Math.abs(wGap), 2) + ' pp vs. WACC utilizado';
+        q('wacc-gap').className = 'rsim-gap ' + (danger ? 'is-bad' : (w < WACC ? 'is-warn' : 'is-good'));
+        q('wacc-fill').style.width = pct(w, WMIN, WMAX) + '%';
+        q('wacc-mark').style.left = pct(w, WMIN, WMAX) + '%';
+        q('wacc-mark').classList.toggle('is-danger', danger);
+        q('wacc-rf').style.left = pct(rf, WMIN, WMAX) + '%';
+        q('wacc-base').style.left = pct(WACC, WMIN, WMAX) + '%';
+        q('read').innerHTML =
+          '<p>Para pagar <b>USD ' + fin.fmt(price, 0) + '</b>, el mercado descontaría a un <b class="t-blue">WACC implícito de ' + fin.fmt(w * 100, 2) + '%</b> — frente a nuestro 9,24% — manteniendo la g terminal fija en 3,0%.</p>' +
+          (danger ? '<p class="is-danger-txt">A ese WACC el costo de capital cae por debajo de la tasa libre de riesgo (4,32%): es económicamente inconsistente.</p>' : '');
+      } else {
+        var g = impliedG(eff);
+        var dangerG = g > pbi;         // supera el crecimiento nominal de largo plazo
+        q('g-mine').textContent = fin.fmt(G * 100, 1) + '%';
+        q('g-impl').textContent = fin.fmt(g * 100, 1) + '%';
+        q('g-impl').classList.toggle('is-danger', dangerG);
+        var gGap = (g - G) * 100;
+        q('g-gap').textContent = (gGap >= 0 ? '+' : '−') + fin.fmt(Math.abs(gGap), 1) + ' pp vs. nuestra g';
+        q('g-gap').className = 'rsim-gap ' + (dangerG ? 'is-bad' : (g > G ? 'is-warn' : 'is-good'));
+        q('g-fill').style.width = pct(g, GMIN, GMAX) + '%';
+        q('g-mark').style.left = pct(g, GMIN, GMAX) + '%';
+        q('g-mark').classList.toggle('is-danger', dangerG);
+        q('g-pbi').style.left = pct(pbi, GMIN, GMAX) + '%';
+        q('read').innerHTML =
+          '<p>Para pagar <b>USD ' + fin.fmt(price, 0) + '</b>, el mercado asumiría una <b class="t-amber">g terminal de ' + fin.fmt(g * 100, 1) + '%</b> — frente a nuestro 3,0% — manteniendo el WACC fijo en 9,24%.</p>' +
+          (dangerG ? '<p class="is-danger-txt">Supera el crecimiento nominal de largo plazo de la economía (~' + fin.fmt(pbi * 100, 2) + '%): no es sostenible a perpetuidad, refleja la apuesta de crecimiento cercano (IA + Services).</p>' : '');
+      }
     }
 
+    function setMode(m) {
+      mode = m;
+      Array.prototype.forEach.call(el.querySelectorAll('[data-sim-mode]'), function (btn) {
+        btn.classList.toggle('is-active', btn.getAttribute('data-sim-mode') === m);
+      });
+      Array.prototype.forEach.call(el.querySelectorAll('[data-sim-card]'), function (c) {
+        c.classList.toggle('is-active', c.getAttribute('data-sim-card') === m);
+      });
+      slider.value = BASE_PRICE;       // UX: al cambiar de modo, resetear a USD 208
+      update(BASE_PRICE);
+    }
+
+    Array.prototype.forEach.call(el.querySelectorAll('[data-sim-mode]'), function (btn) {
+      btn.addEventListener('click', function () { setMode(btn.getAttribute('data-sim-mode')); });
+    });
     slider.addEventListener('input', function () { update(parseFloat(slider.value)); });
-    update(parseFloat(slider.value)); // estado inicial = caso base (precio 312)
+
+    slider.value = BASE_PRICE;
+    setMode('wacc');                   // estado inicial: modo WACC, precio 208 = caso base
   }
 
   var SIMS = { reverseDcf: initReverseDcf };
