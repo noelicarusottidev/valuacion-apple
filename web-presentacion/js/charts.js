@@ -395,6 +395,7 @@
         q('wacc-base').style.left = pct(WACC, WMIN, WMAX) + '%';
         q('read').innerHTML =
           '<p>Para pagar <b>USD ' + fin.fmt(price, 0) + '</b>, el mercado descontaría a un <b class="t-blue">WACC implícito de ' + fin.fmt(w * 100, 2) + '%</b> — frente a nuestro 9,24% — manteniendo la g terminal fija en 3,0%.</p>' +
+          '<p>La prima de riesgo implícita es de <b class="t-blue">' + fin.fmt((w - rf) * 100, 2) + '%</b> (WACC − tasa libre de riesgo).</p>' +
           (danger ? '<p class="is-danger-txt">A ese WACC el costo de capital cae por debajo de la tasa libre de riesgo (4,32%): es económicamente inconsistente.</p>' : '');
       } else {
         var g = impliedG(eff);
