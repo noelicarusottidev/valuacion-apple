@@ -25,6 +25,12 @@
     var prevIdx = state.current;
     state.current = i;
 
+    // Completar al instante cualquier animación en curso (avanzar nunca bloquea)
+    if (window.PRES.anim) window.PRES.anim.finishAll();
+
+    // Dirección de la transición (para el deslizamiento coordinado)
+    dom.stage.classList.toggle('nav-back', i < prevIdx);
+
     state.els.forEach(function (el, idx) {
       el.classList.toggle('is-active', idx === i);
     });
@@ -51,6 +57,9 @@
 
     // Render perezoso de gráficos de la slide actual
     if (window.PRES.charts) window.PRES.charts.renderForSlide(state.els[i]);
+
+    // Animaciones de entrada (count-up de cifras destacadas)
+    if (window.PRES.anim) window.PRES.anim.enter(state.els[i]);
   }
 
   function next() { goTo(state.current + 1); }

@@ -28,7 +28,9 @@
     D.plugins.legend.labels.boxWidth = 12;
     D.plugins.legend.labels.boxHeight = 12;
     D.plugins.legend.labels.usePointStyle = true;
-    D.animation.duration = 850;
+    var reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    D.animation.duration = reduce ? 0 : 850;
     D.animation.easing = 'easeOutQuart';
     window.__chartDefaultsSet = true;
   }

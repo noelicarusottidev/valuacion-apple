@@ -224,7 +224,8 @@
             '</header>' +
             '<div class="scn-price">' + esc(it.priceLabel) + '</div>' +
             '<div class="scn-ret ' + (neg ? 'is-neg' : 'is-pos') + '">' +
-              '<span class="scn-arrow">' + (neg ? '▾' : '▴') + '</span>' + esc(it.ret) +
+              '<span class="scn-arrow">' + (neg ? '▾' : '▴') + '</span>' +
+              '<span class="scn-ret-num">' + esc(it.ret) + '</span>' +
               '<span class="scn-cap">vs. mercado</span>' +
             '</div>' +
             '<ul class="scn-params">' + params + '</ul>' +

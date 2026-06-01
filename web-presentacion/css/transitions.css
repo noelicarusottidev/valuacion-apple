@@ -15,6 +15,19 @@
 /* La cabecera entra primero, sin depender del índice de body */
 .slide.is-active .slide-head [data-animate] { transition-delay: 60ms; }
 
+/* Entrada de la slide: deslizamiento direccional coordinado (más carácter que un corte).
+   El stagger de [data-animate] entra encima; la slide saliente mantiene su fade. */
+.slide.is-active { animation: slideEnter 0.55s var(--ease) both; }
+#stage.nav-back .slide.is-active { animation-name: slideEnterBack; }
+@keyframes slideEnter {
+  from { opacity: 0; transform: translateX(34px) scale(0.994); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes slideEnterBack {
+  from { opacity: 0; transform: translateX(-34px) scale(0.994); }
+  to   { opacity: 1; transform: none; }
+}
+
 /* Respeto por usuarios que prefieren menos movimiento */
 @media (prefers-reduced-motion: reduce) {
   .slide, .slide.is-active,
