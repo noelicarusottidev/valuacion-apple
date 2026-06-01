@@ -591,10 +591,19 @@
         }
       }
 
-      // Rótulo sobre la zona ámbar (solo al terminar)
+      // Rótulo sobre la zona ámbar (solo al terminar), en dos líneas para que
+      // no se corte contra el borde derecho.
       if (pulse > 0 && abovePct > 0 && xMkt < pR - 24) {
-        tag((xMkt + pR) / 2, pT + plotH * 0.28, '~' + Math.round(abovePct) + '% supera el mercado',
-          '#ffc24d', 'center', 1, 16);
+        var l1 = '~' + Math.round(abovePct) + '% supera', l2 = 'el mercado';
+        ctx.save(); ctx.font = '700 16px Inter, system-ui, sans-serif';
+        var halfW = Math.max(ctx.measureText(l1).width, ctx.measureText(l2).width) / 2;
+        ctx.restore();
+        var cx = (xMkt + pR) / 2;
+        cx = Math.min(cx, pR - halfW - 4);   // no cortar por la derecha
+        cx = Math.max(cx, xMkt + halfW + 4); // ni pisar la línea de mercado
+        var ly = pT + plotH * 0.22;
+        tag(cx, ly, l1, '#ffc24d', 'center', 1, 16);
+        tag(cx, ly + 20, l2, '#ffc24d', 'center', 1, 16);
       }
 
       // Línea "Nuestra valuación" (fina y discreta)
