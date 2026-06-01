@@ -183,8 +183,6 @@
           '</div>' +
           // Texto interpretativo (se actualiza solo, según el modo activo)
           '<div class="rsim-read" data-sim-read></div>' +
-          // Nota metodológica
-          '<div class="rsim-method">Es un experimento por vez: el modo activo despeja una sola variable y la otra queda fija en nuestro supuesto. El precio es consistente con un abanico de combinaciones intermedias entre ambas.</div>' +
         '</div>';
       }
 
