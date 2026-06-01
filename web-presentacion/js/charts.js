@@ -447,7 +447,7 @@
     var OURS = fin.precioObjetivo(fin.WACC, fin.G_BASE); // ≈ 207,82
 
     // Binning fijo (cubre el soporte triangular y ambas líneas de referencia)
-    var XMIN = 120, XMAX = 340, NB = 45;
+    var XMIN = 120, XMAX = 340, NB = 33;
     var counts = new Array(NB).fill(0);
     sim.prices.forEach(function (p) {
       var idx = Math.floor((p - XMIN) / (XMAX - XMIN) * NB);
@@ -460,7 +460,7 @@
 
     var canvas = el.querySelector('[data-mc-canvas]');
     var ctx = canvas.getContext('2d');
-    var PAD = { l: 18, r: 18, t: 30, b: 36 };
+    var PAD = { l: 18, r: 18, t: 40, b: 42 };
     var W = 800, H = 360;
 
     function size() {
@@ -496,31 +496,43 @@
       ctx.beginPath(); ctx.moveTo(x, yT); ctx.lineTo(x, yB); ctx.stroke();
       ctx.restore();
     }
-    function tag(x, y, text, color, align, alpha) {
+    function tag(x, y, text, color, align, alpha, size) {
       ctx.save();
       ctx.globalAlpha = (alpha == null ? 1 : alpha);
-      ctx.font = '600 12px Inter, system-ui, sans-serif';
+      ctx.font = '700 ' + (size || 17) + 'px Inter, system-ui, sans-serif';
       ctx.fillStyle = color;
       ctx.textBaseline = 'top';
       ctx.textAlign = align === 'right' ? 'right' : (align === 'center' ? 'center' : 'left');
-      ctx.fillText(text, x + (align === 'right' ? -7 : (align === 'center' ? 0 : 7)), y);
+      ctx.shadowColor = 'rgba(0,0,0,0.6)'; ctx.shadowBlur = 7; ctx.shadowOffsetY = 1; // legible sobre las barras
+      ctx.fillText(text, x + (align === 'right' ? -8 : (align === 'center' ? 0 : 8)), y);
       ctx.restore();
     }
 
-    // --- Gradiente narrativo a lo largo del eje X ------------------------------
-    // Frío/sobrio en valores bajos → se intensifica hacia la mediana (donde está
-    // el grueso) → ámbar cálido en la cola que supera el mercado (> 312).
-    var CY = [90, 200, 250], BL = [10, 132, 255], VI = [108, 116, 214], AM = [255, 159, 10];
     function lerp(a, b, t) {
       t = Math.max(0, Math.min(1, t));
       return [Math.round(a[0] + (b[0] - a[0]) * t), Math.round(a[1] + (b[1] - a[1]) * t), Math.round(a[2] + (b[2] - a[2]) * t)];
     }
     function rgba(c, al) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + al + ')'; }
+
+    // --- Espectro narrativo a lo largo del eje X -------------------------------
+    // El ojo recorre la campana: cian frío en valores bajos → azul/índigo vibrante
+    // en la mediana (el grueso de la masa) → violeta → magenta al acercarse a la
+    // línea roja → ámbar/dorado intenso en la cola que SUPERA el mercado (> 312):
+    // la "zona segura" se vuelve "zona cara".
+    var GOLD = [255, 176, 32];
+    var STOPS = [
+      { p: XMIN, c: [34, 211, 238] },  // cian
+      { p: 184,  c: [56, 138, 255] },  // azul vibrante (subiendo hacia la moda)
+      { p: P50,  c: [99, 102, 248] },  // índigo/azul-violáceo en la mediana
+      { p: 272,  c: [150, 92, 246] },  // violeta
+      { p: MKT,  c: [232, 92, 158] }   // magenta justo antes de los 312
+    ];
     function barColor(center) {
-      if (center >= MKT) return AM;                                          // cálido: el único acento que resalta (supera el mercado)
-      if (center <= P50) return lerp(CY, BL, (center - XMIN) / (P50 - XMIN)); // cian → azul (hacia la moda)
-      // azul → indigo apenas insinuado al acercarse a la línea roja (sobrio, no compite con el ámbar)
-      return lerp(BL, VI, (center - P50) / (MKT - P50) * 0.65);
+      if (center >= MKT) return GOLD;                                        // ámbar/dorado: único acento cálido (supera el mercado)
+      for (var s = 1; s < STOPS.length; s++) {
+        if (center <= STOPS[s].p) return lerp(STOPS[s - 1].c, STOPS[s].c, (center - STOPS[s - 1].p) / (STOPS[s].p - STOPS[s - 1].p));
+      }
+      return STOPS[STOPS.length - 1].c;
     }
 
     // progress = altura de barras [0..1]; pulse = glow de la línea de mercado [0..1]
@@ -543,17 +555,17 @@
 
       // Ticks de precio en el eje X
       var ticks = [120, 160, 200, 240, 280, 320];
-      ctx.font = '11px Inter, system-ui, sans-serif';
+      ctx.font = '600 13px Inter, system-ui, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'top';
       ticks.forEach(function (t) {
         var x = xPix(t);
-        ctx.strokeStyle = 'rgba(255,255,255,0.14)'; ctx.beginPath(); ctx.moveTo(x, pB); ctx.lineTo(x, pB + 4); ctx.stroke();
-        ctx.fillStyle = C.faint; ctx.fillText('$' + t, x, pB + 8);
+        ctx.strokeStyle = 'rgba(255,255,255,0.16)'; ctx.beginPath(); ctx.moveTo(x, pB); ctx.lineTo(x, pB + 4); ctx.stroke();
+        ctx.fillStyle = 'rgba(180,180,194,0.85)'; ctx.fillText('$' + t, x, pB + 9);
       });
 
-      // Barras — gradiente vertical (saturado en la base, desvanece arriba),
-      // esquinas redondeadas, espaciado sutil, borde superior brillante y glow en la moda.
-      var bw = (pR - pL) / NB, gap = 1, r = 2.5; // más barras y casi sin espacio → silueta de campana continua
+      // Barras — gradiente vertical (saturado y luminoso en la base, suave arriba),
+      // esquinas redondeadas, gap mínimo, borde superior brillante y glow en la moda.
+      var bw = (pR - pL) / NB, gap = 1, r = 3.5;
       for (var i = 0; i < NB; i++) {
         if (counts[i] === 0) continue;
         var h = counts[i] / maxCount * plotH * progress;
@@ -563,38 +575,38 @@
         var col = barColor(center);
         var top = pB - h;
         var grad = ctx.createLinearGradient(0, top, 0, pB);
-        grad.addColorStop(0, rgba(col, 0.30));
-        grad.addColorStop(0.55, rgba(col, 0.72));
-        grad.addColorStop(1, rgba(col, 0.96));
+        grad.addColorStop(0, rgba(col, 0.34));
+        grad.addColorStop(0.5, rgba(col, 0.78));
+        grad.addColorStop(1, rgba(lerp(col, [255, 255, 255], 0.12), 1));
         ctx.save();
-        if (i === modeIdx) { ctx.shadowColor = rgba(col, 0.9); ctx.shadowBlur = 14 * progress; }
+        if (i === modeIdx) { ctx.shadowColor = rgba(col, 0.95); ctx.shadowBlur = 22 * progress; }
         ctx.fillStyle = grad;
         roundedTopRect(x0, top, w, h, Math.min(r, w / 2));
         ctx.restore();
-        // Borde superior apenas más brillante
+        // Borde superior brillante (cap luminoso)
         if (h > r + 1) {
-          ctx.strokeStyle = rgba(lerp(col, [255, 255, 255], 0.45), 0.9);
-          ctx.lineWidth = 1.3;
-          ctx.beginPath(); ctx.moveTo(x0 + r, top + 0.6); ctx.lineTo(x0 + w - r, top + 0.6); ctx.stroke();
+          ctx.strokeStyle = rgba(lerp(col, [255, 255, 255], 0.55), 0.95);
+          ctx.lineWidth = 1.5;
+          ctx.beginPath(); ctx.moveTo(x0 + r, top + 0.7); ctx.lineTo(x0 + w - r, top + 0.7); ctx.stroke();
         }
       }
 
       // Rótulo sobre la zona ámbar (solo al terminar)
       if (pulse > 0 && abovePct > 0 && xMkt < pR - 24) {
-        tag((xMkt + pR) / 2, pT + plotH * 0.30, '~' + Math.round(abovePct) + '% supera el mercado',
-          rgba(AM, 0.95), 'center', 1);
+        tag((xMkt + pR) / 2, pT + plotH * 0.28, '~' + Math.round(abovePct) + '% supera el mercado',
+          '#ffc24d', 'center', 1, 16);
       }
 
-      // Línea "Mi valuación" (fina y discreta)
-      vLine(xPix(OURS), pT, pB, 'rgba(48,209,88,0.42)', 1, [3, 4]);
-      tag(xPix(OURS), 6, 'Mi valuación · USD 208', 'rgba(118,224,154,0.95)', 'left', labelAlpha);
+      // Línea "Nuestra valuación" (fina y discreta)
+      vLine(xPix(OURS), pT, pB, 'rgba(48,209,88,0.45)', 1.25, [3, 4]);
+      tag(xPix(OURS), 4, 'Nuestra valuación · USD 208', '#5cf08a', 'left', labelAlpha, 17);
 
       // Línea "Mercado · USD 312" (gruesa, protagonista, con glow persistente + pulso)
       ctx.save();
-      ctx.shadowColor = C.red; ctx.shadowBlur = 6 + 22 * pulse;
-      vLine(xMkt, pT - 2, pB, C.red, 3, null);
+      ctx.shadowColor = C.red; ctx.shadowBlur = 8 + 24 * pulse;
+      vLine(xMkt, pT - 2, pB, C.red, 3.5, null);
       ctx.restore();
-      tag(xMkt, 6, 'Mercado · USD 312', '#ff6b62', 'right', Math.max(labelAlpha, 0.85));
+      tag(xMkt, 4, 'Mercado · USD 312', '#ff7a72', 'right', Math.max(labelAlpha, 0.9), 17);
     }
 
     // --- Estados y animación ---

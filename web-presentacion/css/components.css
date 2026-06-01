@@ -369,10 +369,12 @@
   opacity: 0; transform: translateY(10px) scale(.985); transition: opacity .6s var(--ease), transform .6s var(--ease);
   pointer-events: none; }
 .mcsim-result.is-on { opacity: 1; transform: none; pointer-events: auto; }
-.mcsim-pct { font-size: 66px; font-weight: 800; line-height: 1; letter-spacing: -.03em;
-  background: var(--grad-blue); -webkit-background-clip: text; background-clip: text; color: transparent;
-  font-variant-numeric: tabular-nums; }
-.mcsim-lead { font-size: 18px; line-height: 1.35; color: var(--fg-2); max-width: 740px; }
+.mcsim-pct { font-size: 88px; font-weight: 800; line-height: 1; letter-spacing: -.035em;
+  background: linear-gradient(100deg, #22d3ee 0%, #6366f1 40%, #b14cf0 70%, #ff5d9e 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-variant-numeric: tabular-nums;
+  filter: drop-shadow(0 6px 30px rgba(124,92,246,.5)) drop-shadow(0 0 10px rgba(34,211,238,.25)); }
+.mcsim-lead { font-size: 19px; line-height: 1.35; color: var(--fg); max-width: 760px; font-weight: 500; }
 .mcsim-foot { font-size: 14px; color: var(--fg-3); margin-top: 2px; }
 .mcsim-foot b { color: var(--fg-2); font-weight: 700; }
 .mcsim-rerun { margin-top: 10px; font: inherit; font-size: 14px; font-weight: 600; color: var(--fg-2);
