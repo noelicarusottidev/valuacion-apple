@@ -437,7 +437,210 @@
     setMode('wacc');                   // estado inicial: modo WACC, precio 208 = caso base
   }
 
-  var SIMS = { reverseDcf: initReverseDcf };
+  // ---- Simulador interactivo: Monte Carlo (histograma en canvas) ------------
+  // Reutiliza F().monteCarloTri() (semilla fija → reproducible) y dibuja el
+  // histograma a mano sobre un <canvas> para animar las barras llenándose.
+  function initMonteCarloSim(el) {
+    var fin = F();
+    var sim = fin.monteCarloTri();                       // instantáneo, semilla fija
+    var MKT = sim.market;                                // 312,06
+    var OURS = fin.precioObjetivo(fin.WACC, fin.G_BASE); // ≈ 207,82
+
+    // Binning fijo (cubre el soporte triangular y ambas líneas de referencia)
+    var XMIN = 120, XMAX = 340, NB = 28;
+    var counts = new Array(NB).fill(0);
+    sim.prices.forEach(function (p) {
+      var idx = Math.floor((p - XMIN) / (XMAX - XMIN) * NB);
+      if (idx >= 0 && idx < NB) counts[idx]++;
+    });
+    var maxCount = Math.max.apply(null, counts) || 1;
+
+    var canvas = el.querySelector('[data-mc-canvas]');
+    var ctx = canvas.getContext('2d');
+    var PAD = { l: 18, r: 18, t: 30, b: 36 };
+    var W = 800, H = 360;
+
+    function size() {
+      var dpr = window.devicePixelRatio || 1;
+      W = canvas.clientWidth || el.clientWidth || 800;
+      H = canvas.clientHeight || 360;
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function xPix(price) {
+      var pL = PAD.l, pR = W - PAD.r;
+      return pL + (price - XMIN) / (XMAX - XMIN) * (pR - pL);
+    }
+    function roundedTopRect(x, y, w, h, r) {
+      if (h <= 0) return;
+      r = Math.min(r, w / 2, h);
+      ctx.beginPath();
+      ctx.moveTo(x, y + h);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h);
+      ctx.closePath();
+      ctx.fill();
+    }
+    function vLine(x, yT, yB, color, lw, dash) {
+      ctx.save();
+      ctx.strokeStyle = color; ctx.lineWidth = lw;
+      ctx.setLineDash(dash || []);
+      ctx.beginPath(); ctx.moveTo(x, yT); ctx.lineTo(x, yB); ctx.stroke();
+      ctx.restore();
+    }
+    function tag(x, text, color, align) {
+      ctx.save();
+      ctx.font = '600 12px Inter, system-ui, sans-serif';
+      ctx.fillStyle = color;
+      ctx.textBaseline = 'top';
+      ctx.textAlign = align === 'right' ? 'right' : 'left';
+      ctx.fillText(text, x + (align === 'right' ? -6 : 6), 6);
+      ctx.restore();
+    }
+
+    // progress = altura de barras [0..1]; pulse = glow de la línea de mercado [0..1]
+    function draw(progress, pulse) {
+      ctx.clearRect(0, 0, W, H);
+      var pL = PAD.l, pR = W - PAD.r, pT = PAD.t, pB = H - PAD.b, plotH = pB - pT;
+
+      // Grilla horizontal tenue
+      ctx.strokeStyle = C.grid; ctx.lineWidth = 1;
+      for (var gy = 0; gy <= 4; gy++) {
+        var y = pT + plotH * gy / 4;
+        ctx.beginPath(); ctx.moveTo(pL, y); ctx.lineTo(pR, y); ctx.stroke();
+      }
+
+      // Relleno semitransparente bajo la zona "debajo de 312"
+      var xMkt = xPix(MKT);
+      ctx.fillStyle = 'rgba(10,132,255,0.05)';
+      ctx.fillRect(pL, pT, Math.min(xMkt, pR) - pL, plotH);
+
+      // Ticks de precio en el eje X
+      var ticks = [120, 160, 200, 240, 280, 320];
+      ticks.forEach(function (t) {
+        var x = xPix(t);
+        ctx.strokeStyle = C.grid; ctx.beginPath(); ctx.moveTo(x, pB); ctx.lineTo(x, pB + 4); ctx.stroke();
+        ctx.fillStyle = C.faint; ctx.font = '12px Inter, system-ui, sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+        ctx.fillText('$' + t, x, pB + 8);
+      });
+
+      // Barras
+      var bw = (pR - pL) / NB;
+      for (var i = 0; i < NB; i++) {
+        if (counts[i] === 0) continue;
+        var h = counts[i] / maxCount * plotH * progress;
+        var x0 = pL + i * bw;
+        var center = XMIN + (i + 0.5) / NB * (XMAX - XMIN);
+        var warm = center >= MKT;
+        var top = pB - h;
+        var grad = ctx.createLinearGradient(0, top, 0, pB);
+        if (warm) { grad.addColorStop(0, 'rgba(255,159,10,0.45)'); grad.addColorStop(1, 'rgba(255,159,10,0.95)'); }
+        else { grad.addColorStop(0, 'rgba(10,132,255,0.38)'); grad.addColorStop(1, 'rgba(10,132,255,0.92)'); }
+        ctx.fillStyle = grad;
+        roundedTopRect(x0 + 0.75, top, bw - 1.5, h, 2.5);
+      }
+
+      // Línea "Mi valuación" (fina, discreta)
+      vLine(xPix(OURS), pT, pB, 'rgba(48,209,88,0.55)', 1.5, [4, 4]);
+      tag(xPix(OURS), 'Mi valuación · USD 208', 'rgba(48,209,88,0.9)', 'left');
+
+      // Línea "Mercado · USD 312" (gruesa, protagonista, con glow opcional)
+      if (pulse > 0) {
+        ctx.save(); ctx.shadowColor = C.red; ctx.shadowBlur = 20 * pulse;
+        vLine(xMkt, pT, pB, C.red, 3, null);
+        ctx.restore();
+      } else {
+        vLine(xMkt, pT, pB, C.red, 3, null);
+      }
+      tag(xMkt, 'Mercado · USD 312', C.red, 'right');
+    }
+
+    // --- Estados y animación ---
+    var overlay = el.querySelector('[data-mc-overlay]');
+    var counterEl = el.querySelector('[data-mc-counter]');
+    var skipEl = el.querySelector('[data-mc-skip]');
+    var resultEl = el.querySelector('[data-mc-result]');
+    var pctEl = el.querySelector('[data-mc-pct]');
+    var leadEl = el.querySelector('[data-mc-lead]');
+    var footEl = el.querySelector('[data-mc-foot]');
+    var runBtn = el.querySelector('[data-mc-run]');
+    var rerunBtn = el.querySelector('[data-mc-rerun]');
+    var DUR = 2500, raf = null, state = 'idle';
+    var pctDec = (sim.pctBelow >= 100 ? 0 : 1);
+
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function showIdle() {
+      state = 'idle';
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
+      overlay.classList.remove('is-hidden');
+      counterEl.classList.remove('is-on');
+      skipEl.classList.remove('is-on');
+      resultEl.classList.remove('is-on'); resultEl.setAttribute('aria-hidden', 'true');
+      size(); draw(0, 0);
+    }
+
+    function reveal() {
+      state = 'done';
+      counterEl.classList.remove('is-on');
+      skipEl.classList.remove('is-on');
+      draw(1, 1);
+      resultEl.classList.add('is-on'); resultEl.setAttribute('aria-hidden', 'false');
+      leadEl.innerHTML = 'de los 10.000 escenarios queda por debajo del precio de mercado (USD 312)';
+      footEl.innerHTML = 'Mediana <b>USD ' + fin.fmt(sim.p50, 2) + '</b>' +
+        ' · rango P5–P95 <b>USD ' + fin.fmt(sim.p5, 2) + ' – ' + fin.fmt(sim.p95, 2) + '</b>';
+      var t0 = performance.now(), pDur = 900;
+      (function tick(now) {
+        var t = Math.min(1, (now - t0) / pDur);
+        pctEl.textContent = fin.fmt(sim.pctBelow * easeOut(t), pctDec) + '%';
+        if (t < 1) requestAnimationFrame(tick);
+        else pctEl.textContent = fin.fmt(sim.pctBelow, pctDec) + '%';
+      })(t0);
+    }
+
+    function run() {
+      state = 'running';
+      overlay.classList.add('is-hidden');
+      resultEl.classList.remove('is-on'); resultEl.setAttribute('aria-hidden', 'true');
+      counterEl.classList.add('is-on');
+      skipEl.classList.add('is-on');
+      size();
+      var start = performance.now();
+      (function frame(now) {
+        var raw = Math.min(1, (now - start) / DUR);
+        var t = easeOut(raw);
+        draw(t, 0);
+        counterEl.textContent = fin.fmt(Math.floor(10000 * t), 0);
+        if (raw < 1) { raf = requestAnimationFrame(frame); }
+        else { raf = null; counterEl.textContent = fin.fmt(10000, 0); reveal(); }
+      })(start);
+    }
+
+    function skip() {
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
+      counterEl.textContent = fin.fmt(10000, 0);
+      reveal();
+    }
+
+    runBtn.addEventListener('click', run);
+    rerunBtn.addEventListener('click', run);
+    skipEl.addEventListener('click', skip);
+    window.addEventListener('resize', function () {
+      size();
+      if (state === 'idle') draw(0, 0);
+      else if (state === 'done') draw(1, 1);
+    });
+
+    showIdle();
+  }
+
+  var SIMS = { reverseDcf: initReverseDcf, monteCarloSim: initMonteCarloSim };
 
   // ---- API: render perezoso por diapositiva ---------------------------------
   function renderForSlide(slideEl) {

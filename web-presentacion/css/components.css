@@ -330,3 +330,47 @@
 .rsim-read .t-blue { color: var(--blue-2); }
 .rsim-read .t-amber { color: var(--amber); }
 .rsim-read .is-danger-txt { color: var(--red); font-weight: 600; }
+
+/* ===== Simulador interactivo: Monte Carlo ================================== */
+.mcsim-slide .slide-title { font-size: 33px; }
+.mcsim { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+
+/* Escenario: el canvas del histograma + overlay del botón / contador */
+.mcsim-stage { position: relative; width: 100%; height: 300px; }
+.mcsim-canvas { display: block; width: 100%; height: 100%; }
+
+.mcsim-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  transition: opacity .4s var(--ease), transform .4s var(--ease); }
+.mcsim-overlay.is-hidden { opacity: 0; transform: scale(.92); pointer-events: none; }
+.mcsim-run { font: inherit; font-size: 22px; font-weight: 700; color: #fff; cursor: pointer;
+  padding: 18px 40px; border: none; border-radius: 999px; background: var(--grad-accent);
+  box-shadow: 0 8px 30px rgba(10,132,255,.40); transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
+.mcsim-run:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 12px 42px rgba(10,132,255,.58); }
+
+.mcsim-counter { position: absolute; left: 50%; top: 4px; transform: translateX(-50%);
+  font-size: 30px; font-weight: 800; letter-spacing: -.02em; color: var(--fg);
+  font-variant-numeric: tabular-nums; opacity: 0; transition: opacity .3s ease; pointer-events: none; }
+.mcsim-counter::after { content: ' escenarios'; font-size: 16px; font-weight: 600; color: var(--fg-3); }
+.mcsim-counter.is-on { opacity: 1; }
+
+.mcsim-skip { position: absolute; right: 2px; bottom: 0; font: inherit; font-size: 13px; color: var(--fg-3);
+  background: none; border: none; cursor: pointer; text-decoration: underline; opacity: 0;
+  transition: opacity .3s ease; pointer-events: none; }
+.mcsim-skip.is-on { opacity: 1; pointer-events: auto; }
+.mcsim-skip:hover { color: var(--fg-2); }
+
+/* Resultado (reveal al terminar la animación) */
+.mcsim-result { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px;
+  opacity: 0; transform: translateY(8px); transition: opacity .5s var(--ease), transform .5s var(--ease);
+  pointer-events: none; }
+.mcsim-result.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.mcsim-pct { font-size: 66px; font-weight: 800; line-height: 1; letter-spacing: -.03em;
+  background: var(--grad-blue); -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-variant-numeric: tabular-nums; }
+.mcsim-lead { font-size: 18px; line-height: 1.35; color: var(--fg-2); max-width: 740px; }
+.mcsim-foot { font-size: 14px; color: var(--fg-3); margin-top: 2px; }
+.mcsim-foot b { color: var(--fg-2); font-weight: 700; }
+.mcsim-rerun { margin-top: 10px; font: inherit; font-size: 14px; font-weight: 600; color: var(--fg-2);
+  cursor: pointer; padding: 8px 18px; border: 1px solid var(--stroke-2); border-radius: 999px;
+  background: var(--card); transition: background .2s ease, color .2s ease; }
+.mcsim-rerun:hover { background: var(--card-2); color: var(--fg); }

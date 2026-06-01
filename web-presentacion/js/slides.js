@@ -186,6 +186,27 @@
         '</div>';
       }
 
+      case 'monteCarloSim': {
+        return '<div class="mcsim" data-sim="monteCarloSim"' + a + '>' +
+          // Escenario: histograma en canvas + overlay del botón / contador
+          '<div class="mcsim-stage">' +
+            '<canvas class="mcsim-canvas" data-mc-canvas></canvas>' +
+            '<div class="mcsim-overlay" data-mc-overlay>' +
+              '<button class="mcsim-run" type="button" data-mc-run>Correr 10.000 escenarios</button>' +
+            '</div>' +
+            '<div class="mcsim-counter" data-mc-counter aria-hidden="true"></div>' +
+            '<button class="mcsim-skip" type="button" data-mc-skip aria-hidden="true">saltar al resultado</button>' +
+          '</div>' +
+          // Resultado (oculto hasta terminar la animación)
+          '<div class="mcsim-result" data-mc-result aria-hidden="true">' +
+            '<div class="mcsim-pct" data-mc-pct>0%</div>' +
+            '<div class="mcsim-lead" data-mc-lead></div>' +
+            '<div class="mcsim-foot" data-mc-foot></div>' +
+            '<button class="mcsim-rerun" type="button" data-mc-rerun>↻ Correr de nuevo</button>' +
+          '</div>' +
+        '</div>';
+      }
+
       default:
         return '';
     }

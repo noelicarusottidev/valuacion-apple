@@ -187,6 +187,38 @@
     };
   }
 
+  // --- Monte Carlo triangular (para el simulador interactivo en vivo) ---------
+  // Tres variables INDEPENDIENTES, cada una triangular(min=pesimista, moda=base,
+  // max=optimista). Semilla fija → reproducible (siempre el mismo resultado).
+  // Reusa precioObjetivo() (la misma función validada por selfTest).
+  function monteCarloTri() {
+    var rnd = mulberry32(42);
+    function tri(a, c, b) { // triangular(low, mode, high)
+      var u = rnd(), fc = (c - a) / (b - a);
+      return u < fc ? a + Math.sqrt(u * (b - a) * (c - a)) : b - Math.sqrt((1 - u) * (b - a) * (b - c));
+    }
+    var N = 10000, prices = [];
+    for (var i = 0; i < N; i++) {
+      var w, g, m;
+      do {
+        w = tri(0.0824, 0.0924, 0.1024); // WACC: optimista–base–pesimista
+        g = tri(0.020, 0.030, 0.040);    // g terminal
+        m = tri(0.90, 1.00, 1.10);       // ajuste del FCF
+      } while (g >= w);                  // restricción: g < WACC (re-sortear)
+      prices.push(precioObjetivo(w, g, m));
+    }
+    var sorted = prices.slice().sort(function (a, b) { return a - b; });
+    var pct = function (p) { return sorted[Math.min(N - 1, Math.floor(p * N))]; };
+    var below = 0;
+    for (var k = 0; k < N; k++) if (prices[k] < PRECIO_ACTUAL) below++;
+    return {
+      prices: prices,
+      p5: pct(0.05), p50: pct(0.50), p95: pct(0.95),
+      pctBelow: below / N * 100,
+      market: PRECIO_ACTUAL, n: N
+    };
+  }
+
   // --- selfTest: valida la fidelidad del modelo -------------------------------
   function selfTest() {
     var ok = true;
@@ -226,6 +258,7 @@
     valorTerminal: valorTerminal, upsidePct: upsidePct,
     gridWaccG: gridWaccG, gridUpsideG: gridUpsideG, gridWaccBetaErp: gridWaccBetaErp,
     escenarios: escenarios, tornado: tornado, footballField: footballField, monteCarlo: monteCarlo,
+    monteCarloTri: monteCarloTri,
     selfTest: selfTest, fmt: fmt
   };
 })();

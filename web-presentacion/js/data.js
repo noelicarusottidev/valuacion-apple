@@ -495,17 +495,13 @@
     ]
   });
 
-  // 34 — Monte Carlo
+  // 34 — Monte Carlo (simulador interactivo en vivo)
   slides.push({
-    layout: 'split', footer: '27',
-    title: 'Simulación de Monte Carlo', subtitle: '10.000 valuaciones, una distribución',
-    right: [ { type: 'chart', chartId: 'monteCarlo', caption: 'Distribución del precio objetivo simulado (10.000 corridas)' } ],
-    left: [
-      { type: 'stats', cols: 2, items: [
-        { value: 'USD 207,9', label: 'Precio mediano (P50)', accent: 'green' },
-        { value: '0,3%', label: 'P(valor justo > precio de mercado)', accent: 'red' }
-      ]},
-      { type: 'note', accent: 'blue', title: 'Intervalo 90%', text: 'USD 169,8 – 262,5. Dejamos variar WACC, g y un multiplicador del FCF dentro de rangos razonables.' }
+    layout: 'stack', footer: '27', cls: 'mcsim-slide',
+    title: 'Simulación de Monte Carlo: 10.000 escenarios',
+    subtitle: '¿Cuántos quedan por debajo del precio de mercado?',
+    blocks: [
+      { type: 'monteCarloSim' }
     ]
   });
 
