@@ -487,8 +487,7 @@
             params: [['WACC', '9,24%'], ['g', '3,0%'], ['FCF', '100%']] },
           { name: 'Optimista', tone: 'green', price: 326.28, priceLabel: 'USD 326,28', ret: '+4,6%',
             params: [['WACC', '−1 pp'], ['g', '4,0%'], ['FCF', '+10%']] }
-        ],
-        note: 'Rangos definidos por nosotros' }
+        ] }
     ]
   });
 
