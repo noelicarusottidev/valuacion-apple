@@ -223,6 +223,8 @@
 .tv-emphasis .col-left .paragraph.small { font-size: 18px; }
 
 /* ---- Simulador DCF inverso (reverseSim) ----------------------------------- */
+/* Título a una sola línea (achicado para que entre el texto largo) */
+.rsim-slide .slide-title { font-size: 38px; white-space: nowrap; }
 .rsim { display: flex; flex-direction: column; gap: 10px; width: 100%; }
 
 /* Selector de modo (un solo experimento a la vez) */
@@ -269,7 +271,7 @@
 
 /* Cards de resultado: se muestra solo la del modo activo */
 .rsim-card { display: none; position: relative; overflow: hidden; border-radius: var(--radius);
-  border: 1px solid var(--stroke); padding: 14px 22px 14px;
+  border: 1px solid var(--stroke); padding: 14px 22px 38px;
   background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)); }
 .rsim-card.is-active { display: block; }
 .rsim-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
@@ -315,7 +317,7 @@
 .rsim-mark-impl.is-danger .rsim-mark-dot { border-color: var(--red); box-shadow: 0 0 0 3px rgba(255,69,58,.25); }
 .rsim-mark-line { display: block; width: 2px; height: 18px; background: var(--fg-3); margin: 0 auto; }
 .rsim-mark-lbl { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); white-space: nowrap;
-  font-size: 11px; font-weight: 600; color: var(--fg-3); }
+  font-size: 13px; font-weight: 600; color: var(--fg-3); }
 .rsim-mark-danger .rsim-mark-line { background: var(--red); }
 .rsim-mark-danger .rsim-mark-lbl { color: var(--red); }
 .rsim-mark-ref2 .rsim-mark-line { background: var(--blue-2); }

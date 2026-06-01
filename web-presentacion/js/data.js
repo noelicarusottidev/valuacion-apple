@@ -488,8 +488,8 @@
 
   // 33 — DCF inverso (simulador interactivo)
   slides.push({
-    layout: 'stack', footer: '26',
-    title: '¿Qué está descontando hoy el mercado?', subtitle: 'DCF inverso: del precio de mercado al supuesto que lo justifica',
+    layout: 'stack', footer: '26', cls: 'rsim-slide',
+    title: 'DCF inverso: ¿Qué está descontando hoy el mercado?',
     blocks: [
       { type: 'reverseSim', rfMark: 0.0432, pbiMark: 0.0425 }
     ]
