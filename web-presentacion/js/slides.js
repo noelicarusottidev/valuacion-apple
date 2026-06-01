@@ -207,6 +207,49 @@
         '</div>';
       }
 
+      case 'scenarios': {
+        var ax = b.axis || { min: 120, max: 340, ticks: [] };
+        var span = (ax.max - ax.min) || 1;
+        var posPct = function (v) { return ((v - ax.min) / span * 100).toFixed(2); };
+        // Tarjetas (una por escenario)
+        var scards = b.items.map(function (it) {
+          var params = (it.params || []).map(function (p) {
+            return '<li><span>' + esc(p[0]) + '</span><b>' + esc(p[1]) + '</b></li>';
+          }).join('');
+          var neg = /^[−-]/.test(String(it.ret));
+          return '<article class="scn-card tone-' + esc(it.tone) + (it.base ? ' is-base' : '') + '">' +
+            '<header class="scn-card-head">' +
+              '<span class="scn-name">' + esc(it.name) + '</span>' +
+              (it.base ? '<span class="scn-badge">caso base</span>' : '') +
+            '</header>' +
+            '<div class="scn-price">' + esc(it.priceLabel) + '</div>' +
+            '<div class="scn-ret ' + (neg ? 'is-neg' : 'is-pos') + '">' +
+              '<span class="scn-arrow">' + (neg ? '▾' : '▴') + '</span>' + esc(it.ret) +
+              '<span class="scn-cap">vs. mercado</span>' +
+            '</div>' +
+            '<ul class="scn-params">' + params + '</ul>' +
+          '</article>';
+        }).join('');
+        // Número-línea: marcador de mercado + un punto por escenario + eje
+        var dots = b.items.map(function (it) {
+          return '<span class="scn-dot tone-' + esc(it.tone) + '" style="left:' + posPct(it.price) + '%">' +
+            '<i></i><em>' + esc(it.priceLabel.replace('USD ', '')) + '</em></span>';
+        }).join('');
+        var mkt = '<span class="scn-mkt" style="left:' + posPct(b.market) + '%">' +
+          '<em>' + esc(b.marketLabel || ('Mercado · USD ' + b.market)) + '</em><i></i></span>';
+        var ticks = (ax.ticks || []).map(function (t) {
+          return '<span class="scn-tick" style="left:' + posPct(t) + '%">$' + t + '</span>';
+        }).join('');
+        return '<div class="scn"' + a + '>' +
+          '<div class="scn-cards">' + scards + '</div>' +
+          '<div class="scn-range">' +
+            '<div class="scn-track">' + mkt + dots + '</div>' +
+            '<div class="scn-axis">' + ticks + '</div>' +
+          '</div>' +
+          (b.note ? '<div class="scn-note">' + esc(b.note) + '</div>' : '') +
+        '</div>';
+      }
+
       default:
         return '';
     }

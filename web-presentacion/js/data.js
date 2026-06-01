@@ -473,16 +473,22 @@
 
   // 32 — Escenarios
   slides.push({
-    layout: 'split', footer: '25',
-    title: 'Escenarios', subtitle: 'Base, pesimista y optimista',
-    right: [ { type: 'chart', chartId: 'scenarios', caption: 'Precio objetivo por escenario · línea = precio de mercado' } ],
-    left: [
-      { type: 'table', head: ['Escenario', 'Precio', 'Retorno', 'Parámetros'], rows: [
-        ['Pesimista', 'USD 145,85', '−53,3%', 'WACC +1pp · g 2,0% · FCF −10%'],
-        ['Base', 'USD 207,80', '−33,4%', 'WACC 9,24% · g 3,0% · FCF 100%'],
-        ['Optimista', 'USD 326,28', '+4,6%', 'WACC −1pp · g 4,0% · FCF +10%']
-      ], highlight: [1] },
-      { type: 'source', text: 'Rangos definidos por nosotros' }
+    layout: 'stack', footer: '25', cls: 'scn-slide',
+    title: 'Escenarios',
+    subtitle: 'Pesimista, base y optimista frente al precio de mercado',
+    blocks: [
+      { type: 'scenarios',
+        market: 312.06, marketLabel: 'Mercado · USD 312',
+        axis: { min: 120, max: 340, ticks: [120, 160, 200, 240, 280, 320] },
+        items: [
+          { name: 'Pesimista', tone: 'red', price: 145.85, priceLabel: 'USD 145,85', ret: '−53,3%',
+            params: [['WACC', '+1 pp'], ['g', '2,0%'], ['FCF', '−10%']] },
+          { name: 'Base', tone: 'blue', base: true, price: 207.80, priceLabel: 'USD 207,80', ret: '−33,4%',
+            params: [['WACC', '9,24%'], ['g', '3,0%'], ['FCF', '100%']] },
+          { name: 'Optimista', tone: 'green', price: 326.28, priceLabel: 'USD 326,28', ret: '+4,6%',
+            params: [['WACC', '−1 pp'], ['g', '4,0%'], ['FCF', '+10%']] }
+        ],
+        note: 'Rangos definidos por nosotros' }
     ]
   });
 

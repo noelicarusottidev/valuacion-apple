@@ -381,3 +381,64 @@
   cursor: pointer; padding: 8px 18px; border: 1px solid var(--stroke-2); border-radius: 999px;
   background: var(--card); transition: background .2s ease, color .2s ease; }
 .mcsim-rerun:hover { background: var(--card-2); color: var(--fg); }
+
+/* ===== Slide Escenarios (tarjetas + número-línea) ========================= */
+.scn { display: flex; flex-direction: column; gap: 26px; width: 100%; }
+
+/* Tarjetas — una por escenario, acento de color a la izquierda */
+.scn-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+.scn-card { position: relative; overflow: hidden; border-radius: var(--radius);
+  background: var(--card); border: 1px solid var(--stroke); padding: 20px 22px 16px;
+  display: flex; flex-direction: column; gap: 10px; box-shadow: 0 14px 34px rgba(0,0,0,.28); }
+.scn-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+.scn-card.tone-red::before { background: var(--grad-red); }
+.scn-card.tone-blue::before { background: var(--grad-blue); }
+.scn-card.tone-green::before { background: var(--grad-green); }
+.scn-card.is-base { background: var(--card-2); border-color: rgba(90,200,250,.35);
+  box-shadow: 0 18px 46px rgba(10,132,255,.20); }
+
+.scn-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 24px; }
+.scn-name { font-size: 16px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.scn-card.tone-red .scn-name { color: #ff8079; }
+.scn-card.tone-blue .scn-name { color: var(--blue-2); }
+.scn-card.tone-green .scn-name { color: #5cf08a; }
+.scn-badge { font-size: 10.5px; font-weight: 700; color: var(--blue-2); background: var(--blue-soft);
+  border: 1px solid rgba(90,200,250,.32); padding: 3px 9px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: .05em; }
+
+.scn-price { font-size: 42px; font-weight: 800; letter-spacing: -.02em; color: var(--fg); line-height: 1; }
+.scn-ret { display: inline-flex; align-items: baseline; gap: 6px; align-self: flex-start;
+  font-size: 17px; font-weight: 800; padding: 5px 12px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+.scn-arrow { font-size: 13px; }
+.scn-cap { font-size: 10.5px; font-weight: 600; color: var(--fg-3); text-transform: uppercase; letter-spacing: .05em; }
+.scn-ret.is-neg { color: #ff8079; background: var(--red-soft); }
+.scn-ret.is-pos { color: #5cf08a; background: var(--green-soft); }
+
+.scn-params { display: flex; flex-direction: column; gap: 7px; margin-top: auto;
+  border-top: 1px solid var(--stroke); padding-top: 12px; }
+.scn-params li { display: flex; align-items: center; justify-content: space-between; }
+.scn-params span { color: var(--fg-3); text-transform: uppercase; letter-spacing: .05em; font-size: 12px; font-weight: 700; }
+.scn-params b { color: var(--fg-2); font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; }
+
+/* Número-línea de precios con marcador de mercado */
+.scn-range { position: relative; padding: 32px 52px 0; }
+.scn-track { position: relative; height: 8px; border-radius: 999px;
+  background: linear-gradient(90deg, rgba(90,200,250,.45), rgba(10,132,255,.5) 38%, rgba(150,92,246,.45) 68%, rgba(255,159,10,.55)); }
+.scn-dot { position: absolute; top: 50%; transform: translate(-50%, -50%); }
+.scn-dot i { display: block; width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--bg-1); }
+.scn-dot.tone-red i { background: var(--red); box-shadow: 0 0 0 3px rgba(255,69,58,.28); }
+.scn-dot.tone-blue i { background: var(--blue); box-shadow: 0 0 0 4px rgba(10,132,255,.32); }
+.scn-dot.tone-green i { background: var(--green); box-shadow: 0 0 0 3px rgba(48,209,88,.28); }
+.scn-dot em { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+  font-style: normal; font-size: 15px; font-weight: 700; color: var(--fg-2); font-variant-numeric: tabular-nums; }
+.scn-mkt { position: absolute; top: -16px; bottom: -16px; width: 0; }
+.scn-mkt i { position: absolute; top: 0; bottom: 0; left: 0; width: 3px; transform: translateX(-50%);
+  background: var(--red); border-radius: 2px; box-shadow: 0 0 14px rgba(255,69,58,.65); }
+.scn-mkt em { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 7px;
+  white-space: nowrap; font-style: normal; font-size: 14px; font-weight: 800; color: #ff8079;
+  text-shadow: 0 1px 8px rgba(0,0,0,.5); }
+.scn-axis { position: relative; height: 18px; margin-top: 36px; }
+.scn-tick { position: absolute; transform: translateX(-50%); font-size: 12px; color: var(--fg-faint);
+  font-variant-numeric: tabular-nums; }
+
+.scn-note { font-size: 13px; color: var(--fg-faint); text-align: right; margin-top: 2px; }
