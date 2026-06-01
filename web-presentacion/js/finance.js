@@ -187,36 +187,109 @@
     };
   }
 
-  // --- Monte Carlo triangular (para el simulador interactivo en vivo) ---------
-  // Tres variables INDEPENDIENTES, cada una triangular(min=pesimista, moda=base,
-  // max=optimista). Semilla fija → reproducible (siempre el mismo resultado).
-  // Reusa precioObjetivo() (la misma función validada por selfTest).
+  // --- Monte Carlo multivariado (para el simulador interactivo en vivo) -------
+  // Sortea (WACC, g terminal, multiplicador FCF) desde una NORMAL MULTIVARIADA
+  // centrada en los valores base, con correlación parcial realista entre las
+  // tres variables. Semilla fija → reproducible. Reusa precioObjetivo() (la
+  // misma función validada por selfTest); el modelo de valuación no cambia.
+  //
+  // Calibración (σ por la naturaleza de cada variable, no por una regla uniforme):
+  //   σ_WACC = 0,01  — el costo de capital se mueve con las tasas (±1 pp anual es normal).
+  //   σ_g    = 0,005 — la g de perpetuidad es estructuralmente acotada (techo ≈ crec. nominal).
+  //   σ_FCF  = 0,06  — el multiplicador escala el flujo base de TODA la proyección y por ende el
+  //                    valor terminal (~77% del valor): ±6% estructural es más defendible que ±10%
+  //                    para la generación de caja perpetua de una empresa tan estable como Apple.
+  // Correlaciones: corr(g,FCF)=+0,6 · corr(WACC,g)=−0,3 · corr(WACC,FCF)=−0,3.
   function monteCarloTri() {
-    var rnd = mulberry32(42);
-    function tri(a, c, b) { // triangular(low, mode, high)
-      var u = rnd(), fc = (c - a) / (b - a);
-      return u < fc ? a + Math.sqrt(u * (b - a) * (c - a)) : b - Math.sqrt((1 - u) * (b - a) * (b - c));
+    var mu = [WACC, G_BASE, 1.00];
+    var sd = [0.01, 0.005, 0.06];
+    var corr = [
+      [1.0, -0.3, -0.3],
+      [-0.3, 1.0, 0.6],
+      [-0.3, 0.6, 1.0]
+    ];
+    // Covarianza Σ[i][j] = corr[i][j]·σ_i·σ_j  (diagonal = σ_i²)
+    var cov = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    for (var a = 0; a < 3; a++) for (var b = 0; b < 3; b++) cov[a][b] = corr[a][b] * sd[a] * sd[b];
+
+    // Cholesky 3×3 a mano: Σ = L·Lᵀ (L triangular inferior). Verifica que Σ sea
+    // definida positiva; si no lo fuera, avisa y degrada a L diagonal (independiente).
+    var L = cholesky3(cov);
+    if (!L) {
+      console.warn('[monteCarloTri] Σ no es definida positiva: degradando a muestreo independiente.');
+      L = [[sd[0], 0, 0], [0, sd[1], 0], [0, 0, sd[2]]];
     }
-    var N = 10000, prices = [];
+
+    var rnd = mulberry32(42);
+    function randn() { // normal estándar (Box-Muller)
+      var u = 0, v = 0;
+      while (u === 0) u = rnd();
+      while (v === 0) v = rnd();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+
+    // Spread mínimo (WACC − g) ≥ 1,5 pp. Un spread perpetuo menor implicaría un
+    // crecimiento insosteniblemente cercano al costo de capital (lo mismo que el
+    // modelo marca inviable en la g implícita) y haría explotar el valor terminal
+    // de Gordon FCFF·(1+g)/(WACC−g): son artefactos de dividir por casi cero, no
+    // escenarios económicos válidos. Subsume la restricción g < WACC.
+    var MIN_SPREAD = 0.015;
+    var N = 10000, prices = [], draws = 0, discards = 0;
     for (var i = 0; i < N; i++) {
       var w, g, m;
       do {
-        w = tri(0.0824, 0.0924, 0.1024); // WACC: optimista–base–pesimista
-        g = tri(0.020, 0.030, 0.040);    // g terminal
-        m = tri(0.90, 1.00, 1.10);       // ajuste del FCF
-      } while (g >= w);                  // restricción: g < WACC (re-sortear)
+        draws++;
+        var z0 = randn(), z1 = randn(), z2 = randn();
+        w = mu[0] + L[0][0] * z0;
+        g = mu[1] + L[1][0] * z0 + L[1][1] * z1;
+        m = mu[2] + L[2][0] * z0 + L[2][1] * z1 + L[2][2] * z2;
+        if (w - g < MIN_SPREAD) discards++;
+      } while (w - g < MIN_SPREAD);
       prices.push(precioObjetivo(w, g, m));
     }
-    var sorted = prices.slice().sort(function (a, b) { return a - b; });
+
+    var sorted = prices.slice().sort(function (x, y) { return x - y; });
     var pct = function (p) { return sorted[Math.min(N - 1, Math.floor(p * N))]; };
     var below = 0;
     for (var k = 0; k < N; k++) if (prices[k] < PRECIO_ACTUAL) below++;
+    var p5 = pct(0.05), p50 = pct(0.50), p95 = pct(0.95), pctBelow = below / N * 100;
+    var discardRate = discards / draws * 100;
+
+    // Reporte en consola (y aviso si el descarte combinado es alto)
+    console.log('[monteCarloTri] N=' + N +
+      ' · p5=' + fmt(p5, 2) + ' · p50=' + fmt(p50, 2) + ' · p95=' + fmt(p95, 2) +
+      ' · pctBelow(312)=' + fmt(pctBelow, 1) + '%' +
+      ' · descarte (g≥w + spread<1,5pp)=' + fmt(discardRate, 2) + '%');
+    if (discardRate > 8) {
+      console.warn('[monteCarloTri] Tasa de descarte alta (' + fmt(discardRate, 2) +
+        '%): reconsiderar el umbral de spread o los σ (podría sesgar la distribución).');
+    }
+
     return {
       prices: prices,
-      p5: pct(0.05), p50: pct(0.50), p95: pct(0.95),
-      pctBelow: below / N * 100,
+      p5: p5, p50: p50, p95: p95,
+      pctBelow: pctBelow,
       market: PRECIO_ACTUAL, n: N
     };
+  }
+
+  // Cholesky 3×3: devuelve L (triangular inferior) tal que L·Lᵀ = A, o null si A
+  // no es definida positiva (algún término bajo la raíz ≤ 0).
+  function cholesky3(A) {
+    var L = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    for (var i = 0; i < 3; i++) {
+      for (var j = 0; j <= i; j++) {
+        var s = A[i][j];
+        for (var k = 0; k < j; k++) s -= L[i][k] * L[j][k];
+        if (i === j) {
+          if (s <= 0) return null;
+          L[i][j] = Math.sqrt(s);
+        } else {
+          L[i][j] = s / L[j][j];
+        }
+      }
+    }
+    return L;
   }
 
   // --- selfTest: valida la fidelidad del modelo -------------------------------
