@@ -11,18 +11,17 @@
 
   /* --- Datos numéricos exactos para los gráficos (del notebook) --------------- */
 
-  // Múltiplos vs pares — output de la celda 10 del notebook
+  // Múltiplos vs pares — P/E, EV/EBITDA y EV/FCF (TTM, may-2026)
   var MULTIPLES = {
-    metrics: ['P/E (TTM)', 'EV/EBITDA', 'P/S (TTM)', 'P/B'],
+    metrics: ['P/E (TTM)', 'EV/EBITDA', 'EV/FCF'],
     companies: [
-      { ticker: 'AAPL',  name: 'Apple Inc.',            mktcap: '4.583,3', pe: 37.7, evebitda: 28.8, ps: 10.2, pb: 43.0, marginOp: '32,3%', roe: '141,5%', target: true },
-      { ticker: 'MSFT',  name: 'Microsoft Corporation', mktcap: '3.344,6', pe: 26.8, evebitda: 18.4, ps: 10.5, pb: 8.1,  marginOp: '46,3%', roe: '34,0%' },
-      { ticker: 'GOOGL', name: 'Alphabet Inc.',         mktcap: '4.608,0', pe: 29.0, evebitda: 28.4, ps: 10.9, pb: 9.6,  marginOp: '36,1%', roe: '38,9%' },
-      { ticker: 'META',  name: 'Meta Platforms, Inc.',  mktcap: '1.605,6', pe: 23.0, evebitda: 14.7, ps: 7.5,  pb: 6.6,  marginOp: '40,6%', roe: '32,9%' },
-      { ticker: 'AMZN',  name: 'Amazon.com, Inc.',      mktcap: '2.911,3', pe: 31.5, evebitda: 19.3, ps: 3.9,  pb: 6.6,  marginOp: '13,1%', roe: '24,3%' }
+      { ticker: 'AAPL',  name: 'Apple Inc.',            pe: 37.7, evebitda: 28.8, evfcf: 33, target: true },
+      { ticker: 'MSFT',  name: 'Microsoft Corp.',       pe: 26.8, evebitda: 18.4, evfcf: 46 },
+      { ticker: 'GOOGL', name: 'Alphabet Inc.',         pe: 29.0, evebitda: 28.4, evfcf: 70 },
+      { ticker: 'META',  name: 'Meta Platforms',        pe: 23.0, evebitda: 14.7, evfcf: 32 }
     ],
-    // promedio de pares (sin AAPL) por métrica — celda 10
-    avg: { pe: 27.6, evebitda: 20.2, ps: 8.2, pb: 7.7 }
+    // promedio de pares (sin AAPL) por métrica
+    avg: { pe: 26.3, evebitda: 20.5, evfcf: 49.3 }
   };
 
   // Regresión beta (CAPM) — celda 19/20: slope, intercept, R², n, y 5 puntos reales (SP500, AAPL)
@@ -209,12 +208,14 @@
   // 11 — Apple vs pares
   slides.push({
     layout: 'split', footer: '08',
-    title: 'Apple vs pares (MSFT, GOOGL, META, AMZN)', subtitle: 'Apple cotiza con prima en casi todos los múltiplos',
-    right: [ { type: 'chart', chartId: 'multiples', caption: 'Múltiplos de valuación · línea punteada = promedio de pares' } ],
+    title: 'Apple vs pares (MSFT, GOOGL, META)',
+    subtitle: 'Prima en P/E y EV/EBITDA — pero el EV/FCF cuenta otra historia',
+    right: [ { type: 'chart', chartId: 'multiples', caption: 'Múltiplos de valuación (TTM, may-2026) · EV/FCF de MSFT y GOOGL comprimido por capex en IA; Apple invierte en IA vía I+D (récord histórico, >10% de ingresos), no capex.' } ],
     left: [
       { type: 'bullets', items: [
-        { label: 'Qué muestra', text: 'En P/E, EV/EBITDA y P/B, Apple aparece a la derecha del promedio de pares: el mercado paga más por cada peso de ganancia, EBITDA o patrimonio.' },
-        { label: 'Por qué importa', text: 'Una prima solo se justifica con mejor crecimiento, márgenes y foso competitivo. El FFD pone esa expectativa a prueba con números.' }
+        { label: 'P/E y EV/EBITDA', text: 'Apple cotiza por encima de sus pares: el mercado paga más por cada peso de ganancia y de EBITDA.' },
+        { label: 'El giro del EV/FCF', text: 'Acá MSFT y GOOGL aparecen más caras que Apple. Google, Meta y Microsoft están reinvirtiendo muchísimo en CapEx físico —data centers, servidores, GPUs, infraestructura cloud e IA—: menos caja libre, mayor EV/FCF.' },
+        { label: 'La diferencia de Apple', text: 'Apple invierte en IA vía I+D (récord histórico, >10% de ingresos), no CapEx: su caja libre se mantiene alta y su EV/FCF, contenido.' }
       ]}
     ]
   });

@@ -113,24 +113,65 @@
 
     multiples: function (ctx) {
       var d = window.PRES_DATA.multiples;
-      var metrics = ['pe', 'evebitda', 'ps', 'pb'];
-      var labels = ['P/E (TTM)', 'EV/EBITDA', 'P/S (TTM)', 'P/B'];
+      var keys = ['pe', 'evebitda', 'evfcf'];
+      var labels = d.metrics; // ['P/E (TTM)', 'EV/EBITDA', 'EV/FCF']
+      // Color propio y consistente por empresa; AAPL la más destacada.
+      var FILL = { AAPL: 'rgba(10,132,255,0.95)', MSFT: 'rgba(90,200,250,0.72)', GOOGL: 'rgba(155,135,245,0.72)', META: 'rgba(246,162,60,0.74)' };
+      var LINE = { AAPL: '#0a84ff', MSFT: '#5ac8fa', GOOGL: '#9b87f5', META: '#f6a23c' };
       var datasets = d.companies.map(function (co) {
-        var isA = co.target;
+        var isA = !!co.target;
         return {
           label: co.ticker,
-          data: metrics.map(function (k) { return co[k]; }),
-          backgroundColor: isA ? C.blue : 'rgba(150,150,160,0.35)',
-          borderColor: isA ? C.blue : 'rgba(150,150,160,0.7)',
-          borderWidth: isA ? 2 : 1, borderRadius: 4
+          data: keys.map(function (k) { return co[k]; }),
+          backgroundColor: FILL[co.ticker] || 'rgba(150,150,160,0.55)',
+          borderColor: LINE[co.ticker] || 'rgba(150,150,160,0.85)',
+          borderWidth: isA ? 2.5 : 1, borderRadius: 5, borderSkipped: false,
+          categoryPercentage: 0.72, barPercentage: 0.86, _isA: isA
         };
       });
+      // Autoescala con espacio para las etiquetas (GOOGL ~70x entra cómodo)
+      var maxV = 0;
+      d.companies.forEach(function (co) { keys.forEach(function (k) { if (co[k] > maxV) maxV = co[k]; }); });
+      var ymax = Math.ceil(maxV * 1.12 / 5) * 5;
+
+      // Plugin: valor numérico ("37x") encima de cada barra
+      var valueLabels = {
+        id: 'multiplesValueLabels',
+        afterDatasetsDraw: function (chart) {
+          var c2 = chart.ctx;
+          chart.data.datasets.forEach(function (ds, di) {
+            var meta = chart.getDatasetMeta(di);
+            if (meta.hidden) return;
+            meta.data.forEach(function (bar, i) {
+              var v = ds.data[i]; if (v == null) return;
+              c2.save();
+              c2.fillStyle = ds._isA ? '#ffffff' : 'rgba(214,214,224,0.9)';
+              c2.font = (ds._isA ? '700 ' : '600 ') + '11px Inter, system-ui, sans-serif';
+              c2.textAlign = 'center'; c2.textBaseline = 'bottom';
+              c2.fillText(Math.round(v) + 'x', bar.x, bar.y - 3);
+              c2.restore();
+            });
+          });
+        }
+      };
+
       return new Chart(ctx, {
         type: 'bar',
         data: { labels: labels, datasets: datasets },
-        options: { responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: function (c) { return c.dataset.label + ': ' + c.parsed.y + 'x'; } } } },
-          scales: { x: axis(), y: axis({ beginAtZero: true, ticks: { callback: function (v) { return v + 'x'; } } }) } }
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          layout: { padding: { top: 14 } },
+          plugins: {
+            legend: { position: 'top', labels: { usePointStyle: true, padding: 16 } },
+            tooltip: { callbacks: { label: function (c) { return c.dataset.label + ': ' + c.parsed.y + 'x'; } } }
+          },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: C.text, font: { size: 13, weight: '600' } } },
+            y: { beginAtZero: true, suggestedMax: ymax, grid: { color: C.grid, drawBorder: false },
+                 ticks: { color: C.faint, callback: function (v) { return v + 'x'; } } }
+          }
+        },
+        plugins: [valueLabels]
       });
     },
 
