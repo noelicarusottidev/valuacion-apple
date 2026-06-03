@@ -135,6 +135,10 @@
     right: [ { type: 'chart', chartId: 'grossProfit', caption: 'Ventas vs. ganancia bruta (ilustrativo del mix narrado)' } ],
     left: [
       { type: 'lead', text: 'Servicios aporta casi tanta ganancia bruta como todo el iPhone, con la mitad de la facturación.' },
+      { type: 'stats', cols: 2, items: [
+        { value: '75%', label: 'Margen bruto · Servicios', accent: 'green' },
+        { value: '38%', label: 'Margen bruto · Productos', accent: 'blue' }
+      ]},
       { type: 'paragraph', text: 'Es el principal motor de rentabilidad de Apple — y lo que sostiene su prima de múltiplo.' }
     ]
   });

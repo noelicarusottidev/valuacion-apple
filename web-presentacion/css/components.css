@@ -992,10 +992,16 @@
 .src-slide .note-title { font-size: 18px; }
 .src-slide .note-text { font-size: 21px; line-height: 1.5; }
 
-/* ===== Slide "El dato que manda" (6): texto más grande, sin hueco ======== */
-.dato-slide .col-left { justify-content: center; gap: 26px; }
-.dato-slide .lead { font-size: 34px; line-height: 1.22; }
-.dato-slide .paragraph { font-size: 24px; line-height: 1.45; }
+/* ===== Slide "El dato que manda" (6): texto más grande + stats de margen = */
+.dato-slide .col-left { justify-content: center; gap: 22px; }
+.dato-slide .lead { font-size: 30px; line-height: 1.24; }
+.dato-slide .paragraph { font-size: 21px; line-height: 1.45; }
+.dato-slide .stats { gap: 16px; }
+.dato-slide .stat-card { padding: 24px 24px; border-radius: 20px; }
+.dato-slide .stat-value { font-size: 50px; line-height: 1; letter-spacing: -.02em; }
+.dato-slide .stat-card.accent-green .stat-value { color: #5cf08a; text-shadow: 0 0 30px rgba(48,209,88,.28); }
+.dato-slide .stat-card.accent-blue .stat-value { color: var(--blue-2); text-shadow: 0 0 30px rgba(90,200,250,.30); }
+.dato-slide .stat-label { font-size: 15px; line-height: 1.35; margin-top: 10px; }
 
 /* ===== Slide "La intuición del FFD" (20): cuerpo más grande (no el título) = */
 .ffd-slide .col-eyebrow { font-size: 15px; }
