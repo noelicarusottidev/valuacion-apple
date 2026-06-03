@@ -466,6 +466,27 @@
     ]
   });
 
+  // 41 — Conclusión (Precio ≠ Valor) — diseño dedicado, última slide
+  slides.push({
+    layout: 'stack', footer: '34', cls: 'conc-slide',
+    blocks: [
+      { type: 'conclusion',
+        corner: 'Apple Valuation',
+        eyebrow: 'Conclusión',
+        titleHtml: 'Precio ≠ <span class="conc-highlight">Valor</span>',
+        thesisHtml: 'El valor intrínseco de <strong>US$208</strong> no funciona como precio objetivo: funciona como el <strong>margen de seguridad</strong> que debería pedir el inversor.',
+        decisionLabel: 'Lectura final',
+        decisionHtml: 'Invertir a <span class="conc-highlight">US$312</span> implica validar un escenario optimista: crecimiento, expansión de <strong>Services</strong> y una monetización real de la <strong>IA</strong>.',
+        panelTitle: 'DCF vs Mercado',
+        panelBadge: 'Brecha de expectativas',
+        intrinsicLabel: 'Valor intrínseco', intrinsicValue: 'US$208',
+        marketLabel: 'Precio de mercado', marketValue: 'US$312',
+        gapTitle: 'Brecha observada', gapValue: '+US$104',
+        gapLeft: 'Seguridad', gapRight: 'Expectativas',
+        gapCopy: 'El mercado está pagando una prima relevante por expectativas de crecimiento futuro.' }
+    ]
+  });
+
   // Asigna num secuencial e id
   slides.forEach(function (s, i) {
     s.num = i + 1;

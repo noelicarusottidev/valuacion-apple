@@ -404,6 +404,39 @@
         '</div>';
       }
 
+      case 'conclusion': {
+        return '<div class="conc-grid"></div><div class="conc-orb"></div><div class="conc-halo"></div>' +
+          '<div class="conc-corner">' + esc(b.corner) + '</div>' +
+          '<div class="conc-content">' +
+            '<div class="conc-left">' +
+              '<div class="conc-eyebrow"' + anim(0) + '>' + esc(b.eyebrow) + '</div>' +
+              '<h1 class="conc-h1"' + anim(1) + '>' + b.titleHtml + '</h1>' +
+              '<p class="conc-thesis"' + anim(2) + '>' + b.thesisHtml + '</p>' +
+              '<div class="conc-decision-card"' + anim(3) + '>' +
+                '<div class="conc-decision-label">' + esc(b.decisionLabel) + '</div>' +
+                '<div class="conc-decision-text">' + b.decisionHtml + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="conc-right">' +
+              '<div class="conc-panel"' + anim(4) + '>' +
+                '<div class="conc-mini-title"><span>' + esc(b.panelTitle) + '</span><span class="conc-badge">' + esc(b.panelBadge) + '</span></div>' +
+                '<div class="conc-price-row">' +
+                  '<div class="conc-price-box"><div class="conc-price-label">' + esc(b.intrinsicLabel) + '</div><div class="conc-price conc-num">' + esc(b.intrinsicValue) + '</div></div>' +
+                  '<div class="conc-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+                  '<div class="conc-price-box conc-market"><div class="conc-price-label">' + esc(b.marketLabel) + '</div><div class="conc-price conc-num">' + esc(b.marketValue) + '</div></div>' +
+                '</div>' +
+                '<div class="conc-gapcard">' +
+                  '<div class="conc-gapcard-title"><span>' + esc(b.gapTitle) + '</span><span class="conc-num">' + esc(b.gapValue) + '</span></div>' +
+                  '<div class="conc-gap-labels"><span>' + esc(b.gapLeft) + '</span><span>' + esc(b.gapRight) + '</span></div>' +
+                  '<div class="conc-bar"><div class="conc-barfill"></div></div>' +
+                  '<div class="conc-gapcopy">' + esc(b.gapCopy) + '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="conc-footer-line"></div>';
+      }
+
       default:
         return '';
     }

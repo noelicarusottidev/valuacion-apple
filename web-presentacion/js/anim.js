@@ -17,7 +17,7 @@
   }
 
   // Selectores de cifras destacadas a las que aplicar count-up.
-  var SELECTOR = '.hero-value, .stat-value, .data-table td.num, .scn-price, .scn-ret-num, .pe-hero-num';
+  var SELECTOR = '.hero-value, .stat-value, .data-table td.num, .scn-price, .scn-ret-num, .pe-hero-num, .conc-num';
 
   // Parsea un texto es-AR y extrae su ÚNICO número. Devuelve null si hay 0 o ≥2
   // números (rangos, "—", miles con espacio, etc.) → en esos casos no se anima.
