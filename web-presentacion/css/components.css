@@ -1003,6 +1003,11 @@
 .dato-slide .stat-card.accent-blue .stat-value { color: var(--blue-2); text-shadow: 0 0 30px rgba(90,200,250,.30); }
 .dato-slide .stat-label { font-size: 15px; line-height: 1.35; margin-top: 10px; }
 
+/* ===== Slide "Sensibilidad WACC × g" (27): bullets más grandes =========== */
+.sensg-slide .col-left { justify-content: center; gap: 26px; }
+.sensg-slide .b-label { font-size: 17px; }
+.sensg-slide .b-text { font-size: 22px; line-height: 1.46; }
+
 /* ===== Slide "La intuición del FFD" (20): cuerpo más grande (no el título) = */
 .ffd-slide .col-eyebrow { font-size: 15px; }
 .ffd-slide .col-title { font-size: 30px; }

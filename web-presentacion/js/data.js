@@ -399,7 +399,7 @@
 
   // 31 — Sensibilidad WACC × g (heatmap precio)
   slides.push({
-    layout: 'split', footer: '24',
+    layout: 'split', footer: '24', cls: 'sensg-slide',
     title: 'Sensibilidad WACC × g', subtitle: 'El precio objetivo no es un punto: es una grilla',
     right: [ { type: 'heatmap', chartId: 'waccG', caption: 'Precio objetivo (USD) · verde = más alto, rojo = más bajo' } ],
     left: [
