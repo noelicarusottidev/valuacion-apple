@@ -445,31 +445,7 @@
     ]
   });
 
-  // 31 — Interpretación de la brecha (Modelo vs. Mercado) — diseño dedicado
-  slides.push({
-    layout: 'stack', footer: '33', cls: 'obj-slide gap-slide',
-    blocks: [
-      { type: 'gapAnalysis',
-        kicker: 'Apple · Valuación DCF',
-        titleSpan: 'Interpretación de la brecha:', titleRest: ' Modelo vs. Mercado',
-        thesis: { label: 'Lectura central', leftName: 'Modelo', leftValue: 'DCF', rightName: 'Mercado', rightValue: 'Premio' },
-        cards: [
-          { variant: 'rate', icon: 'rate', eyebrow: 'Diferencial en la tasa', title: 'El mercado descuenta con menor WACC',
-            metrics: [ { cls: 'model', label: 'Modelo', value: '9,24%' }, { cls: 'market', label: 'Mercado', value: '7,0–7,5%' } ],
-            copy: 'El mercado cobra menos riesgo: aplica una <strong>prima de calidad</strong> por caja neta, alto retorno sobre capital e ingresos recurrentes.' },
-          { variant: 'option', icon: 'option', eyebrow: 'Opción de compra', title: 'El mercado paga escenarios que el DCF no suma',
-            copy: 'El DCF es <strong>estrictamente lineal</strong>: incorpora flujos esperados, no apuestas asimétricas de alto impacto hasta que sean un hecho.',
-            quote: 'El precio incluye una "opción" sobre futuros posibles: súper-ciclo de ventas o boom en mercados emergentes.' },
-          { variant: 'demand', icon: 'demand', eyebrow: 'Factores extrafundamentales', title: 'Demanda estructural que sostiene el precio',
-            forces: [
-              { h: 'Flujos pasivos', p: 'Compras automáticas y ciegas por el enorme peso de Apple en los índices.' },
-              { h: 'Recompras de acciones', p: 'Apple funciona como un comprador permanente de su propia empresa.' }
-            ] }
-        ] }
-    ]
-  });
-
-  // 41 — Perspectiva 2026 (catalizadores vs. riesgos) — diseño dedicado
+  // 31 — Perspectiva 2026 (catalizadores vs. riesgos) — diseño dedicado
   slides.push({
     layout: 'stack', footer: '34', cls: 'p26-slide',
     blocks: [
