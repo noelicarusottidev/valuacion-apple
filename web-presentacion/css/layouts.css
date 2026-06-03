@@ -90,22 +90,59 @@
 .slide-foot .foot-num { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--fg-3); }
 
 /* ---- Portada -------------------------------------------------------------- */
-.layout-cover { justify-content: center; }
-.layout-cover .slide-body { justify-content: center; gap: 0; }
-.cover-eyebrow {
-  font-size: 15px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--blue-2); margin-bottom: 26px;
+.layout-cover { justify-content: center; overflow: hidden; }
+/* Atmósfera de portada: glow a la derecha (detrás del símbolo) + viñeta */
+.layout-cover {
+  background:
+    radial-gradient(60% 80% at 78% 42%, rgba(120,150,255,.10), transparent 60%),
+    radial-gradient(50% 60% at 86% 38%, rgba(191,90,242,.10), transparent 62%),
+    radial-gradient(120% 120% at 50% 120%, rgba(0,0,0,.45), transparent 60%);
 }
+/* Grilla tenue enmascarada hacia los bordes */
+.layout-cover .slide-body::before {
+  content: ''; position: absolute; inset: -40px; z-index: 0; pointer-events: none; opacity: .5;
+  background-image:
+    linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask: radial-gradient(circle at 70% 45%, #000, transparent 80%);
+          mask: radial-gradient(circle at 70% 45%, #000, transparent 80%);
+}
+.layout-cover .slide-body {
+  display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: center; gap: 56px;
+  justify-content: stretch; position: relative; z-index: 1;
+}
+.cover-main { display: flex; flex-direction: column; min-width: 0; }
+.cover-eyebrow {
+  font-size: 15px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--blue-2); margin-bottom: 26px; display: flex; align-items: center; gap: 14px;
+}
+.cover-eyebrow::before { content: ''; width: 34px; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--blue-2), transparent); }
 .cover-title {
-  font-size: 84px; font-weight: 800; letter-spacing: -0.035em; line-height: 0.98;
+  font-size: 100px; font-weight: 800; letter-spacing: -0.038em; line-height: 0.96;
   background: var(--grad-title);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-.cover-sub { margin-top: 18px; font-size: 27px; font-weight: 500; color: var(--fg-2); }
-.cover-lead { margin-top: 30px; max-width: 880px; font-size: 19px; line-height: 1.55; color: var(--fg-3); }
-.cover-meta { margin-top: 44px; display: flex; flex-direction: column; gap: 6px; }
+.cover-sub { margin-top: 20px; font-size: 27px; font-weight: 500; color: var(--fg-2); }
+.cover-lead { margin-top: 28px; max-width: 540px; font-size: 19px; line-height: 1.55; color: var(--fg-3); }
+.cover-meta { margin-top: 38px; padding-top: 20px; border-top: 1px solid var(--stroke);
+  display: flex; flex-direction: column; gap: 6px; max-width: 540px; }
 .cover-meta span { font-size: 15px; color: var(--fg-3); letter-spacing: 0.02em; }
 .cover-meta span:first-child { color: var(--fg-2); font-weight: 600; }
+
+/* Símbolo de Apple a la derecha, con halo y glow */
+.cover-art { position: relative; display: flex; align-items: center; justify-content: center; height: 100%; }
+.cover-art::before {
+  content: ''; position: absolute; z-index: 0; pointer-events: none;
+  width: 580px; height: 580px; border-radius: 50%;
+  background: radial-gradient(circle at 50% 45%, rgba(90,200,250,.22), rgba(191,90,242,.14) 42%, transparent 70%);
+  filter: blur(8px);
+}
+.apple-svg {
+  position: relative; z-index: 1; width: 330px; height: auto;
+  filter: drop-shadow(0 0 60px rgba(120,150,255,.22)) drop-shadow(0 24px 50px rgba(0,0,0,.55));
+}
 
 /* ---- Sección divisoria ---------------------------------------------------- */
 .layout-section { justify-content: center; }

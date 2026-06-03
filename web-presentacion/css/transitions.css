@@ -50,6 +50,12 @@
 @keyframes peRise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @keyframes peFade { from { opacity: 0; } to { opacity: 1; } }
 
+/* Portada: el símbolo entra último, con escala (cinematográfico); el halo respira. */
+.layout-cover.is-active .cover-art { animation: coverArtIn 1s var(--ease) 0.5s both; }
+.layout-cover.is-active .cover-art::before { animation: coverHalo 6s ease-in-out 1.4s infinite; }
+@keyframes coverArtIn { from { opacity: 0; transform: translateY(20px) scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes coverHalo { 0%, 100% { opacity: 0.75; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
+
 /* Respeto por usuarios que prefieren menos movimiento */
 @media (prefers-reduced-motion: reduce) {
   .slide, .slide.is-active,
@@ -57,6 +63,7 @@
   .hm-cell, .is-active .hm-cell,
   .sb-seg, .slide.is-active .sb-seg,
   .pe-seg, .pe-hero, .pe-ticks, .pe-ref, .pe-side-l, .pe-side-r, .pe-foot,
+  .cover-art, .layout-cover.is-active .cover-art, .layout-cover.is-active .cover-art::before,
   #progress, .nav-btn {
     transition: none !important;
     transform: none !important;
