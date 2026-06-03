@@ -234,7 +234,7 @@
     title: 'Decisión metodológica clave', subtitle: 'Por qué usamos el Beta de Blume, no el crudo',
     blocks: [
       { type: 'stats', cols: 2, items: [
-        { value: '1,084', label: 'β crudo (regresión OLS)', accent: 'blue' },
+        { value: '1,084', label: 'β crudo (regresión OLS) · antes del ajuste', accent: 'amber' },
         { value: '1,056', label: 'β de Blume → el que usamos en Ke', accent: 'green' }
       ]},
       { type: 'formula', html: 'Blume: 0,67 · β + 0,33' },
@@ -382,7 +382,7 @@
       { type: 'stats', cols: 3, items: [
         { value: 'USD 207,80', label: 'Precio objetivo (DCF, caso base)', accent: 'green' },
         { value: 'USD 312,06', label: 'Precio de mercado actual' },
-        { value: '−33,4%', label: 'Upside / (Downside)', accent: 'red' }
+        { value: '−33,4%', label: 'Upside / (Downside)', accent: 'amber' }
       ]}
     ]
   });

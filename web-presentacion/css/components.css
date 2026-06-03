@@ -958,7 +958,9 @@
 
 /* ===== Slide Blume (14): más grande y con color, llena el espacio ======== */
 .blume-slide .slide-body { gap: 26px; }
-.blume-slide .stats { gap: 20px; max-width: 920px; }
+.blume-slide .stats { gap: 20px; max-width: 920px; align-self: center; width: 100%; }
+.blume-slide .formula, .blume-slide .paragraph { align-self: center; }
+.blume-slide .stat-card.accent-amber .stat-value { color: var(--amber); text-shadow: 0 0 30px rgba(255,159,10,.30); }
 .blume-slide .stat-card { padding: 34px 30px; border-radius: 22px; }
 .blume-slide .stat-value { font-size: 58px; line-height: 1; letter-spacing: -.02em; }
 .blume-slide .stat-card.accent-blue .stat-value { color: var(--blue-2); text-shadow: 0 0 30px rgba(90,200,250,.30); }
@@ -973,8 +975,8 @@
 .ev-slide .note-title { font-size: 17px; }
 .ev-slide .note-text { font-size: 23px; line-height: 1.5; }
 .ev-slide .stats { gap: 22px; max-width: 1060px; }
-.ev-slide .stat-card { padding: 34px 28px; border-radius: 22px; }
+.ev-slide .stat-card { padding: 34px 28px; border-radius: 22px; display: flex; flex-direction: column; justify-content: center; }
 .ev-slide .stat-value { font-size: 56px; line-height: 1; letter-spacing: -.02em; }
 .ev-slide .stat-card.accent-green .stat-value { color: #5cf08a; text-shadow: 0 0 30px rgba(48,209,88,.28); }
-.ev-slide .stat-card.accent-red .stat-value { color: #ff8079; text-shadow: 0 0 30px rgba(255,69,58,.26); }
+.ev-slide .stat-card.accent-amber .stat-value { color: var(--amber); text-shadow: 0 0 30px rgba(255,159,10,.28); }
 .ev-slide .stat-label { font-size: 16.5px; line-height: 1.4; margin-top: 14px; }
