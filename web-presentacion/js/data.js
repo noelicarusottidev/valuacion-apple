@@ -206,6 +206,27 @@
     ]
   });
 
+  // 11 — La prima del P/E (qué pagás dentro del múltiplo)
+  slides.push({
+    layout: 'split', footer: '08',
+    title: 'La prima tiene fundamento, pero no es gratis',
+    subtitle: 'Apple (AAPL) · valoración por múltiplos',
+    left: [
+      { type: 'hero', value: '37,7x', label: 'P/E (TTM) actual', accent: 'amber',
+        sub: 'Los inversores pagan casi 38 veces el beneficio anual: compran por adelantado años de crecimiento futuro.' },
+      { type: 'note', accent: 'red', title: 'El riesgo',
+        text: 'Si el crecimiento decepciona, el múltiplo se comprime y arrastra la cotización, aunque el negocio siga siendo sólido.' }
+    ],
+    right: [
+      { type: 'splitBar', title: '¿Qué estás pagando dentro de ese 37,7x?',
+        segments: [
+          { pct: 64, tone: 'amber', label: 'Crecimiento futuro descontado en el precio', sub: 'la parte frágil del múltiplo' },
+          { pct: 36, tone: 'green', label: 'Beneficios que Apple ya genera hoy', sub: 'respaldo real: márgenes + ecosistema' }
+        ] },
+      { type: 'source', text: '¿La prima ya descuenta demasiado? → lo responde el Flujo de Fondos Descontado (DCF)' }
+    ]
+  });
+
   // 12 — Lectura crítica
   slides.push({
     layout: 'stack', footer: '09',

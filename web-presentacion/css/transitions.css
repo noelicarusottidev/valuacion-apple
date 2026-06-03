@@ -28,11 +28,20 @@
   to   { opacity: 1; transform: none; }
 }
 
+/* Barra apilada de proporción: los segmentos crecen desde la base al entrar.
+   Estado base = scaleY(1) (degradación elegante: si no anima, se ve completa). */
+.slide.is-active .sb-seg { animation: sbGrow 0.9s var(--ease) forwards; }
+.slide.is-active .sb-seg.tone-amber { animation-delay: 0.18s; }
+.slide.is-active .sb-seg.tone-green,
+.slide.is-active .sb-seg.tone-blue { animation-delay: 0.34s; }
+@keyframes sbGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
 /* Respeto por usuarios que prefieren menos movimiento */
 @media (prefers-reduced-motion: reduce) {
   .slide, .slide.is-active,
   [data-animate], .slide.is-active [data-animate],
   .hm-cell, .is-active .hm-cell,
+  .sb-seg, .slide.is-active .sb-seg,
   #progress, .nav-btn {
     transition: none !important;
     transform: none !important;

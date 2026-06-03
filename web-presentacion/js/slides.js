@@ -251,6 +251,20 @@
         '</div>';
       }
 
+      case 'splitBar': {
+        var totalPct = b.segments.reduce(function (s, x) { return s + (x.pct || 0); }, 0) || 100;
+        var segs = b.segments.map(function (s) {
+          return '<div class="sb-seg tone-' + esc(s.tone) + '" style="flex:0 0 ' + (s.pct / totalPct * 100) + '%">' +
+            '<div class="sb-lab">' + esc(s.label) + '</div>' +
+            (s.sub ? '<div class="sb-sub">' + esc(s.sub) + '</div>' : '') +
+          '</div>';
+        }).join('');
+        return '<div class="splitbar"' + a + '>' +
+          (b.title ? '<div class="sb-title">' + esc(b.title) + '</div>' : '') +
+          '<div class="sb-bar">' + segs + '</div>' +
+        '</div>';
+      }
+
       default:
         return '';
     }
