@@ -830,8 +830,8 @@
   letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
 .p26-eyebrow::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 22px var(--blue); }
 .p26-h1 { margin: 12px 0 0; font-size: 72px; line-height: .88; letter-spacing: -.075em; font-weight: 800; }
-.p26-title-gradient { display: block; background: linear-gradient(90deg, var(--fg) 0%, #b7d9ff 45%, var(--blue) 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 44px rgba(10,132,255,.14); }
+.p26-title-gradient { display: inline-block; padding-right: .14em; background: linear-gradient(90deg, var(--fg) 0%, #b7d9ff 45%, var(--blue) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent; }
 .p26-year-pill { flex: 0 0 auto; display: grid; place-items: center; width: 120px; height: 120px; border-radius: 50%;
   border: 1px solid rgba(245,245,247,.18);
   background: radial-gradient(circle at 35% 26%, rgba(255,255,255,.22), transparent 28%), linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.035));
@@ -869,6 +869,14 @@
 .p26-detail { margin: 0; color: rgba(245,245,247,.68); font-size: 15.5px; line-height: 1.26; font-weight: 500; letter-spacing: -.01em; }
 .p26-hl-blue { color: #9ccdff; }
 .p26-hl-risk { color: #ffe0a3; }
+
+/* Catalizadores tiene 2 ítems y sobra espacio → fuente/aire más grandes */
+.p26-catalysts .p26-items { gap: 22px; }
+.p26-catalysts .p26-item { padding: 22px 22px; grid-template-columns: 54px 1fr; }
+.p26-catalysts .p26-icon { width: 54px; height: 54px; border-radius: 17px; }
+.p26-catalysts .p26-icon svg { width: 30px; height: 30px; }
+.p26-catalysts .p26-lead { font-size: 28px; margin-bottom: 8px; }
+.p26-catalysts .p26-detail { font-size: 19.5px; line-height: 1.32; }
 .p26-footer { display: flex; align-items: center; justify-content: center; }
 .p26-thesis-line { position: relative; width: min(880px, 76%); height: 1px; background: linear-gradient(90deg, transparent, rgba(245,245,247,.22), transparent); }
 .p26-thesis-line::before { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 12px; height: 12px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 34px 12px rgba(10,132,255,.20); }
