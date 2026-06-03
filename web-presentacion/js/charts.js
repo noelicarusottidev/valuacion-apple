@@ -80,17 +80,50 @@
 
     businessMix: function (ctx) {
       var m = window.PRES_DATA.business.mix;
+      function vgrad(top, bot) {
+        return function (c) {
+          var a = c.chart.chartArea; if (!a) return bot;
+          var g = c.chart.ctx.createLinearGradient(0, a.top, 0, a.bottom);
+          g.addColorStop(0, top); g.addColorStop(1, bot); return g;
+        };
+      }
+      var pctLabels = {
+        id: 'bizValueLabels',
+        afterDatasetsDraw: function (chart) {
+          var c2 = chart.ctx;
+          chart.data.datasets.forEach(function (ds, di) {
+            var meta = chart.getDatasetMeta(di); if (meta.hidden) return;
+            meta.data.forEach(function (bar, i) {
+              var v = ds.data[i]; if (v == null) return;
+              c2.save();
+              c2.fillStyle = '#fff'; c2.font = '700 12px Inter, system-ui, sans-serif';
+              c2.textAlign = 'center'; c2.textBaseline = 'bottom';
+              c2.fillText(Math.round(v) + '%', bar.x, bar.y - 4);
+              c2.restore();
+            });
+          });
+        }
+      };
       return new Chart(ctx, {
         type: 'bar',
         data: {
           labels: m.map(function (s) { return s.seg; }),
           datasets: [
-            { label: '% de ventas', data: m.map(function (s) { return s.share; }), backgroundColor: C.blueSoft, borderColor: C.blue, borderWidth: 1.5, borderRadius: 6 },
-            { label: 'Margen bruto %', data: m.map(function (s) { return s.gm; }), backgroundColor: 'rgba(48,209,88,0.5)', borderColor: C.green, borderWidth: 1.5, borderRadius: 6 }
+            { label: '% de ventas', data: m.map(function (s) { return s.share; }),
+              backgroundColor: vgrad('rgba(10,132,255,0.35)', 'rgba(10,132,255,0.95)'), borderColor: C.blue, borderWidth: 0, borderRadius: 8, borderSkipped: false, categoryPercentage: 0.56, barPercentage: 0.82, maxBarThickness: 86 },
+            { label: 'Margen bruto %', data: m.map(function (s) { return s.gm; }),
+              backgroundColor: vgrad('rgba(48,209,88,0.32)', 'rgba(48,209,88,0.92)'), borderColor: C.green, borderWidth: 0, borderRadius: 8, borderSkipped: false, categoryPercentage: 0.56, barPercentage: 0.82, maxBarThickness: 86 }
           ]
         },
         options: { responsive: true, maintainAspectRatio: false,
-          scales: { x: axis(), y: axis({ beginAtZero: true, ticks: { callback: function (v) { return v + '%'; } } }) } }
+          layout: { padding: { top: 16 } },
+          plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 16 } },
+            tooltip: { callbacks: { label: function (c) { return c.dataset.label + ': ' + c.parsed.y + '%'; } } } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: C.text, font: { size: 14, weight: '600' } } },
+            y: { beginAtZero: true, suggestedMax: 100, grid: { color: C.grid, drawBorder: false }, ticks: { color: C.faint, stepSize: 25, callback: function (v) { return v + '%'; } } }
+          } },
+        plugins: [pctLabels]
       });
     },
 
