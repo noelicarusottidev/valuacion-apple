@@ -529,12 +529,12 @@
 .pe-side { display: flex; height: 100%; align-items: center; }
 .pe-side-l { justify-content: flex-end; }
 .pe-side-r { justify-content: flex-start; }
-.pe-interp { max-width: 32ch; font-size: 20px; line-height: 1.5; color: var(--fg-2); text-align: right; }
+.pe-interp { max-width: 32ch; font-size: 24px; line-height: 1.5; color: var(--fg-2); text-align: right; }
 .pe-risk { max-width: 34ch; display: flex; gap: 13px; padding: 16px 18px; border-radius: 14px;
   background: rgba(224,121,95,.08); border: 1px solid rgba(255,69,58,.28); }
 .pe-risk-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--red);
   margin-top: 8px; box-shadow: 0 0 0 4px rgba(255,69,58,.15); }
-.pe-risk p { font-size: 17px; line-height: 1.48; color: var(--fg-2); }
+.pe-risk p { font-size: 21px; line-height: 1.46; color: var(--fg-2); }
 .pe-risk-h { color: var(--red); font-weight: 700; }
 
 /* pie */
