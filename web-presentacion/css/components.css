@@ -966,3 +966,15 @@
 .blume-slide .stat-label { font-size: 17px; line-height: 1.42; margin-top: 14px; }
 .blume-slide .formula { font-size: 30px; padding: 18px 26px; }
 .blume-slide .paragraph { font-size: 22px; line-height: 1.5; max-width: 920px; }
+
+/* ===== Slide EV → precio (25): bloques más grandes para llenar el espacio = */
+.ev-slide .slide-body { gap: 30px; }
+.ev-slide .note { padding: 26px 30px; border-radius: 20px; max-width: 1000px; }
+.ev-slide .note-title { font-size: 17px; }
+.ev-slide .note-text { font-size: 23px; line-height: 1.5; }
+.ev-slide .stats { gap: 22px; max-width: 1060px; }
+.ev-slide .stat-card { padding: 34px 28px; border-radius: 22px; }
+.ev-slide .stat-value { font-size: 56px; line-height: 1; letter-spacing: -.02em; }
+.ev-slide .stat-card.accent-green .stat-value { color: #5cf08a; text-shadow: 0 0 30px rgba(48,209,88,.28); }
+.ev-slide .stat-card.accent-red .stat-value { color: #ff8079; text-shadow: 0 0 30px rgba(255,69,58,.26); }
+.ev-slide .stat-label { font-size: 16.5px; line-height: 1.4; margin-top: 14px; }

@@ -375,7 +375,7 @@
 
   // 29 — De EV a precio por acción
   slides.push({
-    layout: 'center', footer: '23',
+    layout: 'center', footer: '23', cls: 'ev-slide',
     title: 'De Enterprise Value a precio por acción', subtitle: 'El puente — y el primer veredicto',
     blocks: [
       { type: 'note', accent: 'green', title: 'Sumamos la caja', text: 'Equity = EV − deuda neta. Apple tiene caja neta de +33,8 B, así que la caja se suma al valor del accionista.' },
