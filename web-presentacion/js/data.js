@@ -191,21 +191,7 @@
     lead: 'Una foto del precio que el mercado le pone hoy a empresas similares. No reemplaza al FFD: es un chequeo de razonabilidad.'
   });
 
-  // 10 — Marco conceptual
-  slides.push({
-    layout: 'grid', footer: '07',
-    title: 'Marco conceptual', subtitle: 'Cuatro múltiplos, cuatro preguntas',
-    blocks: [
-      { type: 'cards', cols: 2, items: [
-        { title: 'P/E', sub: 'Precio / EPS', text: 'Cuántos años de ganancias paga el inversor.' },
-        { title: 'EV/EBITDA', sub: 'Enterprise Value / EBITDA', text: 'Independiente de estructura de capital e impuestos.' },
-        { title: 'P/S', sub: 'Precio / Ventas', text: 'Útil con ganancias volátiles o negativas.' },
-        { title: 'P/B', sub: 'Precio / Valor libros', text: 'Cuánto se paga sobre el patrimonio contable.' }
-      ]}
-    ]
-  });
-
-  // 11 — Apple vs pares
+  // 10 — Apple vs pares
   slides.push({
     layout: 'split', footer: '08',
     title: 'Apple vs pares (MSFT, GOOGL, META)',
