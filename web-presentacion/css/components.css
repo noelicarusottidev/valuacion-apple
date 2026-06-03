@@ -969,6 +969,16 @@
 .blume-slide .formula { font-size: 30px; padding: 18px 26px; }
 .blume-slide .paragraph { font-size: 22px; line-height: 1.5; max-width: 920px; }
 
+/* ===== Slide "Los flujos a descontar" (21): columna izquierda más grande = */
+.flows-slide .col-left { justify-content: center; gap: 26px; }
+.flows-slide .stat-value { font-size: 56px; line-height: 1; letter-spacing: -.02em; }
+.flows-slide .stat-card.accent-green .stat-value { color: #5cf08a; text-shadow: 0 0 30px rgba(48,209,88,.28); }
+.flows-slide .stat-label { font-size: 18px; line-height: 1.4; margin-top: 12px; }
+.flows-slide .stat-desc { font-size: 15.5px; margin-top: 6px; }
+.flows-slide .note { padding: 24px 26px; border-radius: 20px; }
+.flows-slide .note-title { font-size: 17px; }
+.flows-slide .note-text { font-size: 21px; line-height: 1.5; }
+
 /* ===== Slide EV → precio (25): bloques más grandes para llenar el espacio = */
 .ev-slide .slide-body { gap: 30px; }
 .ev-slide .note { padding: 26px 30px; border-radius: 20px; max-width: 1000px; }

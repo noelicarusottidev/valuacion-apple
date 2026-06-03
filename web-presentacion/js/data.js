@@ -316,14 +316,13 @@
 
   // 24 — Los flujos a descontar
   slides.push({
-    layout: 'split', footer: '18',
+    layout: 'split', footer: '18', cls: 'flows-slide',
     title: 'Los flujos a descontar', subtitle: 'FCF proyectados — provistos por la cátedra',
     right: [ { type: 'chart', chartId: 'fcfDiscounted', caption: 'FCFF nominal vs. valor presente (USD billones)' } ],
     left: [
       { type: 'stats', cols: 1, items: [
         { value: '+9,26%', label: 'CAGR implícito en los flujos de la cátedra (2025→2030)', desc: 'De 153 a 218 mil M USD.', accent: 'green' }
       ]},
-      { type: 'note', accent: 'amber', title: 'Supuesto optimista', text: 'Las proyecciones asumen un repunte del FCF (más Servicios de alto margen + ciclo de Apple Intelligence). Es un supuesto optimista pero no absurdo para Apple.' },
       { type: 'note', accent: 'blue', title: 'Valor del dinero en el tiempo', text: 'La barra gris es el flujo nominal; la azul, su valor presente. La brecha crece con el horizonte: cuanto más lejos el flujo, más lo penaliza el descuento.' }
     ]
   });
