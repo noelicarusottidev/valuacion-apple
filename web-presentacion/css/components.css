@@ -979,6 +979,19 @@
 .flows-slide .note-title { font-size: 17px; }
 .flows-slide .note-text { font-size: 21px; line-height: 1.5; }
 
+/* ===== Slide "Una sola fuente de verdad" (11): más grande y con color ==== */
+.src-slide .slide-body { gap: 30px; justify-content: center; }
+.src-slide .stats { gap: 22px; }
+.src-slide .stat-card { padding: 36px 28px; border-radius: 22px; }
+.src-slide .stat-value { font-size: 60px; line-height: 1; letter-spacing: -.02em; }
+.src-slide .stat-card.accent-blue .stat-value { color: var(--blue-2); text-shadow: 0 0 30px rgba(90,200,250,.30); }
+.src-slide .stat-card.accent-green .stat-value { color: #5cf08a; text-shadow: 0 0 30px rgba(48,209,88,.28); }
+.src-slide .stat-card.accent-amber .stat-value { color: var(--amber); text-shadow: 0 0 30px rgba(255,159,10,.28); }
+.src-slide .stat-label { font-size: 17px; line-height: 1.4; margin-top: 14px; }
+.src-slide .note { padding: 26px 30px; border-radius: 20px; max-width: 1080px; align-self: center; margin-inline: auto; }
+.src-slide .note-title { font-size: 18px; }
+.src-slide .note-text { font-size: 21px; line-height: 1.5; }
+
 /* ===== Slide EV → precio (25): bloques más grandes para llenar el espacio = */
 .ev-slide .slide-body { gap: 30px; }
 .ev-slide .note { padding: 26px 30px; border-radius: 20px; max-width: 1000px; }

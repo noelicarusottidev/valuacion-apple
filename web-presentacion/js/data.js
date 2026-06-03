@@ -188,13 +188,13 @@
 
   // 14 — Una sola fuente de verdad
   slides.push({
-    layout: 'stack', footer: '10',
+    layout: 'stack', footer: '10', cls: 'src-slide',
     title: 'Una sola fuente de verdad', subtitle: 'Parámetros de mercado: snapshot Damodaran abr-2026',
     blocks: [
       { type: 'stats', items: [
-        { value: '4,32%', label: 'Risk-free (US Treasury 10Y)' },
-        { value: '4,77%', label: 'ERP implícito (forward-looking)' },
-        { value: '26 bps', label: 'Default spread (rating Aa1)' }
+        { value: '4,32%', label: 'Risk-free (US Treasury 10Y)', accent: 'blue' },
+        { value: '4,77%', label: 'ERP implícito (forward-looking)', accent: 'green' },
+        { value: '26 bps', label: 'Default spread (rating Aa1)', accent: 'amber' }
       ]},
       { type: 'note', accent: 'blue', title: 'Nuestra decisión: fijar un snapshot para que la valuación sea reproducible', text: 'Rf y ERP provienen del mismo modelo de Damodaran (ERP April-26). Los datos vivos (precio, deuda, acciones) se bajan de Yahoo Finance, así que el precio objetivo puede variar levemente según el día de corrida.' }
     ]
