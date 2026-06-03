@@ -298,7 +298,7 @@
 
   // 23 — La intuición del FFD
   slides.push({
-    layout: 'stack', footer: '17',
+    layout: 'stack', footer: '17', cls: 'ffd-slide',
     title: 'La intuición del FFD', subtitle: 'Una empresa vive infinitos años: partimos el cálculo en dos',
     blocks: [
       { type: 'columns', cols: [

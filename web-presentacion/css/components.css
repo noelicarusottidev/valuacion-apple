@@ -997,6 +997,13 @@
 .dato-slide .lead { font-size: 34px; line-height: 1.22; }
 .dato-slide .paragraph { font-size: 24px; line-height: 1.45; }
 
+/* ===== Slide "La intuición del FFD" (20): cuerpo más grande (no el título) = */
+.ffd-slide .col-eyebrow { font-size: 15px; }
+.ffd-slide .col-title { font-size: 30px; }
+.ffd-slide .col-list .li, .ffd-slide .col-list .b-text, .ffd-slide .columns .li { font-size: 20px; line-height: 1.45; }
+.ffd-slide .columns { gap: 30px; }
+.ffd-slide .formula { font-size: 26px; line-height: 1.5; padding: 22px 28px; }
+
 /* ===== Slide EV → precio (25): bloques más grandes para llenar el espacio = */
 .ev-slide .slide-body { gap: 30px; }
 .ev-slide .note { padding: 26px 30px; border-radius: 20px; max-width: 1000px; }
