@@ -279,12 +279,13 @@
       var pvExp = f.vpExplicito(f.WACC);
       var pvTv = f.valorTerminal(f.WACC, f.G_BASE) / Math.pow(1 + f.WACC, 5);
       var tvPct = Math.round(pvTv / (pvExp + pvTv) * 100);
-      function sliceGrad(c1, c2) {
-        return function (c) {
-          var a = c.chart.chartArea; if (!a) return c2;
-          var g = c.chart.ctx.createLinearGradient(0, a.top, 0, a.bottom);
-          g.addColorStop(0, c1); g.addColorStop(1, c2); return g;
-        };
+      // backgroundColor scriptable: un gradiente vertical por gajo según el índice
+      var SLICE = [['#5ac8fa', '#0a84ff'], ['#ffce7a', '#ff9f0a']];
+      function sliceColor(c) {
+        var pair = SLICE[c.dataIndex] || SLICE[0];
+        var a = c.chart.chartArea; if (!a) return pair[1];
+        var g = c.chart.ctx.createLinearGradient(0, a.top, 0, a.bottom);
+        g.addColorStop(0, pair[0]); g.addColorStop(1, pair[1]); return g;
       }
       // Número grande en el centro + % sobre cada gajo
       var evLabels = {
@@ -315,7 +316,7 @@
         data: {
           labels: ['VP explícito (2026-2030)', 'VP valor terminal (2031→∞)'],
           datasets: [{ data: [pvExp, pvTv],
-            backgroundColor: [sliceGrad('#5ac8fa', '#0a84ff'), sliceGrad('#ffce7a', '#ff9f0a')],
+            backgroundColor: sliceColor,
             borderColor: '#0d0d12', borderWidth: 4, borderRadius: 8, hoverOffset: 12, spacing: 2 }]
         },
         options: { responsive: true, maintainAspectRatio: false, cutout: '66%',
