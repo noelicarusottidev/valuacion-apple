@@ -530,6 +530,59 @@
           '</div>';
       }
 
+      case 'empresa': {
+        var kpis = b.kpis.map(function (k, i) {
+          return '<article class="emp-kpi"' + anim(3 + i) + '><div class="emp-kpi-value emp-num">' + esc(k.value) + '</div><div class="emp-kpi-label">' + k.label + '</div></article>';
+        }).join('');
+        var pills = (b.pills || []).map(function (p, i) {
+          return '<div class="emp-pill emp-pill-' + (i + 1) + '"><span></span>' + esc(p) + '</div>';
+        }).join('');
+        return '<div class="emp-orb"></div><div class="emp-noise"></div>' +
+          '<svg class="emp-rings" viewBox="0 0 680 680" aria-hidden="true">' +
+            '<defs>' +
+              '<linearGradient id="empRingGlow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5f5f7" stop-opacity="0.28"/><stop offset="0.42" stop-color="#0a84ff" stop-opacity="0.78"/><stop offset="1" stop-color="#0a84ff" stop-opacity="0"/></linearGradient>' +
+              '<filter id="empBlurGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
+            '</defs>' +
+            '<circle cx="340" cy="340" r="260" fill="none" stroke="url(#empRingGlow)" stroke-width="1.5"/>' +
+            '<circle cx="340" cy="340" r="198" fill="none" stroke="rgba(245,245,247,0.14)" stroke-width="1"/>' +
+            '<circle cx="340" cy="340" r="316" fill="none" stroke="rgba(10,132,255,0.24)" stroke-width="1" stroke-dasharray="8 18"/>' +
+            '<circle cx="468" cy="168" r="8" fill="#0a84ff" filter="url(#empBlurGlow)"/>' +
+            '<circle cx="158" cy="482" r="5" fill="#f5f5f7" opacity="0.75"/>' +
+          '</svg>' +
+          '<div class="emp-content">' +
+            '<div class="emp-left">' +
+              '<div class="emp-top">' +
+                '<div class="emp-tag"' + anim(0) + '><span class="emp-tag-dot"></span> ' + esc(b.tag) + '</div>' +
+                '<h1 class="emp-h1"' + anim(1) + '>' + esc(b.title) + '</h1>' +
+                '<p class="emp-subtitle"' + anim(2) + '>' + esc(b.subtitle) + '</p>' +
+                '<div class="emp-kpis">' + kpis + '</div>' +
+              '</div>' +
+              '<article class="emp-feature"' + anim(7) + '>' +
+                '<div class="emp-feature-kicker">' + esc(b.featureKicker) + '</div>' +
+                '<div class="emp-feature-title">' + esc(b.featureTitle) + '</div>' +
+                '<div class="emp-feature-text">' + b.featureHtml + '</div>' +
+              '</article>' +
+            '</div>' +
+            '<div class="emp-right"><div class="emp-stage">' +
+              '<svg class="emp-apple" viewBox="0 0 320 320" aria-hidden="true">' +
+                '<defs>' +
+                  '<linearGradient id="empAppleGrad" x1="54" y1="34" x2="278" y2="296" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f5f5f7" stop-opacity="0.95"/><stop offset="0.34" stop-color="#8fc7ff" stop-opacity="0.86"/><stop offset="1" stop-color="#0a84ff" stop-opacity="0.86"/></linearGradient>' +
+                  '<filter id="empAppleGlow" x="-45%" y="-45%" width="190%" height="190%"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
+                '</defs>' +
+                '<path filter="url(#empAppleGlow)" fill="url(#empAppleGrad)" d="M226.6 170.2c-.2-29.1 23.8-43.1 24.9-43.8-13.6-19.9-34.8-22.7-42.3-23-18-1.8-35.1 10.6-44.2 10.6-9.1 0-23.2-10.3-38.2-10-19.6.3-37.7 11.4-47.8 28.9-20.4 35.4-5.2 87.8 14.7 116.5 9.7 14.1 21.4 30 36.6 29.4 14.7-.6 20.3-9.5 38.1-9.5s22.9 9.5 38.6 9.2c15.9-.3 26-14.4 35.7-28.6 11.2-16.4 15.8-32.3 16.1-33.1-.4-.2-30.8-11.8-31.2-46.6ZM197.4 84.4c8.1-9.8 13.6-23.5 12.1-37.1-11.7.5-25.9 7.8-34.3 17.6-7.5 8.7-14.1 22.6-12.3 35.9 13.1 1 26.4-6.6 34.5-16.4Z"/>' +
+              '</svg>' +
+              '<div class="emp-phone"></div>' +
+              '<svg class="emp-connector" viewBox="0 0 270 130" aria-hidden="true">' +
+                '<defs><linearGradient id="empLineGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0a84ff" stop-opacity="0"/><stop offset="0.55" stop-color="#0a84ff" stop-opacity="0.9"/><stop offset="1" stop-color="#f5f5f7" stop-opacity="0.16"/></linearGradient></defs>' +
+                '<path d="M8 116 C 82 22, 170 132, 262 20" fill="none" stroke="url(#empLineGrad)" stroke-width="2.5"/>' +
+                '<circle cx="8" cy="116" r="5" fill="#0a84ff"/><circle cx="262" cy="20" r="5" fill="#f5f5f7" opacity="0.86"/>' +
+              '</svg>' +
+              pills +
+            '</div></div>' +
+          '</div>' +
+          '<div class="emp-footer-line"></div>';
+      }
+
       default:
         return '';
     }

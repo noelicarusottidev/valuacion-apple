@@ -82,20 +82,24 @@
     lead: 'El negocio detrás de los números: de dónde viene la plata y por qué eso fija el múltiplo.'
   });
 
-  // 6 — La empresa
+  // 4 — La empresa (diseño dedicado)
   slides.push({
-    layout: 'stack', footer: '04',
-    title: 'La empresa', subtitle: 'El gigante que vamos a valuar',
+    layout: 'stack', footer: '04', cls: 'emp-slide',
     blocks: [
-      { type: 'stats', items: [
-        { value: 'USD 4,58 B', label: 'Capitalización de mercado' },
-        { value: 'USD 312,06', label: 'Precio por acción' },
-        { value: '37,7x', label: 'P/E (TTM)' },
-        { value: '166.000', label: 'Empleados' }
-      ]},
-      { type: 'tag', text: 'Consumer Electronics · Technology' },
-      { type: 'note', title: 'El ecosistema como foso', text: '>2.000 millones de dispositivos activos. El iPhone es la puerta de entrada; una vez dentro, Apple monetiza la base instalada con Servicios sin fabricar nada físico.' },
-      { type: 'source', text: 'Datos: Yahoo Finance (en vivo)' }
+      { type: 'empresa',
+        tag: 'Consumer Electronics · Technology',
+        title: 'La empresa',
+        subtitle: 'El gigante que vamos a valuar',
+        kpis: [
+          { value: 'USD 4,58 B', label: 'Capitalización<br>de mercado' },
+          { value: 'USD 312,06', label: 'Precio<br>por acción' },
+          { value: '37,7x', label: 'P/E<br>(TTM)' },
+          { value: '166.000', label: 'Empleados' }
+        ],
+        featureKicker: 'Bloque destacado',
+        featureTitle: 'El ecosistema como foso',
+        featureHtml: '<strong>2.000 millones de dispositivos activos.</strong> El iPhone es la puerta de entrada; una vez dentro, Apple monetiza la base instalada con Servicios sin fabricar nada físico.',
+        pills: ['Hardware premium', 'Servicios escalables', 'Base instalada'] }
     ]
   });
 
