@@ -466,6 +466,27 @@
     ]
   });
 
+  // 41 — Perspectiva 2026 (catalizadores vs. riesgos) — diseño dedicado
+  slides.push({
+    layout: 'stack', footer: '34', cls: 'p26-slide',
+    blocks: [
+      { type: 'perspectiva',
+        eyebrow: 'Conclusión · Valuación Apple',
+        title: 'Perspectiva 2026',
+        panels: [
+          { variant: 'catalysts', emoji: '🚀', title: 'Catalizadores', spark: 'up', items: [
+            { icon: 'star', leadHtml: 'WWDC 2026 — <span class="p26-hl-blue">“Private AI”</span>', detail: 'La IA como motor de ventas y reactivador del ciclo de upgrade.' },
+            { icon: 'chip', leadHtml: 'Era Ternus <span class="p26-hl-blue">(Sep 2026)</span>', detail: 'Posible giro a mayor agresividad en hardware y Apple Silicon.' }
+          ] },
+          { variant: 'risks', emoji: '⚠️', title: 'Riesgos', spark: 'down', items: [
+            { icon: 'cost', leadHtml: 'Costos al alza', detail: 'Inflación en memoria + nuevos aranceles presionan márgenes.' },
+            { icon: 'rd', leadHtml: 'I+D disparada', detail: 'Mayor gasto para no quedar atrás en la carrera de IA.' },
+            { icon: 'transition', leadHtml: 'Transición de mando', detail: 'La salida de Cook genera volatilidad de confianza a corto plazo.' }
+          ] }
+        ] }
+    ]
+  });
+
   // 41 — Conclusión (Precio ≠ Valor) — diseño dedicado, última slide
   slides.push({
     layout: 'stack', footer: '34', cls: 'conc-slide',

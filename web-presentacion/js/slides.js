@@ -471,6 +471,65 @@
           '</section>';
       }
 
+      case 'perspectiva': {
+        var P26_ICONS = {
+          star: '<svg viewBox="0 0 32 32" fill="none"><path d="M16 3l2.7 8.4h8.8l-7.1 5.2 2.7 8.4L16 19.8 8.9 25l2.7-8.4-7.1-5.2h8.8L16 3Z" stroke="#f5f5f7" stroke-width="2" stroke-linejoin="round"/><path d="M16 8.5v6" stroke="#0a84ff" stroke-width="2" stroke-linecap="round"/></svg>',
+          chip: '<svg viewBox="0 0 32 32" fill="none"><path d="M7 21c6-10 12-10 18 0" stroke="#f5f5f7" stroke-width="2.2" stroke-linecap="round"/><path d="M8 24h16" stroke="#0a84ff" stroke-width="2.2" stroke-linecap="round"/><path d="M16 4v12" stroke="#f5f5f7" stroke-width="2.2" stroke-linecap="round"/><path d="M12 8l4-4 4 4" stroke="#0a84ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+          cost: '<svg viewBox="0 0 32 32" fill="none"><path d="M8 23h16M9 19h14M11 15h10M13 11h6" stroke="#f5f5f7" stroke-width="2.2" stroke-linecap="round"/><path d="M22 7l4 4 4-4" transform="translate(-5 0)" stroke="#ffcc66" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+          rd: '<svg viewBox="0 0 32 32" fill="none"><path d="M8 24V10h5v14M19 24V5h5v19" stroke="#f5f5f7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 24h22" stroke="#ffcc66" stroke-width="2.2" stroke-linecap="round"/></svg>',
+          transition: '<svg viewBox="0 0 32 32" fill="none"><path d="M7 25c1.7-5 5-7.5 9-7.5S23.3 20 25 25" stroke="#f5f5f7" stroke-width="2.2" stroke-linecap="round"/><circle cx="16" cy="10" r="5" stroke="#f5f5f7" stroke-width="2.2"/><path d="M23 8l4 4m0-4l-4 4" stroke="#ffcc66" stroke-width="2.2" stroke-linecap="round"/></svg>'
+        };
+        var P26_SPARK = {
+          up: '<svg class="p26-spark" viewBox="0 0 160 56" aria-hidden="true"><path d="M4 42 C28 40, 35 35, 50 34 C70 33, 72 16, 91 18 C112 20, 118 8, 156 6" fill="none" stroke="#f5f5f7" stroke-opacity="0.22" stroke-width="10" stroke-linecap="round"/><path d="M4 42 C28 40, 35 35, 50 34 C70 33, 72 16, 91 18 C112 20, 118 8, 156 6" fill="none" stroke="#0a84ff" stroke-width="4" stroke-linecap="round"/><circle cx="156" cy="6" r="5" fill="#0a84ff"/></svg>',
+          down: '<svg class="p26-spark" viewBox="0 0 160 56" aria-hidden="true"><path d="M5 12 C25 14, 30 26, 49 24 C69 21, 76 42, 94 40 C114 38, 118 30, 137 34 C146 36, 151 41, 156 48" fill="none" stroke="#f5f5f7" stroke-opacity="0.18" stroke-width="10" stroke-linecap="round"/><path d="M5 12 C25 14, 30 26, 49 24 C69 21, 76 42, 94 40 C114 38, 118 30, 137 34 C146 36, 151 41, 156 48" fill="none" stroke="#ffcc66" stroke-width="4" stroke-linecap="round"/><circle cx="156" cy="48" r="5" fill="#ffcc66"/></svg>'
+        };
+        var ai = 3; // índice de cascada (header usa 0-2)
+        var panels = b.panels.map(function (pn) {
+          var its = pn.items.map(function (it) {
+            return '<section class="p26-item"' + anim(ai++) + '>' +
+              '<div class="p26-icon">' + (P26_ICONS[it.icon] || '') + '</div>' +
+              '<div class="p26-item-text"><p class="p26-lead">' + it.leadHtml + '</p><p class="p26-detail">' + esc(it.detail) + '</p></div>' +
+            '</section>';
+          }).join('');
+          return '<article class="p26-panel p26-' + esc(pn.variant) + '">' +
+            '<div class="p26-panel-inner">' +
+              '<div class="p26-panel-title"' + anim(ai++) + '><h2><span class="p26-emoji">' + pn.emoji + '</span> ' + esc(pn.title) + '</h2>' + (P26_SPARK[pn.spark] || '') + '</div>' +
+              '<div class="p26-items">' + its + '</div>' +
+            '</div>' +
+          '</article>';
+        }).join('');
+        return '<div class="p26-aurora"></div>' +
+          '<svg class="p26-orbital" viewBox="0 0 900 900" aria-hidden="true">' +
+            '<defs>' +
+              '<linearGradient id="p26OrbitBlue" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#0a84ff" stop-opacity="0"/><stop offset="0.48" stop-color="#0a84ff" stop-opacity="0.62"/><stop offset="1" stop-color="#f5f5f7" stop-opacity="0"/></linearGradient>' +
+              '<filter id="p26Glow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
+            '</defs>' +
+            '<circle cx="450" cy="450" r="252" fill="none" stroke="rgba(245,245,247,0.07)" stroke-width="1"/>' +
+            '<circle cx="450" cy="450" r="316" fill="none" stroke="rgba(245,245,247,0.055)" stroke-width="1"/>' +
+            '<ellipse cx="450" cy="450" rx="360" ry="126" fill="none" stroke="url(#p26OrbitBlue)" stroke-width="3" filter="url(#p26Glow)" transform="rotate(-18 450 450)"/>' +
+            '<ellipse cx="450" cy="450" rx="310" ry="108" fill="none" stroke="rgba(255,204,102,0.28)" stroke-width="2" transform="rotate(25 450 450)"/>' +
+            '<path d="M450 230 C560 278 610 360 610 450 C610 540 560 622 450 670 C340 622 290 540 290 450 C290 360 340 278 450 230Z" fill="rgba(255,255,255,0.025)" stroke="rgba(245,245,247,0.08)"/>' +
+            '<circle cx="662" cy="338" r="9" fill="#0a84ff" filter="url(#p26Glow)"/>' +
+            '<circle cx="266" cy="530" r="6" fill="#ffcc66" opacity="0.9"/>' +
+          '</svg>' +
+          '<div class="p26-content">' +
+            '<header class="p26-header">' +
+              '<div><div class="p26-eyebrow"' + anim(0) + '>' + esc(b.eyebrow) + '</div>' +
+                '<h1 class="p26-h1"' + anim(1) + '><span class="p26-title-gradient">' + esc(b.title) + '</span></h1></div>' +
+              '<div class="p26-year-pill"' + anim(2) + ' aria-hidden="true">' +
+                '<svg viewBox="0 0 120 120"><defs>' +
+                  '<linearGradient id="p26AppleGrad" x1="25" y1="15" x2="96" y2="102"><stop offset="0" stop-color="#f5f5f7"/><stop offset="0.52" stop-color="#8cc7ff"/><stop offset="1" stop-color="#0a84ff"/></linearGradient>' +
+                  '<filter id="p26AppleGlow"><feGaussianBlur stdDeviation="2.4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
+                '</defs>' +
+                '<path fill="url(#p26AppleGrad)" filter="url(#p26AppleGlow)" d="M82.5 63.6c-.1-11.4 9.3-16.9 9.7-17.1-5.3-7.7-13.5-8.8-16.4-8.9-7-.7-13.6 4.1-17.1 4.1s-8.9-4-14.6-3.9c-7.5.1-14.4 4.4-18.3 11.1-7.8 13.5-2 33.5 5.6 44.5 3.7 5.4 8.1 11.4 13.9 11.2 5.6-.2 7.7-3.6 14.5-3.6 6.7 0 8.7 3.6 14.6 3.5 6-.1 9.9-5.5 13.6-10.9 4.3-6.3 6.1-12.4 6.2-12.7-.1-.1-11.8-4.6-11.9-17.3ZM71.2 30.2c3.1-3.8 5.2-9 4.6-14.2-4.5.2-10 3-13.2 6.8-2.9 3.4-5.4 8.8-4.7 14 5 .4 10.2-2.6 13.3-6.6Z"/>' +
+                '</svg>' +
+              '</div>' +
+            '</header>' +
+            '<main class="p26-main">' + panels + '</main>' +
+            '<footer class="p26-footer"' + anim(ai++) + ' aria-hidden="true"><div class="p26-thesis-line"></div></footer>' +
+          '</div>';
+      }
+
       default:
         return '';
     }
