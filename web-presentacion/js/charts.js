@@ -130,17 +130,51 @@
     grossProfit: function (ctx) {
       // Índice relativo: facturación (iPhone ~50 / Servicios ~26) y ganancia bruta
       // (iPhone 50×38% ≈ 19,0 / Servicios 26×75% ≈ 19,5) → casi igual con la mitad de ventas.
+      function vgrad(top, bot) {
+        return function (c) {
+          var a = c.chart.chartArea; if (!a) return bot;
+          var g = c.chart.ctx.createLinearGradient(0, a.top, 0, a.bottom);
+          g.addColorStop(0, top); g.addColorStop(1, bot); return g;
+        };
+      }
+      var idxLabels = {
+        id: 'gpValueLabels',
+        afterDatasetsDraw: function (chart) {
+          var c2 = chart.ctx;
+          chart.data.datasets.forEach(function (ds, di) {
+            var meta = chart.getDatasetMeta(di); if (meta.hidden) return;
+            meta.data.forEach(function (bar, i) {
+              var v = ds.data[i]; if (v == null) return;
+              var txt = (v % 1 === 0) ? String(v) : v.toFixed(1).replace('.', ',');
+              c2.save();
+              c2.fillStyle = '#fff'; c2.font = '700 12px Inter, system-ui, sans-serif';
+              c2.textAlign = 'center'; c2.textBaseline = 'bottom';
+              c2.fillText(txt, bar.x, bar.y - 4);
+              c2.restore();
+            });
+          });
+        }
+      };
       return new Chart(ctx, {
         type: 'bar',
         data: {
           labels: ['iPhone', 'Servicios'],
           datasets: [
-            { label: 'Facturación (índice)', data: [50, 26], backgroundColor: C.grey, borderColor: 'rgba(180,180,190,0.9)', borderWidth: 1.5, borderRadius: 6 },
-            { label: 'Ganancia bruta (índice)', data: [19.0, 19.5], backgroundColor: C.blueSoft, borderColor: C.blue, borderWidth: 1.5, borderRadius: 6 }
+            { label: 'Facturación (índice)', data: [50, 26],
+              backgroundColor: vgrad('rgba(150,150,160,0.28)', 'rgba(150,150,160,0.78)'), borderWidth: 0, borderRadius: 8, borderSkipped: false, categoryPercentage: 0.56, barPercentage: 0.82, maxBarThickness: 86 },
+            { label: 'Ganancia bruta (índice)', data: [19.0, 19.5],
+              backgroundColor: vgrad('rgba(10,132,255,0.35)', 'rgba(10,132,255,0.95)'), borderWidth: 0, borderRadius: 8, borderSkipped: false, categoryPercentage: 0.56, barPercentage: 0.82, maxBarThickness: 86 }
           ]
         },
         options: { responsive: true, maintainAspectRatio: false,
-          scales: { x: axis(), y: axis({ beginAtZero: true }) } }
+          layout: { padding: { top: 16 } },
+          plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 16 } },
+            tooltip: { callbacks: { label: function (c) { return c.dataset.label + ': ' + c.parsed.y; } } } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: C.text, font: { size: 14, weight: '600' } } },
+            y: { beginAtZero: true, suggestedMax: 56, grid: { color: C.grid, drawBorder: false }, ticks: { display: false } }
+          } },
+        plugins: [idxLabels]
       });
     },
 
