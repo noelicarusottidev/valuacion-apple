@@ -52,6 +52,7 @@
     title: 'Valuación de Apple Inc.',
     subtitle: 'Flujos de Fondos Descontados · (AAPL · NASDAQ)',
     lead: 'Construcción íntegra de la tasa de descuento (WACC) + descuento de los flujos proyectados y valor terminal (Gordon-Shapiro), de Enterprise Value a precio objetivo por acción.',
+    asof: 'Valuación al 29 de mayo de 2026',
     meta: ['Facultad de Ciencias Económicas — UNLP', 'Trabajo final · Valuación de empresas']
   });
 

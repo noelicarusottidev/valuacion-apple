@@ -618,6 +618,7 @@
               '<h1 class="cv-title"' + anim(1) + '>' + esc(s.title) + '</h1>' +
               '<div class="cv-subtitle"' + anim(2) + '>' + subHtml + '</div>' +
               '<p class="cv-desc"' + anim(3) + '>' + esc(s.lead) + '</p>' +
+              (s.asof ? '<div class="cv-asof"' + anim(3) + '><span class="cv-asof-dot"></span>' + esc(s.asof) + '</div>' : '') +
             '</div>' +
             '<aside class="cv-card"' + anim(4) + ' aria-label="Gráfico financiero decorativo">' +
               '<div class="cv-card-head"><span>Intrinsic Value</span><span class="cv-card-dot"></span></div>' +

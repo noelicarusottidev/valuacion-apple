@@ -171,6 +171,14 @@
   content: ''; position: absolute; top: 6px; bottom: 6px; left: 0; width: 3px; border-radius: 99px;
   background: linear-gradient(180deg, #d7b56d, rgba(125, 167, 255, 0.62));
 }
+/* aclaración (fecha de valuación) */
+.cv-asof {
+  display: inline-flex; align-items: center; gap: 9px; margin: 22px 0 0;
+  padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(247, 243, 234, 0.14);
+  background: rgba(255, 255, 255, 0.05); color: rgba(247, 243, 234, 0.80);
+  font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
+}
+.cv-asof-dot { width: 7px; height: 7px; border-radius: 50%; background: #d7b56d; box-shadow: 0 0 14px rgba(215, 181, 109, 0.8); }
 
 /* tarjeta financiera decorativa */
 .cv-card {
