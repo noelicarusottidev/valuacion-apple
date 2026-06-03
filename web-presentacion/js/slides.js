@@ -318,25 +318,43 @@
     var inner = '';
 
     if (L === 'cover') {
+      // Subtítulo: separar la parte del ticker para destacarla en dorado
+      var subParts = String(s.subtitle || '').split(' · (');
+      var subHtml = subParts.length === 2
+        ? '<span>' + esc(subParts[0]) + '</span><span aria-hidden="true">·</span><span class="cv-ticker">(' + esc(subParts[1]) + '</span>'
+        : '<span>' + esc(s.subtitle) + '</span>';
       inner =
-        '<div class="slide-body">' +
-        '<div class="cover-main">' +
-        '<div class="cover-eyebrow"' + anim(0) + '>' + esc(s.eyebrow) + '</div>' +
-        '<div class="cover-title"' + anim(1) + '>' + esc(s.title) + '</div>' +
-        '<div class="cover-sub"' + anim(2) + '>' + esc(s.subtitle) + '</div>' +
-        '<div class="cover-lead"' + anim(3) + '>' + esc(s.lead) + '</div>' +
-        '<div class="cover-meta"' + anim(4) + '>' + s.meta.map(function (m) { return '<span>' + esc(m) + '</span>'; }).join('') + '</div>' +
-        '</div>' +
-        '<div class="cover-art">' +
-        '<svg class="apple-svg" viewBox="0 0 814 1000" aria-hidden="true" focusable="false">' +
-        '<defs><linearGradient id="appleGrad" x1="0" y1="0" x2="0" y2="1">' +
-        '<stop offset="0" stop-color="#ffffff"/>' +
-        '<stop offset="0.55" stop-color="#e9ebf0"/>' +
-        '<stop offset="1" stop-color="#9aa0ad"/>' +
-        '</linearGradient></defs>' +
-        '<path fill="url(#appleGrad)" d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8s-105.6-57-155.5-127C46.7 790.7 0 663 0 541.8c0-194.4 126.4-297.5 250.8-297.5 66.1 0 121.2 43.4 162.7 43.4 39.5 0 101.1-46 176.3-46 28.5 0 130.9 2.6 198.3 99.2zm-234-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.2z"/>' +
+        '<div class="cv-orb"></div>' +
+        '<div class="cv-corner cv-tl"></div><div class="cv-corner cv-br"></div>' +
+        '<svg class="cv-apple" viewBox="0 0 128 128" aria-hidden="true">' +
+          '<path fill="currentColor" d="M88.6 67.7c-.1-13.2 10.8-19.6 11.3-19.9-6.2-9.1-15.9-10.4-19.3-10.5-8.2-.8-16 4.8-20.2 4.8-4.1 0-10.5-4.7-17.3-4.6-8.9.1-17.1 5.2-21.7 13.2-9.3 16.1-2.4 39.9 6.7 53 4.4 6.4 9.7 13.7 16.6 13.4 6.7-.3 9.2-4.3 17.2-4.3 8 0 10.3 4.3 17.4 4.2 7.2-.1 11.7-6.5 16.1-12.9 5.1-7.4 7.2-14.6 7.3-15-.2-.1-14-5.4-14.1-21.4z"/>' +
+          '<path fill="currentColor" d="M75.2 28.6c3.7-4.5 6.2-10.7 5.5-16.9-5.3.2-11.8 3.5-15.6 8-3.4 3.9-6.4 10.2-5.6 16.2 5.9.5 12-3 15.7-7.3z"/>' +
         '</svg>' +
-        '</div>' +
+        '<div class="slide-body">' +
+          '<div class="cv-topline"' + anim(0) + '>' + esc(s.eyebrow) + '</div>' +
+          '<div class="cv-body-row">' +
+            '<div class="cv-hero">' +
+              '<h1 class="cv-title"' + anim(1) + '>' + esc(s.title) + '</h1>' +
+              '<div class="cv-subtitle"' + anim(2) + '>' + subHtml + '</div>' +
+              '<p class="cv-desc"' + anim(3) + '>' + esc(s.lead) + '</p>' +
+            '</div>' +
+            '<aside class="cv-card"' + anim(4) + ' aria-label="Gráfico financiero decorativo">' +
+              '<div class="cv-card-head"><span>Intrinsic Value</span><span class="cv-card-dot"></span></div>' +
+              '<svg viewBox="0 0 290 170" aria-hidden="true">' +
+                '<defs>' +
+                  '<linearGradient id="cvArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#d7b56d" stop-opacity="0.42"/><stop offset="100%" stop-color="#d7b56d" stop-opacity="0"/></linearGradient>' +
+                  '<linearGradient id="cvStroke" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="#7da7ff"/><stop offset="100%" stop-color="#d7b56d"/></linearGradient>' +
+                '</defs>' +
+                '<g stroke="rgba(247,243,234,0.13)" stroke-width="1"><path d="M16 26H274"/><path d="M16 66H274"/><path d="M16 106H274"/><path d="M16 146H274"/><path d="M32 14V154"/><path d="M96 14V154"/><path d="M160 14V154"/><path d="M224 14V154"/></g>' +
+                '<path d="M18 139 C45 126, 58 119, 78 121 C104 123, 111 91, 135 94 C160 97, 165 70, 190 71 C219 72, 224 45, 272 30 L272 154 L18 154 Z" fill="url(#cvArea)"/>' +
+                '<path d="M18 139 C45 126, 58 119, 78 121 C104 123, 111 91, 135 94 C160 97, 165 70, 190 71 C219 72, 224 45, 272 30" fill="none" stroke="url(#cvStroke)" stroke-width="4" stroke-linecap="round"/>' +
+                '<g fill="#f7f3ea"><circle cx="78" cy="121" r="4"/><circle cx="135" cy="94" r="4"/><circle cx="190" cy="71" r="4"/><circle cx="272" cy="30" r="4"/></g>' +
+                '<g fill="rgba(247,243,234,0.55)" font-family="Inter, sans-serif" font-size="10" font-weight="700"><text x="18" y="166">FCF</text><text x="220" y="166">Terminal Value</text></g>' +
+              '</svg>' +
+              '<div class="cv-formula"><span><strong>EV</strong><br>Σ FCF / (1+WACC)^t</span><span><strong>Equity</strong><br>EV − Debt + Cash</span></div>' +
+            '</aside>' +
+          '</div>' +
+          '<footer class="cv-footer"' + anim(5) + '><span>' + s.meta.map(function (m) { return esc(m); }).join(' · ') + '</span></footer>' +
         '</div>';
     } else if (L === 'section') {
       inner =
