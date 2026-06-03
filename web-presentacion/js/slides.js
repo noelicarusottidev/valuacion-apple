@@ -498,32 +498,10 @@
             '</div>' +
           '</article>';
         }).join('');
-        return '<div class="p26-aurora"></div>' +
-          '<svg class="p26-orbital" viewBox="0 0 900 900" aria-hidden="true">' +
-            '<defs>' +
-              '<linearGradient id="p26OrbitBlue" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#0a84ff" stop-opacity="0"/><stop offset="0.48" stop-color="#0a84ff" stop-opacity="0.62"/><stop offset="1" stop-color="#f5f5f7" stop-opacity="0"/></linearGradient>' +
-              '<filter id="p26Glow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
-            '</defs>' +
-            '<circle cx="450" cy="450" r="252" fill="none" stroke="rgba(245,245,247,0.07)" stroke-width="1"/>' +
-            '<circle cx="450" cy="450" r="316" fill="none" stroke="rgba(245,245,247,0.055)" stroke-width="1"/>' +
-            '<ellipse cx="450" cy="450" rx="360" ry="126" fill="none" stroke="url(#p26OrbitBlue)" stroke-width="3" filter="url(#p26Glow)" transform="rotate(-18 450 450)"/>' +
-            '<ellipse cx="450" cy="450" rx="310" ry="108" fill="none" stroke="rgba(255,204,102,0.28)" stroke-width="2" transform="rotate(25 450 450)"/>' +
-            '<path d="M450 230 C560 278 610 360 610 450 C610 540 560 622 450 670 C340 622 290 540 290 450 C290 360 340 278 450 230Z" fill="rgba(255,255,255,0.025)" stroke="rgba(245,245,247,0.08)"/>' +
-            '<circle cx="662" cy="338" r="9" fill="#0a84ff" filter="url(#p26Glow)"/>' +
-            '<circle cx="266" cy="530" r="6" fill="#ffcc66" opacity="0.9"/>' +
-          '</svg>' +
-          '<div class="p26-content">' +
+        return '<div class="p26-content">' +
             '<header class="p26-header">' +
               '<div><div class="p26-eyebrow"' + anim(0) + '>' + esc(b.eyebrow) + '</div>' +
                 '<h1 class="p26-h1"' + anim(1) + '><span class="p26-title-gradient">' + esc(b.title) + '</span></h1></div>' +
-              '<div class="p26-year-pill"' + anim(2) + ' aria-hidden="true">' +
-                '<svg viewBox="0 0 120 120"><defs>' +
-                  '<linearGradient id="p26AppleGrad" x1="25" y1="15" x2="96" y2="102"><stop offset="0" stop-color="#f5f5f7"/><stop offset="0.52" stop-color="#8cc7ff"/><stop offset="1" stop-color="#0a84ff"/></linearGradient>' +
-                  '<filter id="p26AppleGlow"><feGaussianBlur stdDeviation="2.4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
-                '</defs>' +
-                '<path fill="url(#p26AppleGrad)" filter="url(#p26AppleGlow)" d="M82.5 63.6c-.1-11.4 9.3-16.9 9.7-17.1-5.3-7.7-13.5-8.8-16.4-8.9-7-.7-13.6 4.1-17.1 4.1s-8.9-4-14.6-3.9c-7.5.1-14.4 4.4-18.3 11.1-7.8 13.5-2 33.5 5.6 44.5 3.7 5.4 8.1 11.4 13.9 11.2 5.6-.2 7.7-3.6 14.5-3.6 6.7 0 8.7 3.6 14.6 3.5 6-.1 9.9-5.5 13.6-10.9 4.3-6.3 6.1-12.4 6.2-12.7-.1-.1-11.8-4.6-11.9-17.3ZM71.2 30.2c3.1-3.8 5.2-9 4.6-14.2-4.5.2-10 3-13.2 6.8-2.9 3.4-5.4 8.8-4.7 14 5 .4 10.2-2.6 13.3-6.6Z"/>' +
-                '</svg>' +
-              '</div>' +
             '</header>' +
             '<main class="p26-main">' + panels + '</main>' +
             '<footer class="p26-footer"' + anim(ai++) + ' aria-hidden="true"><div class="p26-thesis-line"></div></footer>' +

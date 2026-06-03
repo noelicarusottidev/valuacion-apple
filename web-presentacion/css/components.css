@@ -802,25 +802,10 @@
 .conc2-author { opacity: 0; }
 
 /* ===== Slide Perspectiva 2026 (catalizadores vs riesgos) — full-bleed ==== */
-.p26-slide { padding: 0; overflow: hidden; isolation: isolate;
-  background:
-    radial-gradient(circle at 50% 44%, rgba(10,132,255,.24), transparent 23%),
-    radial-gradient(circle at 16% 18%, rgba(10,132,255,.34), transparent 26%),
-    radial-gradient(circle at 86% 14%, rgba(255,204,102,.17), transparent 23%),
-    linear-gradient(135deg, #08080d 0%, #0d0d12 45%, #06060a 100%);
-}
+/* Calmado: usa el fondo global del deck (sin navy/aurora/órbita/grilla propia) */
+.p26-slide { padding: 0; overflow: hidden; }
 .p26-slide .slide-head, .p26-slide .slide-foot { display: none; }
 .p26-slide .slide-body { position: relative; height: 100%; width: 100%; padding: 0; display: block; }
-.p26-slide::before { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .55;
-  background-image:
-    linear-gradient(rgba(245,245,247,.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(245,245,247,.045) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(circle at center, #000, transparent 78%);
-          mask-image: radial-gradient(circle at center, #000, transparent 78%); }
-.p26-aurora { position: absolute; inset: -18%; z-index: 0; pointer-events: none; opacity: .72; filter: blur(44px);
-  background: conic-gradient(from 210deg at 50% 48%, transparent 0deg, rgba(10,132,255,.20) 44deg, transparent 86deg, rgba(255,255,255,.09) 135deg, transparent 190deg, rgba(255,204,102,.12) 236deg, transparent 300deg); }
-.p26-orbital { position: absolute; left: 50%; top: 52%; width: 52%; transform: translate(-50%,-50%); opacity: .72; z-index: 0; pointer-events: none; }
 
 .p26-content { position: relative; z-index: 2; height: 100%; padding: 38px 56px 32px;
   display: grid; grid-template-rows: auto 1fr auto; gap: 18px; }
@@ -839,12 +824,11 @@
 .p26-year-pill svg { width: 64%; height: 64%; overflow: visible; }
 
 .p26-main { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: stretch; min-height: 0; }
-.p26-panel { position: relative; overflow: hidden; border: 1px solid rgba(245,245,247,.16); border-radius: 26px;
-  background: linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.055)), radial-gradient(circle at 18% 0%, rgba(255,255,255,.09), transparent 28%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 24px 70px rgba(0,0,0,.28); backdrop-filter: blur(20px); }
-.p26-panel.p26-catalysts { border-color: rgba(10,132,255,.30); }
-.p26-panel.p26-risks { border-color: rgba(255,204,102,.27); }
-.p26-panel::before { content: ''; position: absolute; inset: 0; opacity: .8; pointer-events: none; }
+.p26-panel { position: relative; overflow: hidden; border: 1px solid var(--stroke); border-radius: 22px;
+  background: var(--card-2); box-shadow: 0 18px 40px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.05); }
+.p26-panel.p26-catalysts { border-color: rgba(10,132,255,.28); }
+.p26-panel.p26-risks { border-color: rgba(255,204,102,.24); }
+.p26-panel::before { content: none; }
 .p26-catalysts::before { background: radial-gradient(circle at top left, rgba(10,132,255,.24), transparent 44%); }
 .p26-risks::before { background: radial-gradient(circle at top right, rgba(255,204,102,.18), transparent 44%); }
 .p26-panel-inner { position: relative; height: 100%; padding: 22px 26px; display: grid; grid-template-rows: auto 1fr; gap: 16px; }
