@@ -248,6 +248,7 @@
     title: 'Costo del accionista (Ke)', subtitle: 'CAPM: lo que exige un inversor en Apple',
     blocks: [
       { type: 'hero', value: 'Ke = 9,36%', accent: 'blue' },
+      { type: 'formula', html: 'K<sub>e</sub> = R<sub>f</sub> + &beta;<sub>Blume</sub> · ERP' },
       { type: 'formula', html: '4,32%&nbsp;&nbsp;+&nbsp;&nbsp;1,056 × 4,77%' },
       { type: 'note', title: 'Por qué ERP implícito', text: 'El histórico (~5,5%) refleja el pasado; el implícito lo deriva Damodaran del precio actual del S&P y sus flujos esperados — es lo que el mercado descuenta hacia adelante, lo relevante para valuar.' }
     ]
