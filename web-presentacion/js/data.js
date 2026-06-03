@@ -129,13 +129,12 @@
 
   // 8 — El dato que manda
   slides.push({
-    layout: 'split', footer: '06',
+    layout: 'split', footer: '06', cls: 'dato-slide',
     title: 'El dato que manda', subtitle: 'En ganancia bruta, Servicios ya pesa casi como todo el iPhone',
     right: [ { type: 'chart', chartId: 'grossProfit', caption: 'Ventas vs. ganancia bruta (ilustrativo del mix narrado)' } ],
     left: [
       { type: 'lead', text: 'Servicios aporta casi tanta ganancia bruta como todo el iPhone, con la mitad de la facturación.' },
-      { type: 'paragraph', text: 'Es el principal motor de rentabilidad de Apple — y lo que sostiene su prima de múltiplo.' },
-      { type: 'note', accent: 'amber', title: 'Riesgo a monitorear', text: 'El acuerdo con Google (~USD 20 B/año, casi todo margen) lo paga por ser el buscador por defecto en Safari. Avalado por la Justicia en sept-2025, pero ya no es exclusivo, se renegocia cada año y Google apeló. Un cambio golpearía la parte más rentable del negocio.' }
+      { type: 'paragraph', text: 'Es el principal motor de rentabilidad de Apple — y lo que sostiene su prima de múltiplo.' }
     ]
   });
 

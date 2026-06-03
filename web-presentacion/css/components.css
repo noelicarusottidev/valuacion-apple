@@ -992,6 +992,11 @@
 .src-slide .note-title { font-size: 18px; }
 .src-slide .note-text { font-size: 21px; line-height: 1.5; }
 
+/* ===== Slide "El dato que manda" (6): texto más grande, sin hueco ======== */
+.dato-slide .col-left { justify-content: center; gap: 26px; }
+.dato-slide .lead { font-size: 34px; line-height: 1.22; }
+.dato-slide .paragraph { font-size: 24px; line-height: 1.45; }
+
 /* ===== Slide EV → precio (25): bloques más grandes para llenar el espacio = */
 .ev-slide .slide-body { gap: 30px; }
 .ev-slide .note { padding: 26px 30px; border-radius: 20px; max-width: 1000px; }
