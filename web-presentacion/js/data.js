@@ -224,21 +224,7 @@
     ]
   });
 
-  // 12 — Lectura crítica
-  slides.push({
-    layout: 'stack', footer: '09',
-    title: 'Lectura crítica', subtitle: '¿Se justifica la prima de Apple?',
-    blocks: [
-      { type: 'stats', items: [
-        { value: '141,5%', label: 'ROE vs ~24-39% de los pares' },
-        { value: '32,3%', label: 'Margen operativo — rentabilidad de primera línea' },
-        { value: '43,0x', label: 'P/B — el mercado paga el intangible: marca y ecosistema' }
-      ]},
-      { type: 'note', accent: 'green', title: 'La prima tiene fundamento — pero no es gratis.', text: 'Apple combina ROE excepcional, márgenes altos y switching costs durables, lo que respalda múltiplos superiores. La pregunta del trabajo es si la prima actual ya descuenta demasiado crecimiento futuro: eso lo responde el FFD.' }
-    ]
-  });
-
-  // 13 — Sección Bloque 03
+  // 12 — Sección Bloque 03
   slides.push({
     layout: 'section',
     kicker: 'BLOQUE 03 · COSTO DE CAPITAL', title: 'Arquitectura de tasas',
@@ -466,16 +452,6 @@
     ]
   });
 
-  // Anexo · sensibilidad (heatmap upside%)
-  slides.push({
-    layout: 'split', footer: '33',
-    title: 'Anexo · sensibilidad', subtitle: 'Upside / downside (%) ante WACC × g',
-    right: [ { type: 'heatmap', chartId: 'upsideG', caption: 'Upside / (downside) vs. mercado (%) · verde = positivo' } ],
-    left: [
-      { type: 'note', accent: 'red', title: 'Casi todo en rojo', text: 'La misma grilla del precio, ahora como % vs. el mercado. El dominio del rojo refuerza el veredicto: bajo casi cualquier combinación razonable, Apple aparece cara.' }
-    ]
-  });
-
   // 32 — DCF inverso (simulador interactivo)
   slides.push({
     layout: 'stack', footer: '26', cls: 'rsim-slide',
@@ -543,37 +519,7 @@
     ]
   });
 
-  // 37 — Resumen ejecutivo
-  slides.push({
-    layout: 'split', footer: '30',
-    title: 'Resumen ejecutivo', subtitle: 'Todo el modelo en una pantalla',
-    left: [
-      { type: 'subhead', text: 'Inputs principales' },
-      { type: 'table', head: ['Parámetro', 'Valor'], rows: [
-        ['WACC', '9,24%'],
-        ['Ke', '9,36%'],
-        ['Kd después de impuestos', '3,77%'],
-        ['β (Blume)', '1,056'],
-        ['g perpetuo', '3,0%'],
-        ['FCF 2030', 'USD 218.334 M']
-      ]}
-    ],
-    right: [
-      { type: 'subhead', text: 'Valuación' },
-      { type: 'table', head: ['Concepto', 'Valor', '% del Total'], rows: [
-        ['VP explícito', 'USD 0,70 B', '23%'],
-        ['VP valor terminal', 'USD 2,32 B', '77%'],
-        ['Enterprise Value', 'USD 3,02 B', '—'],
-        ['+ caja neta', 'USD 0,03 B', '—'],
-        ['Equity Value', 'USD 3,05 B', '—'],
-        ['Objetivo DCF (USD)', '207,80', '—'],
-        ['Mercado (USD)', '312,06', '—'],
-        ['Upside / (Downside)', '−33,4%', '—']
-      ], highlight: [5, 7] }
-    ]
-  });
-
-  // 38 — Conclusión y recomendación
+  // 37 — Conclusión y recomendación
   slides.push({
     layout: 'stack', footer: '31',
     title: 'Conclusión y recomendación', subtitle: 'Veredicto: VENDER (Sell)',
