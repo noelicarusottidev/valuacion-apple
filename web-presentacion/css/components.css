@@ -943,3 +943,15 @@
 .emp-pill-1 { right: 130px; top: 70px; } .emp-pill-2 { right: 8px; top: 470px; } .emp-pill-3 { left: 24px; top: 184px; }
 .emp-footer-line { position: absolute; left: 60px; right: 60px; bottom: 30px; height: 1px; z-index: 2; opacity: .58;
   background: linear-gradient(90deg, rgba(10,132,255,0), rgba(10,132,255,.70), rgba(245,245,247,0)); }
+
+/* ===== Slide CAPM · Beta (13): columna izquierda más grande y con vida ==== */
+.beta-slide .col-left { justify-content: center; gap: 30px; }
+.beta-slide .stats { gap: 18px; }
+.beta-slide .stat-card { padding: 32px 28px; border-radius: 22px; }
+.beta-slide .stat-value { font-size: 54px; line-height: 1; letter-spacing: -.02em; }
+.beta-slide .stat-card.accent-blue .stat-value { color: var(--blue-2); text-shadow: 0 0 30px rgba(90,200,250,.30); }
+.beta-slide .stat-card.accent-green .stat-value { color: #5cf08a; text-shadow: 0 0 30px rgba(48,209,88,.28); }
+.beta-slide .stat-label { font-size: 16.5px; line-height: 1.42; margin-top: 14px; }
+.beta-slide .note { padding: 24px 26px; border-radius: 20px; }
+.beta-slide .note-title { font-size: 15px; }
+.beta-slide .note-text { font-size: 23px; line-height: 1.45; }

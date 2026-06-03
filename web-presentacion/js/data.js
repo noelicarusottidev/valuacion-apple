@@ -216,15 +216,15 @@
 
   // 16 — CAPM · estimación de beta
   slides.push({
-    layout: 'split', footer: '12',
+    layout: 'split', footer: '12', cls: 'beta-slide',
     title: 'CAPM · estimación de Beta', subtitle: 'Regresión propia: AAPL contra el S&P 500',
     right: [ { type: 'chart', chartId: 'betaRegression', caption: 'Retornos mensuales AAPL vs S&P 500 (5 años, 59 obs.) + recta OLS' } ],
     left: [
       { type: 'stats', cols: 2, items: [
-        { value: 'β = 1,084', label: 'Beta apalancado (OLS, 5 años mensual, 59 obs.)' },
-        { value: 'R² = 0,485', label: 'El mercado explica ~48,5% de la varianza de Apple' }
+        { value: 'β = 1,084', label: 'Beta apalancado (OLS, 5 años mensual, 59 obs.)', accent: 'blue' },
+        { value: 'R² = 0,485', label: 'El mercado explica ~48,5% de la varianza de Apple', accent: 'green' }
       ]},
-      { type: 'paragraph', text: 'β > 1: la acción amplifica los movimientos del índice. Es el punto de partida del costo del accionista.' }
+      { type: 'note', accent: 'blue', title: 'Cómo se lee', text: 'β > 1: la acción amplifica los movimientos del índice. Es el punto de partida del costo del accionista.' }
     ]
   });
 
