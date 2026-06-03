@@ -442,47 +442,7 @@
     ]
   });
 
-  // 35 — Conclusión y recomendación
-  slides.push({
-    layout: 'stack', footer: '31',
-    title: 'Conclusión y recomendación', subtitle: 'Veredicto: VENDER (Sell)',
-    blocks: [
-      { type: 'verdict', big: 'VENDER', text: 'El caso base queda 33% bajo el mercado' },
-      { type: 'columns', cols: [
-        { eyebrow: 'La tesis, con humildad', items: [
-          { text: 'El modelo es función de los flujos que nos dieron. No decimos "el mercado se equivoca", sino dónde tiene que tener razón: el precio actual exige un g ≈ 5,4% que nuestras proyecciones no respaldan.' }
-        ]},
-        { eyebrow: 'Regulación', items: [
-          { text: 'DMA (UE) y antitrust en EE.UU. — incl. el acuerdo con Google — presionan los márgenes de mayor calidad.' }
-        ]},
-        { eyebrow: 'China', items: [
-          { text: 'Competencia local y exposición geopolítica presionan los volúmenes de iPhone.' }
-        ]},
-        { eyebrow: 'Catalizadores', tone: 'green', items: [
-          { text: 'Apple Intelligence, ciclo de upgrade del iPhone y peso creciente de Servicios.' }
-        ]}
-      ]}
-    ]
-  });
-
-  // 39 — En una frase + fuentes
-  slides.push({
-    layout: 'closing',
-    title: 'En una frase',
-    quote: 'La conclusión robusta no es que el mercado se equivoca, sino dónde tiene que tener razón para sostener el precio.',
-    sources: {
-      title: 'Fuentes principales',
-      items: [
-        'Damodaran, A. — Implied ERP, NYU Stern (abril 2026)',
-        'Damodaran — tablas de spreads por rating crediticio',
-        'Yahoo Finance (yfinance) — precios y estados financieros · Apple 10-K (SEC EDGAR)',
-        'FCF proyectados — provistos por la cátedra'
-      ],
-      thanks: 'Gracias.'
-    }
-  });
-
-  // 40 — Interpretación de la brecha (Modelo vs. Mercado) — diseño dedicado
+  // 31 — Interpretación de la brecha (Modelo vs. Mercado) — diseño dedicado
   slides.push({
     layout: 'stack', footer: '33', cls: 'obj-slide gap-slide',
     blocks: [
