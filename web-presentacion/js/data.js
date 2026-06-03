@@ -487,6 +487,20 @@
     ]
   });
 
+  // 42 — Cierre: cita de Graham (balanza) — última slide, frase tipeada
+  slides.push({
+    layout: 'stack', footer: '35', cls: 'conc2-slide',
+    blocks: [
+      { type: 'quoteClose',
+        quoteSegments: [
+          { t: '“En el corto plazo, el mercado es una máquina de votar; en el largo plazo, es una ' },
+          { t: 'balanza', hl: true },
+          { t: '.”' }
+        ],
+        author: '— Benjamin Graham' }
+    ]
+  });
+
   // Asigna num secuencial e id
   slides.forEach(function (s, i) {
     s.num = i + 1;

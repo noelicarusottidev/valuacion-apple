@@ -437,6 +437,40 @@
           '<div class="conc-footer-line"></div>';
       }
 
+      case 'quoteClose': {
+        var ci = 0, plain = '';
+        var qhtml = b.quoteSegments.map(function (seg) {
+          plain += seg.t;
+          return Array.prototype.map.call(seg.t, function (ch) {
+            return '<span class="tw-c' + (seg.hl ? ' conc2-hl' : '') + '" style="--ci:' + (ci++) + '">' + esc(ch) + '</span>';
+          }).join('');
+        }).join('');
+        var total = ci;
+        return '<div class="conc2-orbit"></div>' +
+          '<svg class="conc2-ticker" viewBox="0 0 1400 170" preserveAspectRatio="none" aria-hidden="true">' +
+            '<path d="M0 112 L110 110 L170 103 L230 116 L305 96 L375 101 L440 78 L500 92 L570 83 L630 67 L700 89 L760 70 L835 73 L900 51 L965 62 L1035 47 L1100 55 L1160 39 L1220 44 L1290 31 L1400 36" fill="none" stroke="rgba(10,132,255,0.95)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
+            '<path d="M0 112 L110 110 L170 103 L230 116 L305 96 L375 101 L440 78 L500 92 L570 83 L630 67 L700 89 L760 70 L835 73 L900 51 L965 62 L1035 47 L1100 55 L1160 39 L1220 44 L1290 31 L1400 36 L1400 170 L0 170 Z" fill="url(#conc2Fade)"/>' +
+            '<defs><linearGradient id="conc2Fade" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="rgba(10,132,255,0.18)"/><stop offset="100%" stop-color="rgba(10,132,255,0)"/></linearGradient></defs>' +
+          '</svg>' +
+          '<span class="conc2-dot conc2-dot-1"></span><span class="conc2-dot conc2-dot-2"></span><span class="conc2-dot conc2-dot-3"></span>' +
+          '<section class="conc2-content">' +
+            '<div class="conc2-quotebox">' +
+              '<svg class="conc2-scale" viewBox="0 0 260 260" aria-hidden="true">' +
+                '<line class="blue" x1="130" y1="48" x2="130" y2="180"/>' +
+                '<line x1="88" y1="180" x2="172" y2="180"/>' +
+                '<line x1="106" y1="204" x2="154" y2="204"/>' +
+                '<line class="blue" x1="66" y1="82" x2="194" y2="82"/>' +
+                '<circle class="blue" cx="130" cy="82" r="5"/>' +
+                '<line x1="76" y1="82" x2="45" y2="137"/><line x1="76" y1="82" x2="107" y2="137"/><path d="M33 137 Q76 166 119 137"/>' +
+                '<line x1="184" y1="82" x2="153" y2="137"/><line x1="184" y1="82" x2="215" y2="137"/><path d="M141 137 Q184 166 227 137"/>' +
+                '<path class="blue" d="M112 55 Q130 35 148 55"/>' +
+              '</svg>' +
+              '<h1 class="conc2-quote" aria-label="' + esc(plain) + '">' + qhtml + '</h1>' +
+              '<p class="conc2-author" style="--ci:' + total + '">' + esc(b.author) + '</p>' +
+            '</div>' +
+          '</section>';
+      }
+
       default:
         return '';
     }

@@ -54,6 +54,11 @@
 .conc-slide.is-active .conc-barfill { animation: concBar 0.9s var(--ease) 0.5s both; }
 @keyframes concBar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
+/* Cierre Graham: la frase se escribe carácter por carácter; el autor entra al final. */
+.conc2-slide.is-active .conc2-quote .tw-c { animation: twIn 0.12s linear forwards; animation-delay: calc(var(--ci, 0) * 42ms + 450ms); }
+.conc2-slide.is-active .conc2-author { animation: twIn 0.5s var(--ease) forwards; animation-delay: calc(var(--ci, 0) * 42ms + 650ms); }
+@keyframes twIn { from { opacity: 0; } to { opacity: 1; } }
+
 /* Respeto por usuarios que prefieren menos movimiento */
 @media (prefers-reduced-motion: reduce) {
   .slide, .slide.is-active,
@@ -61,7 +66,7 @@
   .hm-cell, .is-active .hm-cell,
   .sb-seg, .slide.is-active .sb-seg,
   .pe-seg, .pe-hero, .pe-ticks, .pe-ref, .pe-side-l, .pe-side-r, .pe-foot,
-  .conc-barfill,
+  .conc-barfill, .tw-c, .conc2-author,
   #progress, .nav-btn {
     transition: none !important;
     transform: none !important;
@@ -69,4 +74,5 @@
   }
   [data-animate] { opacity: 1 !important; }
   .hm-cell { opacity: 1 !important; }
+  .tw-c, .conc2-author { opacity: 1 !important; }
 }

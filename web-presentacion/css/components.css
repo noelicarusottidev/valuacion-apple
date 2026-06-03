@@ -752,3 +752,51 @@
 .conc-gapcopy { font-size: 15px; line-height: 1.28; letter-spacing: -.02em; color: rgba(245,245,247,.74); }
 .conc-footer-line { position: absolute; left: 68px; right: 68px; bottom: 30px; height: 1px; z-index: 2; opacity: .65;
   background: linear-gradient(90deg, transparent, rgba(10,132,255,.65), transparent); }
+
+/* ===== Slide cierre: cita de Graham (balanza) — full-bleed 1280x720 ====== */
+.conc2-slide { padding: 0; overflow: hidden; isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(10,132,255,.24), transparent 34%),
+    radial-gradient(circle at 16% 18%, rgba(10,132,255,.18), transparent 26%),
+    radial-gradient(circle at 84% 78%, rgba(10,132,255,.12), transparent 28%),
+    linear-gradient(135deg, #0d0d12 0%, #09090d 52%, #101018 100%);
+}
+.conc2-slide .slide-head, .conc2-slide .slide-foot { display: none; }
+.conc2-slide .slide-body { position: relative; height: 100%; width: 100%; padding: 0; display: block; }
+.conc2-slide::before { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .55;
+  background-image:
+    linear-gradient(rgba(245,245,247,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,245,247,.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(circle at center, #000 0%, transparent 74%);
+          mask-image: radial-gradient(circle at center, #000 0%, transparent 74%); }
+.conc2-slide::after { content: ''; position: absolute; inset: 26px; border: 1px solid rgba(245,245,247,.10); border-radius: 30px; pointer-events: none; z-index: 10; }
+
+.conc2-orbit { position: absolute; width: 820px; height: 820px; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  border: 1px solid rgba(10,132,255,.18); border-radius: 50%; filter: drop-shadow(0 0 60px rgba(10,132,255,.16)); opacity: .85; z-index: 0; }
+.conc2-orbit::before, .conc2-orbit::after { content: ''; position: absolute; border-radius: 50%; inset: 90px; border: 1px solid rgba(245,245,247,.055); }
+.conc2-orbit::after { inset: 178px; border-color: rgba(10,132,255,.16); }
+.conc2-ticker { position: absolute; left: -3%; right: -3%; top: 64%; height: 170px; opacity: .42; z-index: 0; }
+.conc2-dot { position: absolute; width: 9px; height: 9px; border-radius: 999px; background: var(--blue); box-shadow: 0 0 28px rgba(10,132,255,.95); z-index: 1; }
+.conc2-dot-1 { left: 13%; top: 23%; } .conc2-dot-2 { right: 18%; bottom: 19%; opacity: .8; } .conc2-dot-3 { left: 71%; top: 50%; width: 5px; height: 5px; opacity: .65; }
+
+.conc2-content { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; padding: 6% 9%; text-align: center; }
+.conc2-quotebox { position: relative; max-width: 1120px; padding: 48px 60px 40px; }
+.conc2-quotebox::before { content: ''; position: absolute; inset: 0; border-radius: 34px; z-index: -1;
+  background: linear-gradient(180deg, rgba(245,245,247,.07), rgba(245,245,247,.025)), radial-gradient(circle at 50% 0%, rgba(10,132,255,.18), transparent 58%);
+  border: 1px solid rgba(245,245,247,.10); box-shadow: 0 28px 90px rgba(0,0,0,.38), inset 0 1px 0 rgba(245,245,247,.08); backdrop-filter: blur(10px); }
+.conc2-quotebox::after { content: ''; position: absolute; left: 50%; top: 0; width: 58%; height: 2px; transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--blue), transparent); box-shadow: 0 0 24px rgba(10,132,255,.85); opacity: .9; }
+.conc2-scale { position: absolute; right: 28px; top: 22px; width: 74px; height: 74px; opacity: .48; filter: drop-shadow(0 0 14px rgba(10,132,255,.16)); z-index: 1; pointer-events: none; }
+.conc2-scale path, .conc2-scale line, .conc2-scale circle { fill: none; stroke: rgba(245,245,247,.46); stroke-width: 1.45; stroke-linecap: round; stroke-linejoin: round; }
+.conc2-scale .blue { stroke: var(--blue); opacity: .95; }
+
+.conc2-quote { position: relative; z-index: 2; font-family: Georgia, "Times New Roman", serif; font-size: 60px;
+  line-height: 1.12; font-weight: 500; font-style: italic; letter-spacing: -.04em; color: var(--text); text-wrap: balance; text-shadow: 0 8px 34px rgba(0,0,0,.42); }
+.conc2-hl { color: var(--blue); text-shadow: 0 0 32px rgba(10,132,255,.36); }
+.conc2-author { position: relative; z-index: 2; margin-top: 30px; font-size: 25px; letter-spacing: .08em;
+  text-transform: uppercase; color: rgba(245,245,247,.62); font-weight: 500; }
+
+/* máquina de escribir: cada carácter aparece en secuencia */
+.tw-c { opacity: 0; }
+.conc2-author { opacity: 0; }
