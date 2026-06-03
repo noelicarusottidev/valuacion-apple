@@ -230,16 +230,15 @@
 
   // 17 — Decisión metodológica clave (Blume)
   slides.push({
-    layout: 'stack', footer: '13',
+    layout: 'stack', footer: '13', cls: 'blume-slide',
     title: 'Decisión metodológica clave', subtitle: 'Por qué usamos el Beta de Blume, no el crudo',
     blocks: [
       { type: 'stats', cols: 2, items: [
-        { value: '1,084', label: 'β crudo (regresión OLS)' },
+        { value: '1,084', label: 'β crudo (regresión OLS)', accent: 'blue' },
         { value: '1,056', label: 'β de Blume → el que usamos en Ke', accent: 'green' }
       ]},
       { type: 'formula', html: 'Blume: 0,67 · β + 0,33' },
-      { type: 'paragraph', text: 'Un beta de una sola regresión tiene error de estimación y tiende a revertir hacia 1. El ajuste de Blume corrige ese sesgo — es el estándar que reporta Bloomberg.' },
-      { type: 'note', title: 'No reapalancamos', text: 'Con D/E ≈ 2,2%, desapalancar (Hamada) casi no mueve el beta: β_U ≈ 1,065. Lo calculamos solo como chequeo y valuamos a la estructura de capital actual.' }
+      { type: 'paragraph', text: 'Un beta de una sola regresión tiene error de estimación y tiende a revertir hacia 1. El ajuste de Blume corrige ese sesgo — es el estándar que reporta Bloomberg.' }
     ]
   });
 

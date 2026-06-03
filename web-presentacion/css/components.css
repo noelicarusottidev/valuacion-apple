@@ -955,3 +955,14 @@
 .beta-slide .note { padding: 24px 26px; border-radius: 20px; }
 .beta-slide .note-title { font-size: 15px; }
 .beta-slide .note-text { font-size: 23px; line-height: 1.45; }
+
+/* ===== Slide Blume (14): más grande y con color, llena el espacio ======== */
+.blume-slide .slide-body { gap: 26px; }
+.blume-slide .stats { gap: 20px; max-width: 920px; }
+.blume-slide .stat-card { padding: 34px 30px; border-radius: 22px; }
+.blume-slide .stat-value { font-size: 58px; line-height: 1; letter-spacing: -.02em; }
+.blume-slide .stat-card.accent-blue .stat-value { color: var(--blue-2); text-shadow: 0 0 30px rgba(90,200,250,.30); }
+.blume-slide .stat-card.accent-green .stat-value { color: #5cf08a; text-shadow: 0 0 30px rgba(48,209,88,.28); }
+.blume-slide .stat-label { font-size: 17px; line-height: 1.42; margin-top: 14px; }
+.blume-slide .formula { font-size: 30px; padding: 18px 26px; }
+.blume-slide .paragraph { font-size: 22px; line-height: 1.5; max-width: 920px; }
