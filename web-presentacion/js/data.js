@@ -55,7 +55,27 @@
     meta: ['Facultad de Ciencias Económicas — UNLP', 'Trabajo final · Valuación de empresas']
   });
 
-  // 2 — El recorrido del trabajo
+  // 2 — Objetivos del proyecto (diseño dedicado)
+  slides.push({
+    layout: 'stack', footer: '02', cls: 'obj-slide',
+    blocks: [
+      { type: 'objGrid',
+        kicker: 'Apple · Valuación financiera',
+        titleSpan: 'Objetivos', titleRest: ' del proyecto',
+        cards: [
+          { icon: 'business',  title: 'Entender el modelo de negocio', html: 'Comprender cómo Apple genera valor.' },
+          { icon: 'bars',      title: 'Valuación por múltiplos', html: 'Usar ratios contables para comparar a Apple contra su industria.' },
+          { icon: 'rates',     title: 'Arquitectura de tasas', html: 'Determinar con precisión el costo de la deuda (<strong>Kd</strong>) y del accionista (<strong>Ke</strong>) vía CAPM.' },
+          { icon: 'calc',      title: 'Cálculo del WACC', html: 'Tasa de descuento ponderada usando valores de mercado.' },
+          { icon: 'intrinsic', title: 'Valuación intrínseca', html: 'Calcular <strong>Enterprise Value</strong> y <strong>Equity Value</strong> por acción.' },
+          { icon: 'scenarios', title: 'Modelado de escenarios', html: 'Matrices de sensibilidad y simulaciones en Python.' }
+        ],
+        footerText: '<strong>Seminario de valuación</strong> · De la lógica económica del negocio al precio objetivo',
+        pill: 'Objetivos metodológicos' }
+    ]
+  });
+
+  // 3 — El recorrido del trabajo
   slides.push({
     layout: 'split', footer: '01',
     title: 'El recorrido del trabajo', subtitle: 'De la tasa de descuento al precio objetivo',
@@ -76,22 +96,6 @@
           { text: 'Enterprise Value → Equity Value → precio/acción' },
           { text: 'Sensibilidad, escenarios y veredicto' }
         ]}
-      ]}
-    ]
-  });
-
-  // 3 — Objetivos del proyecto
-  slides.push({
-    layout: 'grid', footer: '02',
-    title: 'Objetivos del proyecto', subtitle: 'Qué nos propusimos demostrar',
-    blocks: [
-      { type: 'cards', cols: 3, items: [
-        { title: 'Análisis crítico de flujos', text: 'Entender la lógica detrás de las proyecciones de analistas, no tomarlas como dogma.' },
-        { title: 'Valuación por múltiplos', text: 'Usar ratios contables para comparar a Apple contra su industria.' },
-        { title: 'Arquitectura de tasas', text: 'Determinar con precisión el costo de la deuda (Kd) y del accionista (Ke) vía CAPM.' },
-        { title: 'Cálculo del WACC', text: 'Tasa de descuento ponderada usando valores de mercado.' },
-        { title: 'Valuación intrínseca', text: 'Calcular Enterprise Value y Equity Value por acción.' },
-        { title: 'Modelado de escenarios', text: 'Matrices de sensibilidad y simulaciones en Python.' }
       ]}
     ]
   });

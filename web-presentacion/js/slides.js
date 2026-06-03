@@ -302,6 +302,51 @@
         '</div>';
       }
 
+      case 'objGrid': {
+        var OBJ_ICONS = {
+          business:  '<path d="M4 18h16"/><path d="M6 18V8l6-3 6 3v10"/><path d="M9 12h6"/><path d="M9 15h4"/>',
+          bars:      '<path d="M5 18V9"/><path d="M10 18V6"/><path d="M15 18v-4"/><path d="M20 18V11"/><path d="M3 18h18"/>',
+          rates:     '<path d="M4 17l4-5 4 2 7-8"/><path d="M17 6h2v2"/><path d="M4 20h16"/>',
+          calc:      '<path d="M4 7h16"/><path d="M8 7V5"/><path d="M16 7V5"/><path d="M6 11h5"/><path d="M6 15h3"/><path d="M14 11h4"/><path d="M14 15h4"/><rect x="4" y="4" width="16" height="16" rx="3"/>',
+          intrinsic: '<path d="M4 18h16"/><path d="M6 16l3-4 3 2 4-7 2 3"/><path d="M17 10h3v3"/>',
+          scenarios: '<path d="M5 18v-5"/><path d="M10 18V9"/><path d="M15 18v-7"/><path d="M20 18V6"/><path d="M3 18h18"/><path d="M7 6c1.2-1.1 2.2-1.1 3.4 0s2.2 1.1 3.4 0 2.2-1.1 3.4 0"/>'
+        };
+        var cards = b.cards.map(function (c, ci) {
+          return '<article class="obj-card"' + anim(ci + 1) + '>' +
+            '<div class="obj-card-top">' +
+              '<div class="obj-num">' + (ci + 1) + '</div>' +
+              '<div class="obj-icon"><svg viewBox="0 0 24 24" aria-hidden="true">' + (OBJ_ICONS[c.icon] || '') + '</svg></div>' +
+            '</div>' +
+            '<h2 class="obj-card-h">' + esc(c.title) + '</h2>' +
+            '<p class="obj-card-p">' + c.html + '</p>' +
+          '</article>';
+        }).join('');
+        return '<div class="obj-wrap">' +
+          '<svg class="obj-art" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">' +
+            '<defs>' +
+              '<linearGradient id="objLine" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0a84ff" stop-opacity="0.36"/><stop offset="52%" stop-color="#5ac8fa" stop-opacity="0.25"/><stop offset="100%" stop-color="#bf5af2" stop-opacity="0.16"/></linearGradient>' +
+              '<linearGradient id="objFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0a84ff" stop-opacity="0.13"/><stop offset="100%" stop-color="#bf5af2" stop-opacity="0.05"/></linearGradient>' +
+            '</defs>' +
+            '<path d="M92 748 C 250 648, 370 696, 510 586 S 790 378, 954 438 S 1228 650, 1490 454" fill="none" stroke="url(#objLine)" stroke-width="2.4" stroke-dasharray="2 12"/>' +
+            '<path d="M86 777 C 258 670, 392 720, 538 606 S 800 404, 948 464 S 1224 674, 1510 492" fill="none" stroke="url(#objLine)" stroke-width="1.3" opacity="0.58"/>' +
+            '<path d="M1030 126 C 1120 76, 1288 76, 1398 154 C 1510 234, 1516 356, 1438 420 C 1342 498, 1186 466, 1086 390 C 976 306, 938 178, 1030 126 Z" fill="url(#objFill)" stroke="#55555f" stroke-width="1" opacity="0.46"/>' +
+            '<circle cx="510" cy="586" r="7" fill="#64d2ff" fill-opacity="0.55"/><circle cx="954" cy="438" r="7" fill="#0a84ff" fill-opacity="0.48"/><circle cx="1490" cy="454" r="7" fill="#bf5af2" fill-opacity="0.42"/>' +
+            '<g opacity="0.18"><circle cx="1288" cy="226" r="120" fill="none" stroke="#f5f5f7" stroke-width="1"/><circle cx="1288" cy="226" r="84" fill="none" stroke="#5ac8fa" stroke-width="1"/><circle cx="1288" cy="226" r="48" fill="none" stroke="#0a84ff" stroke-width="1"/></g>' +
+          '</svg>' +
+          '<div class="obj-content">' +
+            '<header class="obj-head"' + anim(0) + '>' +
+              '<div class="obj-kicker">' + esc(b.kicker) + '</div>' +
+              '<h1 class="obj-h1"><span>' + esc(b.titleSpan) + '</span>' + esc(b.titleRest) + '</h1>' +
+            '</header>' +
+            '<section class="obj-grid">' + cards + '</section>' +
+            '<footer class="obj-footer"' + anim(7) + '>' +
+              '<div>' + b.footerText + '</div>' +
+              '<div class="obj-pill"><i></i>' + esc(b.pill) + '</div>' +
+            '</footer>' +
+          '</div>' +
+        '</div>';
+      }
+
       default:
         return '';
     }
