@@ -442,35 +442,7 @@
     ]
   });
 
-  // 35 — Tornado
-  slides.push({
-    layout: 'split', footer: '28',
-    title: 'Tornado', subtitle: '¿Qué variable mueve más el precio?',
-    right: [ { type: 'chart', chartId: 'tornado', caption: 'Rango de precio objetivo por variable (USD)' } ],
-    left: [
-      { type: 'bullets', ranked: true, items: [
-        { label: 'WACC', text: 'La palanca dominante: la barra más larga.' },
-        { label: 'g', text: 'El crecimiento perpetuo, segundo en impacto.' },
-        { label: 'FCF', text: 'El nivel de flujos, tercero.' }
-      ]},
-      { type: 'note', title: '', text: 'WACC y g impactan directo sobre el valor terminal: por eso dominan. Es donde hay que afinar los supuestos.' }
-    ]
-  });
-
-  // 36 — Football field
-  slides.push({
-    layout: 'split', footer: '29',
-    title: 'Football field', subtitle: 'Cinco métodos, una misma dirección',
-    right: [ { type: 'chart', chartId: 'footballField', caption: 'Rangos de valuación por método · líneas = mercado y DCF base' } ],
-    left: [
-      { type: 'bullets', items: [
-        { label: 'Cómo se lee', text: 'Cada barra es un rango por método. La línea roja (mercado) cae a la derecha de casi todos: señal de sobrevaluación.' },
-        { label: 'Por qué importa', text: 'No nos apoyamos en un solo método. Que DCF y múltiplos coincidan hace la conclusión más robusta.' }
-      ]}
-    ]
-  });
-
-  // 37 — Conclusión y recomendación
+  // 35 — Conclusión y recomendación
   slides.push({
     layout: 'stack', footer: '31',
     title: 'Conclusión y recomendación', subtitle: 'Veredicto: VENDER (Sell)',
