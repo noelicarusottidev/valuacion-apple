@@ -283,7 +283,7 @@
     right: [ { type: 'heatmap', chartId: 'waccBetaErp', caption: 'WACC (%) según β (Blume) y ERP · recuadro = caso base' } ],
     left: [
       { type: 'bullets', items: [
-        { label: 'Qué muestra', text: 'El recuadro azul es nuestro caso base (β 1,06 · ERP 4,8% → 9,24%). Moverse en la grilla cambia el WACC entre ~7,5% y ~11,5%.' },
+        { label: 'Qué muestra', text: 'Nuestro caso base centrado en la grilla (β 1,06 · ERP 4,8% → 9,24%). Moverse en la grilla cambia el WACC entre ~7,5% y ~11,5%.' },
         { label: 'Por qué importa', text: 'Como el 77% del valor estará en el valor terminal, cada décima del WACC mueve fuerte el precio objetivo. Por eso lo mostramos como rango, no como punto.' }
       ]}
     ]
