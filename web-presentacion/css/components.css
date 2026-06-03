@@ -515,8 +515,8 @@
   background: repeating-linear-gradient(45deg, transparent, transparent 9px, rgba(255,159,10,.10) 9px, rgba(255,159,10,.10) 11px); }
 .pe-base { background: linear-gradient(160deg, rgba(48,209,88,.26), rgba(48,209,88,.08)); color: #7be0a0;
   border-top: 1px solid var(--stroke-2); }
-.pe-seg-tag { position: relative; z-index: 1; font-size: 13px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
-.pe-seg-txt { position: relative; z-index: 1; margin-top: 7px; font-size: 15px; line-height: 1.32; font-weight: 600; color: var(--fg); opacity: .94; }
+.pe-seg-tag { position: relative; z-index: 1; font-size: 16px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+.pe-seg-txt { position: relative; z-index: 1; margin-top: 8px; font-size: 18px; line-height: 1.34; font-weight: 600; color: var(--fg); opacity: .96; }
 
 /* línea de referencia (20x) */
 .pe-ref { position: absolute; left: -7px; right: -7px; height: 0; border-top: 2px dashed rgba(245,245,247,.55); z-index: 3; }
