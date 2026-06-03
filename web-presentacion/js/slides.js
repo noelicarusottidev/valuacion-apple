@@ -347,6 +347,63 @@
         '</div>';
       }
 
+      case 'gapAnalysis': {
+        var GAP_ICONS = {
+          rate:   '<path d="M4 18h16"/><path d="M6 15l4-4 3 2 5-7"/><path d="M16 6h2v2"/><path d="M7 5h4"/><path d="M7 8h2"/>',
+          option: '<path d="M4 17l5-5 4 3 7-8"/><path d="M15 7h5v5"/><path d="M5 20h14"/><path d="M7 8c1.4-1.4 3.2-2.2 5-2.2"/>',
+          demand: '<path d="M4 19V7"/><path d="M9 19V5"/><path d="M14 19v-8"/><path d="M19 19V9"/><path d="M3 19h18"/><path d="M6 4h6"/><path d="M17 6l2 2-2 2"/>'
+        };
+        var gcards = b.cards.map(function (c, ci) {
+          var body = '';
+          if (c.metrics) {
+            body += '<div class="gap-rate-box">' + c.metrics.map(function (m) {
+              return '<div class="gap-metric ' + esc(m.cls) + '"><div class="label">' + esc(m.label) + '</div><div class="val">' + esc(m.value) + '</div></div>';
+            }).join('') + '</div>';
+          }
+          if (c.copy) body += '<p class="gap-copy">' + c.copy + '</p>';
+          if (c.quote) body += '<div class="gap-quote">' + esc(c.quote) + '</div>';
+          if (c.forces) {
+            body += '<div class="gap-two-forces">' + c.forces.map(function (f) {
+              return '<div class="gap-force"><div class="gap-force-dot"></div><div><h3>' + esc(f.h) + '</h3><p>' + esc(f.p) + '</p></div></div>';
+            }).join('') + '</div>';
+          }
+          return '<article class="gap-card ' + esc(c.variant) + '"' + anim(ci + 1) + '>' +
+            '<div class="gap-card-head"><div class="gap-num">' + (ci + 1) + '</div>' +
+              '<div class="gap-icon"><svg viewBox="0 0 24 24" aria-hidden="true">' + (GAP_ICONS[c.icon] || '') + '</svg></div></div>' +
+            '<div class="gap-card-title"><div class="gap-eyebrow">' + esc(c.eyebrow) + '</div><h2>' + esc(c.title) + '</h2></div>' +
+            '<div class="gap-body">' + body + '</div>' +
+          '</article>';
+        }).join('');
+        var th = b.thesis;
+        return '<div class="obj-wrap">' +
+          '<svg class="obj-art" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">' +
+            '<defs>' +
+              '<linearGradient id="gapLine" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0a84ff" stop-opacity="0.34"/><stop offset="55%" stop-color="#5ac8fa" stop-opacity="0.22"/><stop offset="100%" stop-color="#bf5af2" stop-opacity="0.18"/></linearGradient>' +
+              '<linearGradient id="gapFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0a84ff" stop-opacity="0.11"/><stop offset="100%" stop-color="#bf5af2" stop-opacity="0.055"/></linearGradient>' +
+            '</defs>' +
+            '<path d="M96 740 C 266 610, 398 686, 548 556 S 786 366, 956 426 S 1218 644, 1500 432" fill="none" stroke="url(#gapLine)" stroke-width="2.3" stroke-dasharray="2 12"/>' +
+            '<path d="M1008 116 C 1128 62, 1304 82, 1408 170 C 1512 258, 1490 374, 1398 430 C 1288 498, 1130 452, 1036 362 C 946 274, 904 164, 1008 116 Z" fill="url(#gapFill)" stroke="#55555f" stroke-width="1" opacity="0.52"/>' +
+            '<circle cx="548" cy="556" r="7" fill="#64d2ff" fill-opacity="0.55"/><circle cx="956" cy="426" r="7" fill="#0a84ff" fill-opacity="0.50"/><circle cx="1500" cy="432" r="7" fill="#bf5af2" fill-opacity="0.44"/>' +
+            '<g opacity="0.17"><circle cx="1284" cy="236" r="124" fill="none" stroke="#f5f5f7" stroke-width="1"/><circle cx="1284" cy="236" r="86" fill="none" stroke="#5ac8fa" stroke-width="1"/><circle cx="1284" cy="236" r="48" fill="none" stroke="#0a84ff" stroke-width="1"/></g>' +
+          '</svg>' +
+          '<div class="gap-content">' +
+            '<header class="gap-header"' + anim(0) + '>' +
+              '<div><div class="gap-kicker">' + esc(b.kicker) + '</div>' +
+                '<h1 class="gap-h1"><span>' + esc(b.titleSpan) + '</span>' + esc(b.titleRest) + '</h1></div>' +
+              '<aside class="gap-thesis">' +
+                '<div class="gap-thesis-label">' + esc(th.label) + '</div>' +
+                '<div class="gap-thesis-main">' +
+                  '<div class="gap-side"><div class="name">' + esc(th.leftName) + '</div><div class="val">' + esc(th.leftValue) + '</div></div>' +
+                  '<div class="gap-arrow"></div>' +
+                  '<div class="gap-side"><div class="name">' + esc(th.rightName) + '</div><div class="val">' + esc(th.rightValue) + '</div></div>' +
+                '</div>' +
+              '</aside>' +
+            '</header>' +
+            '<section class="gap-blocks">' + gcards + '</section>' +
+          '</div>' +
+        '</div>';
+      }
+
       default:
         return '';
     }
