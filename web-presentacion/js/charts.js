@@ -278,18 +278,54 @@
       var f = F();
       var pvExp = f.vpExplicito(f.WACC);
       var pvTv = f.valorTerminal(f.WACC, f.G_BASE) / Math.pow(1 + f.WACC, 5);
+      var tvPct = Math.round(pvTv / (pvExp + pvTv) * 100);
+      function sliceGrad(c1, c2) {
+        return function (c) {
+          var a = c.chart.chartArea; if (!a) return c2;
+          var g = c.chart.ctx.createLinearGradient(0, a.top, 0, a.bottom);
+          g.addColorStop(0, c1); g.addColorStop(1, c2); return g;
+        };
+      }
+      // Número grande en el centro + % sobre cada gajo
+      var evLabels = {
+        id: 'evLabels',
+        afterDatasetsDraw: function (chart) {
+          var c2 = chart.ctx, meta = chart.getDatasetMeta(0);
+          var cx = (chart.chartArea.left + chart.chartArea.right) / 2;
+          var cy = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+          c2.save(); c2.textAlign = 'center'; c2.textBaseline = 'middle';
+          c2.fillStyle = '#ffce7a'; c2.font = '800 48px Inter, system-ui, sans-serif';
+          c2.fillText(tvPct + '%', cx, cy - 10);
+          c2.fillStyle = C.faint; c2.font = '600 13px Inter, system-ui, sans-serif';
+          c2.fillText('valor terminal', cx, cy + 22);
+          c2.restore();
+          var data = chart.data.datasets[0].data, tot = data.reduce(function (a, b) { return a + b; }, 0);
+          meta.data.forEach(function (arc, i) {
+            var ang = (arc.startAngle + arc.endAngle) / 2;
+            var r = (arc.innerRadius + arc.outerRadius) / 2;
+            c2.save(); c2.textAlign = 'center'; c2.textBaseline = 'middle';
+            c2.fillStyle = 'rgba(8,10,16,0.92)'; c2.font = '800 19px Inter, system-ui, sans-serif';
+            c2.fillText(Math.round(data[i] / tot * 100) + '%', arc.x + Math.cos(ang) * r, arc.y + Math.sin(ang) * r);
+            c2.restore();
+          });
+        }
+      };
       return new Chart(ctx, {
         type: 'doughnut',
         data: {
           labels: ['VP explícito (2026-2030)', 'VP valor terminal (2031→∞)'],
-          datasets: [{ data: [pvExp, pvTv], backgroundColor: [C.blue, C.amber], borderColor: '#0d0d12', borderWidth: 3, hoverOffset: 8 }]
+          datasets: [{ data: [pvExp, pvTv],
+            backgroundColor: [sliceGrad('#5ac8fa', '#0a84ff'), sliceGrad('#ffce7a', '#ff9f0a')],
+            borderColor: '#0d0d12', borderWidth: 4, borderRadius: 8, hoverOffset: 12, spacing: 2 }]
         },
-        options: { responsive: true, maintainAspectRatio: false, cutout: '58%',
-          plugins: { legend: { position: 'bottom' },
+        options: { responsive: true, maintainAspectRatio: false, cutout: '66%',
+          layout: { padding: 8 },
+          plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 18 } },
             tooltip: { callbacks: { label: function (c) {
               var tot = c.dataset.data.reduce(function (a, b) { return a + b; }, 0);
               return c.label + ': ' + (c.parsed / tot * 100).toFixed(1) + '%  (USD ' + fmt(c.parsed / 1e6, 2) + ' T)';
-            } } } } }
+            } } } } },
+        plugins: [evLabels]
       });
     },
 
