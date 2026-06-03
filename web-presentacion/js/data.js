@@ -75,60 +75,7 @@
     ]
   });
 
-  // 3 — El recorrido del trabajo
-  slides.push({
-    layout: 'split', footer: '01',
-    title: 'El recorrido del trabajo', subtitle: 'De la tasa de descuento al precio objetivo',
-    left: [
-      { type: 'lead', text: 'Una empresa vale la suma del dinero que generará en el futuro, traído al presente con una tasa que refleja su riesgo. Lo resolvemos en dos partes:' }
-    ],
-    right: [
-      { type: 'columns', cols: [
-        { eyebrow: 'PARTE 1 · Costo de capital', items: [
-          { text: 'Apple en un vistazo + análisis por múltiplos' },
-          { text: 'Costo de la deuda (Kd) y tasa impositiva efectiva' },
-          { text: 'CAPM: Beta por regresión, ajuste de Blume → Ke' },
-          { text: 'WACC = tasa de descuento' }
-        ]},
-        { eyebrow: 'PARTE 2 · Valuación intrínseca', items: [
-          { text: 'FCF proyectados (cátedra) descontados al WACC' },
-          { text: 'Valor terminal por Gordon-Shapiro' },
-          { text: 'Enterprise Value → Equity Value → precio/acción' },
-          { text: 'Sensibilidad, escenarios y veredicto' }
-        ]}
-      ]}
-    ]
-  });
-
-  // 4 — Reglas del juego
-  slides.push({
-    layout: 'stack', footer: '03',
-    title: 'Reglas del juego', subtitle: 'Qué nos dieron · qué decidimos nosotros',
-    blocks: [
-      { type: 'note', accent: 'blue', text: 'Clave para la defensa: el modelo es nuestro; los flujos no. Separamos con claridad cada input según su origen.' },
-      { type: 'columns', cols: [
-        { eyebrow: 'DATO · CÁTEDRA', tone: 'amber', items: [
-          { text: 'FCF proyectados 2026-2030 (USD 153.206 M → 218.334 M)' },
-          { text: 'Valor terminal de referencia (Excel cátedra: USD 3,86 T)' }
-        ]},
-        { eyebrow: 'MERCADO · Yahoo / Damodaran', tone: 'blue', items: [
-          { text: 'Precio USD 312,06 · 14,69 B acciones' },
-          { text: 'Deuda 98,7 B · caja 132,4 B → caja neta' },
-          { text: 'Rating Aa1/AA+ → spread 26 bps' },
-          { text: 'Rf 4,32% · ERP 4,77% (Damodaran abr-26)' }
-        ]},
-        { eyebrow: 'NUESTRA DECISIÓN', tone: 'green', items: [
-          { text: 'g perpetuo = 3,0%' },
-          { text: 'Beta ajustado por Blume (no reapalancar)' },
-          { text: 'ERP implícito (forward-looking)' },
-          { text: 'Kd synthetic + tax efectiva' },
-          { text: 'Pesos a valor de mercado · escenarios' }
-        ]}
-      ]}
-    ]
-  });
-
-  // 5 — Sección Bloque 01
+  // 3 — Sección Bloque 01
   slides.push({
     layout: 'section',
     kicker: 'BLOQUE 01 · CONTEXTO', title: 'Apple Inc. en un vistazo',
