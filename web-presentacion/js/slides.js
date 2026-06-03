@@ -265,6 +265,43 @@
         '</div>';
       }
 
+      case 'peScale': {
+        var mx = b.max || 38, rf = b.ref || 20;
+        var basePct = (rf / mx * 100).toFixed(2);          // tramo base 0→ref
+        var primaPct = ((mx - rf) / mx * 100).toFixed(2);  // tramo prima ref→max
+        return '<div class="pe-wrap"' + a + '>' +
+          '<div class="pe">' +
+            // flanco izquierdo: interpretación
+            '<div class="pe-side pe-side-l"><p class="pe-interp">' + esc(b.interp) + '</p></div>' +
+            // columna vertebral: héroe arriba + (escala + barra) abajo
+            '<div class="pe-spine">' +
+              '<div class="pe-hero"><div class="pe-hero-num">' + esc(b.hero) + '</div>' +
+                '<div class="pe-hero-lab">' + esc(b.heroLabel) + '</div></div>' +
+              '<div class="pe-gauge">' +
+                '<div class="pe-ticks">' +
+                  '<span class="pe-tick" style="bottom:100%">' + esc(mx) + 'x</span>' +
+                  '<span class="pe-tick" style="bottom:' + basePct + '%">' + esc(rf) + 'x</span>' +
+                  '<span class="pe-tick pe-tick-0" style="bottom:0">0x</span>' +
+                '</div>' +
+                '<div class="pe-bar">' +
+                  '<div class="pe-seg pe-prima" style="flex:0 0 ' + primaPct + '%">' +
+                    '<span class="pe-seg-tag">' + esc(b.prima.tag) + '</span>' +
+                    '<span class="pe-seg-txt">' + esc(b.prima.text) + '</span></div>' +
+                  '<div class="pe-seg pe-base" style="flex:0 0 ' + basePct + '%">' +
+                    '<span class="pe-seg-tag">' + esc(b.base.tag) + '</span>' +
+                    '<span class="pe-seg-txt">' + esc(b.base.text) + '</span></div>' +
+                  '<div class="pe-ref" style="bottom:' + basePct + '%"><span class="pe-ref-lab">' + esc(b.refLabel) + '</span></div>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            // flanco derecho: riesgo (anclado a la zona prima)
+            '<div class="pe-side pe-side-r"><div class="pe-risk"><span class="pe-risk-dot"></span>' +
+              '<p><span class="pe-risk-h">El riesgo.</span> ' + esc(b.risk) + '</p></div></div>' +
+          '</div>' +
+          '<div class="pe-foot">' + esc(b.foot) + '</div>' +
+        '</div>';
+      }
+
       default:
         return '';
     }

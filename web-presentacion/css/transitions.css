@@ -36,12 +36,27 @@
 .slide.is-active .sb-seg.tone-blue { animation-delay: 0.34s; }
 @keyframes sbGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 
+/* Slide P/E: la barra crece desde abajo, luego la línea de referencia y los
+   textos entran encadenados. Estado base visible (degradación elegante). */
+.slide.is-active .pe-seg { animation: sbGrow 0.85s var(--ease) both; }
+.slide.is-active .pe-base { animation-delay: 0.15s; }
+.slide.is-active .pe-prima { animation-delay: 0.35s; }
+.slide.is-active .pe-hero { animation: peRise 0.6s var(--ease) 0.1s both; }
+.slide.is-active .pe-ticks { animation: peFade 0.5s var(--ease) 0.6s both; }
+.slide.is-active .pe-ref { animation: peFade 0.55s var(--ease) 0.85s both; }
+.slide.is-active .pe-side-l { animation: peRise 0.6s var(--ease) 0.55s both; }
+.slide.is-active .pe-side-r { animation: peRise 0.6s var(--ease) 0.7s both; }
+.slide.is-active .pe-foot { animation: peRise 0.6s var(--ease) 0.95s both; }
+@keyframes peRise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes peFade { from { opacity: 0; } to { opacity: 1; } }
+
 /* Respeto por usuarios que prefieren menos movimiento */
 @media (prefers-reduced-motion: reduce) {
   .slide, .slide.is-active,
   [data-animate], .slide.is-active [data-animate],
   .hm-cell, .is-active .hm-cell,
   .sb-seg, .slide.is-active .sb-seg,
+  .pe-seg, .pe-hero, .pe-ticks, .pe-ref, .pe-side-l, .pe-side-r, .pe-foot,
   #progress, .nav-btn {
     transition: none !important;
     transform: none !important;
